@@ -318,27 +318,51 @@ details.more[open] summary{margin-bottom:12px}
       document.head.appendChild(s);
     });
   }
-  // One search covers the Korean, US and Japanese stores at once (catalogs differ by country).
+  // Two catalogs: Deezer (strong on Korean names and full discographies) + Apple KR/US/JP stores.
+  const dz = path => jsonp('https://api.deezer.com' + path + (path.includes('?') ? '&' : '?') + 'output=jsonp');
+  const DZ_KIND = { single:'싱글', ep:'EP', compile:'컴필' };
+  const fromDz = (a, artistName) => ({
+    title: a.title || '', artist: artistName || (a.artist && a.artist.name) || '',
+    year: (a.release_date || '').slice(0, 4), genre: '',
+    cover: a.cover_xl || a.cover_big || '', thumb: a.cover_medium || a.cover_big || '',
+    kind: DZ_KIND[a.record_type] || '', dz: a.id, song: ''
+  });
   async function searchAlbums(q){
-    const url = (cc, ent) => 'https://itunes.apple.com/search?term=' + encodeURIComponent(q) + '&country=' + cc + '&limit=20&media=music&entity=' + ent;
-    const calls = [['KR','album'], ['US','album'], ['JP','album'], ['KR','song']];
-    const out = await Promise.all(calls.map(([cc, ent]) => jsonp(url(cc, ent)).catch(() => null)));
-    if (out.every(x => !x)) throw new Error('search');
-    const map = new Map(), seen = new Set();
-    for (const r of out.flatMap(x => (x && x.results) || [])) {
-      if (!r.collectionId || map.has(r.collectionId) || !r.artworkUrl100) continue;
-      const key = ((r.collectionArtistName || r.artistName || '') + '|' + (r.collectionName || '')).toLowerCase().replace(/\s+/g, ' ');
+    const enc = encodeURIComponent(q);
+    const norm = s => String(s || '').toLowerCase().replace(/[\s.\-_'’]/g, '');
+    const it = (cc, ent) => jsonp('https://itunes.apple.com/search?term=' + enc + '&country=' + cc + '&limit=20&media=music&entity=' + ent);
+    const [dzArt, dzAlb, ...its] = await Promise.all([
+      dz('/search/artist?q=' + enc + '&limit=5'), dz('/search/album?q=' + enc + '&limit=50'),
+      it('KR','album'), it('US','album'), it('JP','album'), it('KR','song')
+    ].map(p => p.catch(() => null)));
+    if (!dzArt && !dzAlb && its.every(x => !x)) throw new Error('search');
+
+    // If the query is an artist, pull that artist's whole discography first.
+    const dzAlbums = (dzAlb && dzAlb.data) || [];
+    const count = {}; dzAlbums.forEach(a => { const n = a.artist && a.artist.name; if (n) count[n] = (count[n] || 0) + 1; });
+    const artists = ((dzArt && dzArt.data) || []).filter(a => norm(a.name) === norm(q) || (count[a.name] || 0) >= 3).slice(0, 2);
+    const discos = await Promise.all(artists.map(a => dz('/artist/' + a.id + '/albums?limit=100').then(r => ((r && r.data) || []).map(x => fromDz(x, a.name))).catch(() => [])));
+
+    const fromIt = r => ({
+      title: r.collectionName || '', artist: r.collectionArtistName || r.artistName || '',
+      year: (r.releaseDate || '').slice(0, 4), genre: r.primaryGenreName || '',
+      cover: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/600x600bb.'), thumb: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/200x200bb.'),
+      kind: / - single$/i.test(r.collectionName || '') ? '싱글' : / - ep$/i.test(r.collectionName || '') ? 'EP' : '',
+      song: r.wrapperType === 'track' ? (r.trackName || '') : ''
+    });
+    const all = [
+      ...discos.flat(),
+      ...dzAlbums.map(a => fromDz(a)),
+      ...its.flatMap(x => (x && x.results) || []).filter(r => r.collectionId && r.artworkUrl100).map(fromIt)
+    ];
+    const seen = new Set(), outList = [];
+    for (const r of all) {
+      if (!r.cover || !r.title) continue;
+      const key = norm(r.artist) + '|' + norm(r.title.replace(/ - (single|ep)$/i, ''));
       if (seen.has(key)) continue;
-      seen.add(key);
-      map.set(r.collectionId, {
-        title: r.collectionName || '', artist: r.collectionArtistName || r.artistName || '',
-        year: (r.releaseDate || '').slice(0, 4), genre: r.primaryGenreName || '',
-        cover: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/600x600bb.'),
-        thumb: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/200x200bb.'),
-        song: r.wrapperType === 'track' ? (r.trackName || '') : ''
-      });
+      seen.add(key); outList.push(r);
     }
-    return [...map.values()];
+    return outList;
   }
 
   // ---------- state ----------
@@ -555,6 +579,7 @@ details.more[open] summary{margin-bottom:12px}
       <div class="dlg-body">
         <div class="field"><span>${isNew ? '앨범 검색' : '커버·정보 다시 검색'}</span>
           <div class="srch"><input type="search" id="af-q" placeholder="아티스트, 앨범, 곡 이름" autocomplete="off" enterkeyhint="search">            <button type="button" class="btn" id="af-go">검색</button></div>
+          <small>해외 아티스트는 원래 영어 이름으로 찾아야 나와요 (에스디키드 → EsDeeKid)</small>
           <div class="srch-st" id="af-st"></div>
           <div class="results" id="af-res"></div>
         </div>
@@ -600,7 +625,7 @@ details.more[open] summary{margin-bottom:12px}
         results = await searchAlbums(q);
         if (my !== seq) return;
         st.textContent = results.length ? `${results.length}개 · 앨범을 누르면 아래에 채워져요` : '결과가 없어요. 영어 이름이나 다른 표기로 다시 찾아보세요.';
-        res.innerHTML = results.map((r, i) => `<button type="button" class="res" data-i="${i}"><span class="cover"><img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.year ? ' · ' + esc(r.year) : ''}</span>${r.song ? `<span>곡: ${esc(r.song)}</span>` : ''}</button>`).join('');
+        res.innerHTML = results.map((r, i) => `<button type="button" class="res" data-i="${i}"><span class="cover"><img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.year ? ' · ' + esc(r.year) : ''}${r.kind ? ' · ' + esc(r.kind) : ''}</span>${r.song ? `<span>곡: ${esc(r.song)}</span>` : ''}</button>`).join('');
       } catch { if (my === seq) st.textContent = '검색이 안 돼요. 너무 연달아 검색했다면 1분쯤 뒤에, 아니면 인터넷 연결을 확인하고 다시 눌러주세요.'; }
     }
     qIn.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); run(); } });
@@ -609,9 +634,19 @@ details.more[open] summary{margin-bottom:12px}
       const b = e.target.closest('.res'); if (!b) return;
       const r = results[+b.dataset.i];
       res.querySelectorAll('.res').forEach(x => x.classList.toggle('on', x === b));
-      $('#af-artist').value = r.artist; $('#af-title').value = r.title; $('#af-year').value = r.year;
+      $('#af-artist').value = r.artist; $('#af-title').value = r.title.replace(/ - (single|ep)$/i, ''); $('#af-year').value = r.year;
       a.cover = r.cover; $('#af-cover').value = r.cover; drawPv();
-      if (r.genre && !a.tags.some(t => t.toLowerCase() === r.genre.toLowerCase())) { a.tags.push(r.genre); drawTags(); }
+      const addGenre = g => { if (g && !a.tags.some(t => t.toLowerCase() === g.toLowerCase())) { a.tags.push(g); drawTags(); } };
+      addGenre(r.genre);
+      // Deezer search results lack year/genre: fetch the album once when picked.
+      if (r.dz && (!r.year || !r.genre)) {
+        dz('/album/' + r.dz).then(d => {
+          if (!d) return;
+          r.year = r.year || (d.release_date || '').slice(0, 4);
+          r.genre = r.genre || (d.genres && d.genres.data && d.genres.data[0] && d.genres.data[0].name) || '';
+          if (b.classList.contains('on')) { if (!$('#af-year').value) $('#af-year').value = r.year; addGenre(r.genre); }
+        }).catch(() => {});
+      }
     });
 
     // tags
