@@ -318,16 +318,18 @@ details.more[open] summary{margin-bottom:12px}
       document.head.appendChild(s);
     });
   }
-  async function searchAlbums(q, cc){
-    const base = 'https://itunes.apple.com/search?term=' + encodeURIComponent(q) + '&country=' + cc + '&limit=25&media=music';
-    const [al, so] = await Promise.all([
-      jsonp(base + '&entity=album').catch(() => null),
-      jsonp(base + '&entity=song').catch(() => null)
-    ]);
-    if (!al && !so) throw new Error('search');
-    const map = new Map();
-    for (const r of [...((al && al.results) || []), ...((so && so.results) || [])]) {
+  // One search covers the Korean, US and Japanese stores at once (catalogs differ by country).
+  async function searchAlbums(q){
+    const url = (cc, ent) => 'https://itunes.apple.com/search?term=' + encodeURIComponent(q) + '&country=' + cc + '&limit=20&media=music&entity=' + ent;
+    const calls = [['KR','album'], ['US','album'], ['JP','album'], ['KR','song']];
+    const out = await Promise.all(calls.map(([cc, ent]) => jsonp(url(cc, ent)).catch(() => null)));
+    if (out.every(x => !x)) throw new Error('search');
+    const map = new Map(), seen = new Set();
+    for (const r of out.flatMap(x => (x && x.results) || [])) {
       if (!r.collectionId || map.has(r.collectionId) || !r.artworkUrl100) continue;
+      const key = ((r.collectionArtistName || r.artistName || '') + '|' + (r.collectionName || '')).toLowerCase().replace(/\s+/g, ' ');
+      if (seen.has(key)) continue;
+      seen.add(key);
       map.set(r.collectionId, {
         title: r.collectionName || '', artist: r.collectionArtistName || r.artistName || '',
         year: (r.releaseDate || '').slice(0, 4), genre: r.primaryGenreName || '',
@@ -351,7 +353,7 @@ details.more[open] summary{margin-bottom:12px}
     return s;
   }
   let saved = normalize(null), S = clone(saved), sha = null, dirty = 0;
-  const ui = { loading:true, loadError:false, owner:false, edit:false, tagSel:new Set(), q:'', sort:'recent', saving:false, draft:null, revertArm:false, cc: store.get('crate-cc') || 'KR' };
+  const ui = { loading:true, loadError:false, owner:false, edit:false, tagSel:new Set(), q:'', sort:'recent', saving:false, draft:null, revertArm:false };
 
   // ---------- helpers ----------
   const query = a => (a.artist + ' ' + a.title).trim();
@@ -552,9 +554,7 @@ details.more[open] summary{margin-bottom:12px}
     const d = modal(dlgHead(isNew ? '앨범 추가' : '앨범 수정') + `<form class="dlg" id="af" style="min-height:0">
       <div class="dlg-body">
         <div class="field"><span>${isNew ? '앨범 검색' : '커버·정보 다시 검색'}</span>
-          <div class="srch"><input type="search" id="af-q" placeholder="아티스트, 앨범, 곡 이름" autocomplete="off" enterkeyhint="search">
-            <select id="af-cc" aria-label="검색 지역">${[['KR','한국'],['US','미국'],['JP','일본'],['GB','영국'],['FR','프랑스']].map(([v,l]) => `<option value="${v}" ${ui.cc===v?'selected':''}>${l}</option>`).join('')}</select>
-            <button type="button" class="btn" id="af-go">검색</button></div>
+          <div class="srch"><input type="search" id="af-q" placeholder="아티스트, 앨범, 곡 이름" autocomplete="off" enterkeyhint="search">            <button type="button" class="btn" id="af-go">검색</button></div>
           <div class="srch-st" id="af-st"></div>
           <div class="results" id="af-res"></div>
         </div>
@@ -590,18 +590,18 @@ details.more[open] summary{margin-bottom:12px}
     $('#af-cover').addEventListener('input', e => { a.cover = e.target.value.trim(); drawPv(); });
 
     // search
-    const qIn = $('#af-q'), st = $('#af-st'), res = $('#af-res'), cc = $('#af-cc');
+    const qIn = $('#af-q'), st = $('#af-st'), res = $('#af-res');
     let results = [], seq = 0;
     async function run(){
       const q = qIn.value.trim(); if (!q) return;
-      ui.cc = cc.value; store.set('crate-cc', ui.cc);
+      if (/^https?:\/\//i.test(q)) { st.textContent = '링크 말고 아티스트나 앨범 이름으로 검색해주세요. 링크는 아래 ‘링크·커버 직접 지정’에 넣으면 돼요.'; return; }
       const my = ++seq; st.textContent = '검색 중…'; res.innerHTML = '';
       try {
-        results = await searchAlbums(q, ui.cc);
+        results = await searchAlbums(q);
         if (my !== seq) return;
-        st.textContent = results.length ? `${results.length}개 · 앨범을 누르면 아래에 채워져요` : '결과가 없어요. 영어 이름이나 다른 지역으로 다시 찾아보세요.';
+        st.textContent = results.length ? `${results.length}개 · 앨범을 누르면 아래에 채워져요` : '결과가 없어요. 영어 이름이나 다른 표기로 다시 찾아보세요.';
         res.innerHTML = results.map((r, i) => `<button type="button" class="res" data-i="${i}"><span class="cover"><img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.year ? ' · ' + esc(r.year) : ''}</span>${r.song ? `<span>곡: ${esc(r.song)}</span>` : ''}</button>`).join('');
-      } catch { if (my === seq) st.textContent = '검색이 안 돼요. 인터넷 연결을 확인하고 다시 눌러주세요.'; }
+      } catch { if (my === seq) st.textContent = '검색이 안 돼요. 너무 연달아 검색했다면 1분쯤 뒤에, 아니면 인터넷 연결을 확인하고 다시 눌러주세요.'; }
     }
     qIn.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); run(); } });
     $('#af-go').addEventListener('click', run);
