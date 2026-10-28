@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 4,
+ "seq": 5,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -40,22 +40,6 @@
    "no": 2,
    "added": "2026-10-28"
   },
-  "mvs0kksf5ln0": {
-   "artist": "TOIL, Choi Seong & Jayci yucca",
-   "title": "Ghostcity - Single",
-   "year": "2026",
-   "tags": [
-    "Hip-Hop/Rap"
-   ],
-   "rating": 2.5,
-   "comment": "좋음.",
-   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/9a/69/6e9a6904-bc55-b320-9656-783265c9ef39/888272174311_Cover.jpg/600x600bb.jpg",
-   "ytm": "",
-   "yt": "",
-   "id": "mvs0kksf5ln0",
-   "no": 3,
-   "added": "2026-10-28"
-  },
   "mvs1bby0jg95": {
    "artist": "ILLIT",
    "title": "BREAK EVEN",
@@ -71,6 +55,22 @@
    "id": "mvs1bby0jg95",
    "no": 4,
    "added": "2026-10-28"
+  },
+  "mvs1fnawc1p6": {
+   "artist": "Westwood",
+   "title": "Luxury",
+   "year": "2026",
+   "tags": [
+    "hip-hop"
+   ],
+   "rating": 3,
+   "comment": "",
+   "cover": "",
+   "ytm": "",
+   "yt": "",
+   "id": "mvs1fnawc1p6",
+   "no": 5,
+   "added": "2026-10-28"
   }
  },
  "boards": [
@@ -81,7 +81,8 @@
    "albumIds": [
     "mgk0001",
     "mvry4j98k450",
-    "mvs1bby0jg95"
+    "mvs1bby0jg95",
+    "mvs1fnawc1p6"
    ],
    "cols": 0,
    "captions": true,
