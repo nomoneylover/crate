@@ -521,14 +521,15 @@ details.more[open] summary{margin-bottom:12px}
       recent: (x,y) => (y.added||'').localeCompare(x.added||'') || (y.no||0)-(x.no||0),
       rating: (x,y) => y.rating - x.rating || (y.no||0)-(x.no||0),
       artist: (x,y) => x.artist.localeCompare(y.artist) || x.title.localeCompare(y.title),
-      year:   (x,y) => (y.year||'').localeCompare(x.year||'')
+      year:   (x,y) => (y.year||'').localeCompare(x.year||''),
+      updated:(x,y) => (y.updated || y.addedAt || y.added || '').localeCompare(x.updated || x.addedAt || x.added || '')
     };
     list.sort(sorters[ui.sort] || sorters.recent);
     const total = Object.keys(S.albums).length;
     return `<section class="board-head"><h1>전체 앨범</h1><span class="board-meta mono">${ui.tagSel.size || q ? `${list.length} / ${total}장` : `${total}장`}</span>
         ${editing() ? `<div class="toolbar"><button class="btn primary" data-act="add-album">+ 앨범 추가</button></div>` : ''}</section>
       <div class="lib-tools"><input type="search" id="lib-q" placeholder="아티스트, 앨범, 태그, 코멘트 검색" value="${esc(ui.q)}" aria-label="검색">
-        <select id="lib-sort" aria-label="정렬">${[['recent','최근 추가'],['rating','별점 높은 순'],['artist','아티스트 이름순'],['year','발매 최신순']].map(([v,l]) => `<option value="${v}" ${ui.sort===v?'selected':''}>${l}</option>`).join('')}</select></div>
+        <select id="lib-sort" aria-label="정렬">${[['recent','최근 추가'],['updated','최근 수정'],['rating','별점 높은 순'],['artist','아티스트 이름순'],['year','발매 최신순']].map(([v,l]) => `<option value="${v}" ${ui.sort===v?'selected':''}>${l}</option>`).join('')}</select></div>
       ${tags.length ? `<div class="chips lib-tags">${tags.map(([t,c]) => `<button class="chip ${ui.tagSel.has(t)?'on':''}" data-act="tag-toggle" data-tag="${esc(t)}">${esc(t)}<small>${c}</small></button>`).join('')}${ui.tagSel.size ? `<button class="chip" data-act="tag-clear">필터 해제</button>` : ''}</div>` : ''}
       ${list.length ? `<div class="grid">${list.map(a => card(a, {})).join('')}</div>` : `<div class="empty"><b>${total ? '조건에 맞는 앨범이 없어요' : '아직 넣은 앨범이 없어요'}</b></div>`}`;
   }
@@ -601,7 +602,7 @@ details.more[open] summary{margin-bottom:12px}
     const d = modal(dlgHead('앨범 정보') + `<div class="dlg-body"><div class="detail">
         <a class="cover" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener" aria-label="유튜브 뮤직에서 듣기">${coverInner(a)}<span class="go">${IC.play}YT Music</span></a>
         <div class="info">
-          <div><div class="cat mono">MG-${String(a.no||0).padStart(4,'0')} · ${esc(dot(a.added))} 추가</div><h3>${esc(a.title)}</h3><div class="who">${esc(a.artist)}${a.year ? ' · ' + esc(a.year) : ''}</div></div>
+          <div><div class="cat mono">MG-${String(a.no||0).padStart(4,'0')} · ${esc(dot(a.addedAt || a.added))} 등록${a.updated ? ' · ' + esc(dot(a.updated)) + ' 수정' : ''}</div><h3>${esc(a.title)}</h3><div class="who">${esc(a.artist)}${a.year ? ' · ' + esc(a.year) : ''}</div></div>
           <div>${starBar(a.rating)} <span class="mono" style="font-size:12.5px;color:var(--muted);margin-left:6px">${a.rating ? a.rating + ' / 5' : '별점 없음'}</span></div>
           ${a.tags.length ? `<div class="chips">${a.tags.map(t => `<button class="chip" data-tagjump="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
           ${a.comment ? `<p class="note">${esc(a.comment)}</p>` : ''}
@@ -618,6 +619,7 @@ details.more[open] summary{margin-bottom:12px}
   function albumForm(id, boardId){
     const isNew = !id;
     const a = isNew ? { artist:'', title:'', year:'', tags:[], rating:0, comment:'', cover:'', ytm:'', yt:'' } : clone(S.albums[id]);
+    const before = isNew ? '' : JSON.stringify(Object.assign({}, a, { updated: undefined }));
     const inBoards = new Set(isNew ? (boardId ? [boardId] : []) : boardsOf(id).map(b => b.id));
     const known = allTags().map(([t]) => t);
     const d = modal(dlgHead(isNew ? '앨범 추가' : '앨범 수정') + `<form class="dlg" id="af" style="min-height:0">
@@ -796,15 +798,20 @@ details.more[open] summary{margin-bottom:12px}
       if (!artist || !title) { st.textContent = '아티스트와 앨범명을 채워주세요. 위에서 검색해서 고르면 자동으로 들어가요.'; return; }
       const okUrl = v => { v = v.trim(); return /^https?:\/\//i.test(v) ? v : ''; };
       Object.assign(a, { artist, title, year: $('#af-year').value.trim(), comment: $('#af-comment').value.trim(), ytm: okUrl($('#af-ytm').value), yt: okUrl($('#af-yt').value), cover: /^covers\/[\w-]+\.jpg$/.test($('#af-cover').value.trim()) ? $('#af-cover').value.trim() : okUrl($('#af-cover').value) });
-      if (isNew) { a.id = uid(); a.no = ++S.seq; a.added = today(); }
+      const stamp = (() => { const d = new Date(); return today() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); })();
+      if (isNew) { a.id = uid(); a.no = ++S.seq; a.added = today(); a.addedAt = stamp; }
+      let changed = isNew;
+      if (!isNew && JSON.stringify(Object.assign({}, a, { updated: undefined })) !== before) { a.updated = stamp; changed = true; }
       S.albums[a.id] = a;
       d.querySelectorAll('.boardpick input').forEach(cb => {
         const b = S.boards.find(x => x.id === cb.value); if (!b) return;
         const has = b.albumIds.includes(a.id);
-        if (cb.checked && !has) b.albumIds.push(a.id);
-        if (!cb.checked && has) b.albumIds = b.albumIds.filter(x => x !== a.id);
+        if (cb.checked && !has) { b.albumIds.push(a.id); changed = true; }
+        if (!cb.checked && has) { b.albumIds = b.albumIds.filter(x => x !== a.id); changed = true; }
       });
-      d.close(); mark();
+      d.close();
+      if (!changed) return;
+      mark();
       toast(isNew ? `‘${title}’ 추가했어요. 다 넣고 나서 저장하기를 눌러주세요.` : '수정했어요.');
     });
     setTimeout(() => (isNew ? qIn : $('#af-title')).focus(), 30);
