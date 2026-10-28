@@ -1,0 +1,36 @@
+{
+ "v": 1,
+ "seq": 1,
+ "site": {
+  "title": "밍귤 크레이트",
+  "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
+ },
+ "albums": {
+  "mgk0001": {
+   "id": "mgk0001",
+   "no": 1,
+   "artist": "Britney Spears",
+   "title": "Britney",
+   "year": "2001",
+   "tags": ["Pop", "Dance-pop", "Teen pop", "R&B"],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://yt3.googleusercontent.com/Uju0Vl0AMcjjsLti87YqaAHW4IjOiZFcvpwb_u-ad_8Zrd4e-fMKOC4EBnhPEYUa-78DZnxWRs3aNf4=w544-h544-l90-rj",
+   "ytm": "https://music.youtube.com/playlist?list=OLAK5uy_n1x9bJRku6jMKO5tMZqBGu_1HynTcT7wM",
+   "yt": "",
+   "added": "2026-10-28"
+  }
+ },
+ "boards": [
+  {
+   "id": "m202610",
+   "name": "2026년 10월",
+   "note": "",
+   "albumIds": ["mgk0001"],
+   "cols": 0,
+   "captions": true,
+   "numbers": true,
+   "created": "2026-10-28"
+  }
+ ]
+}
