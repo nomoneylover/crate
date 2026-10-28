@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 1,
+ "seq": 2,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -12,12 +12,33 @@
    "artist": "Britney Spears",
    "title": "Britney",
    "year": "2001",
-   "tags": ["Pop", "Dance-pop", "Teen pop", "R&B"],
+   "tags": [
+    "Pop",
+    "Dance-pop",
+    "Teen pop",
+    "R&B"
+   ],
    "rating": 0,
    "comment": "",
    "cover": "https://yt3.googleusercontent.com/Uju0Vl0AMcjjsLti87YqaAHW4IjOiZFcvpwb_u-ad_8Zrd4e-fMKOC4EBnhPEYUa-78DZnxWRs3aNf4=w544-h544-l90-rj",
    "ytm": "https://music.youtube.com/playlist?list=OLAK5uy_n1x9bJRku6jMKO5tMZqBGu_1HynTcT7wM",
    "yt": "",
+   "added": "2026-10-28"
+  },
+  "mvry4j98k450": {
+   "artist": "underscores",
+   "title": "Wallsocket",
+   "year": "2023",
+   "tags": [
+    "Alternative"
+   ],
+   "rating": 4,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/0a/53/25/0a532591-eb3b-ff46-fbe5-e4957f26f40b/810090093086.png/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvry4j98k450",
+   "no": 2,
    "added": "2026-10-28"
   }
  },
@@ -26,7 +47,10 @@
    "id": "m202610",
    "name": "2026년 10월",
    "note": "",
-   "albumIds": ["mgk0001"],
+   "albumIds": [
+    "mgk0001",
+    "mvry4j98k450"
+   ],
    "cols": 0,
    "captions": true,
    "numbers": true,
