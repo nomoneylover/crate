@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 5,
+ "seq": 6,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -17,12 +17,13 @@
     "Dance-pop",
     "Teen pop"
    ],
-   "rating": 3.5,
+   "rating": 3,
    "comment": "",
    "cover": "https://yt3.googleusercontent.com/Uju0Vl0AMcjjsLti87YqaAHW4IjOiZFcvpwb_u-ad_8Zrd4e-fMKOC4EBnhPEYUa-78DZnxWRs3aNf4=w544-h544-l90-rj",
    "ytm": "https://music.youtube.com/playlist?list=OLAK5uy_n1x9bJRku6jMKO5tMZqBGu_1HynTcT7wM",
    "yt": "",
-   "added": "2026-10-28"
+   "added": "2026-10-28",
+   "updated": "2026-10-29 11:28"
   },
   "mvry4j98k450": {
    "artist": "underscores",
@@ -71,6 +72,23 @@
    "id": "mvs1fnawc1p6",
    "no": 5,
    "added": "2026-10-28"
+  },
+  "mvsxc8sjhr9j": {
+   "artist": "lucy bedroque",
+   "title": "c",
+   "year": "2026",
+   "tags": [
+    "digicore"
+   ],
+   "rating": 3,
+   "comment": "디지코어 범벅 앨범. 디지코어가 무엇인지 공부하기 좋은 앨범.",
+   "cover": "covers/mvsxbolzqfjq.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvsxc8sjhr9j",
+   "no": 6,
+   "added": "2026-10-29",
+   "addedAt": "2026-10-29 11:28"
   }
  },
  "boards": [
@@ -82,7 +100,8 @@
     "mgk0001",
     "mvry4j98k450",
     "mvs1bby0jg95",
-    "mvs1fnawc1p6"
+    "mvs1fnawc1p6",
+    "mvsxc8sjhr9j"
    ],
    "cols": 0,
    "captions": true,
