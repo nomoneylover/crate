@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 6,
+ "seq": 7,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -60,35 +60,55 @@
   "mvs1fnawc1p6": {
    "artist": "Westwood",
    "title": "Luxury",
-   "year": "2026",
+   "year": "",
    "tags": [
     "hip-hop"
    ],
    "rating": 3,
    "comment": "",
-   "cover": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/546b174556409f55890ec455a74de96a.png",
    "ytm": "",
    "yt": "",
    "id": "mvs1fnawc1p6",
    "no": 5,
-   "added": "2026-10-28"
+   "added": "2026-10-28",
+   "updated": "2026-10-29 11:44"
   },
   "mvsxc8sjhr9j": {
-   "artist": "lucy bedroque",
-   "title": "c",
-   "year": "2026",
+   "artist": "Lucy Bedroque",
+   "title": "C",
+   "year": "",
    "tags": [
     "digicore"
    ],
    "rating": 3,
    "comment": "디지코어 범벅 앨범. 디지코어가 무엇인지 공부하기 좋은 앨범.",
-   "cover": "covers/mvsxbolzqfjq.jpg",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/fe70a827d3d057c3d88382d2c86ba696.png",
    "ytm": "",
    "yt": "",
    "id": "mvsxc8sjhr9j",
    "no": 6,
    "added": "2026-10-29",
-   "addedAt": "2026-10-29 11:28"
+   "addedAt": "2026-10-29 11:28",
+   "updated": "2026-10-29 11:44"
+  },
+  "mvsxwdzf26ne": {
+   "artist": "Anderson .Paak",
+   "title": "Heavy Is The Crown",
+   "year": "2026",
+   "tags": [
+    "Rap/Hip Hop",
+    "R&B"
+   ],
+   "rating": 2.5,
+   "comment": "슴슴한 R&B",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/c5f38c9d18cc89bff9140341f286fd6b/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvsxwdzf26ne",
+   "no": 7,
+   "added": "2026-10-29",
+   "addedAt": "2026-10-29 11:44"
   }
  },
  "boards": [
@@ -101,7 +121,8 @@
     "mvry4j98k450",
     "mvs1bby0jg95",
     "mvs1fnawc1p6",
-    "mvsxc8sjhr9j"
+    "mvsxc8sjhr9j",
+    "mvsxwdzf26ne"
    ],
    "cols": 0,
    "captions": true,
