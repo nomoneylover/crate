@@ -337,8 +337,27 @@ details.more[open] summary{margin-bottom:12px}
     cover: a.cover_xl || a.cover_big || '', thumb: a.cover_medium || a.cover_big || '',
     kind: DZ_KIND[a.record_type] || '', dz: a.id, song: ''
   });
+  // Last.fm: user-maintained catalog (what Topsters uses). Covers are often missing, but names are there.
+  const LASTFM_KEY = '390d739f7f89ae751ee0c60d4c3ff7ea';
+  const lf = params => jsonp('https://ws.audioscrobbler.com/2.0/?' + params + '&api_key=' + LASTFM_KEY + '&format=json');
+  const LF_BLANK = '2a96cbd8b46e442fc41c2b86b821562f';
+  const fromLf = (a, artistName) => {
+    const img = ((a.image || []).find(i => i.size === 'extralarge') || {})['#text'] || '';
+    const ok = !!img && !img.includes(LF_BLANK);
+    const title = a.name || '';
+    return {
+      title, artist: artistName || (typeof a.artist === 'string' ? a.artist : (a.artist && a.artist.name)) || '',
+      year: '', genre: '', cover: ok ? img.replace(/\/i\/u\/[^/]+\//, '/i/u/ar0/') : '', thumb: ok ? img : '',
+      kind: / - single$/i.test(title) ? '싱글' : / - ep$/i.test(title) ? 'EP' : '', song: ''
+    };
+  };
   const norm = s => String(s || '').toLowerCase().replace(/[\s.\-_'’,&!?()]/g, '');
-  async function artistAlbums(id, name){
+  async function artistAlbums(src, id, name){
+    if (src === 'lf') {
+      const r = await lf('method=artist.gettopalbums&artist=' + encodeURIComponent(name) + '&limit=100');
+      const list = ((r && r.topalbums && r.topalbums.album) || []).filter(a => a.name && a.name !== '(null)').map(a => fromLf(a, name));
+      return list.sort((x, y) => !!y.cover - !!x.cover);
+    }
     const r = await dz('/artist/' + id + '/albums?limit=100');
     return ((r && r.data) || []).map(x => fromDz(x, name)).filter(x => x.cover);
   }
@@ -346,11 +365,12 @@ details.more[open] summary{margin-bottom:12px}
   async function searchAlbums(q){
     const enc = encodeURIComponent(q);
     const it = (cc, ent) => jsonp('https://itunes.apple.com/search?term=' + enc + '&country=' + cc + '&limit=20&media=music&entity=' + ent);
-    const [dzArt, dzAlb, ...its] = await Promise.all([
+    const [dzArt, dzAlb, lfAlb, lfArt, ...its] = await Promise.all([
       dz('/search/artist?q=' + enc + '&limit=10'), dz('/search/album?q=' + enc + '&limit=50'),
+      lf('method=album.search&album=' + enc + '&limit=30'), lf('method=artist.search&artist=' + enc + '&limit=5'),
       it('KR','album'), it('US','album'), it('JP','album'), it('KR','song')
     ].map(p => p.catch(() => null)));
-    if (!dzArt && !dzAlb && its.every(x => !x)) throw new Error('search');
+    if (!dzArt && !dzAlb && !lfAlb && its.every(x => !x)) throw new Error('search');
 
     const nq = norm(q), toks = q.toLowerCase().split(/\s+/).map(norm).filter(Boolean);
     const nonLatin = /[^\u0000-ɏ]/.test(q); // Hangul/Japanese query: catalogs often list the romanized name
@@ -362,7 +382,10 @@ details.more[open] summary{margin-bottom:12px}
       if (na === nq || na.includes(nq) || (na.length >= 3 && nq.includes(na))) return true;
       return nonLatin && (count[a.name] || 0) >= 3;
     }).sort((x, y) => (norm(y.name) === nq) - (norm(x.name) === nq) || (y.nb_fan || 0) - (x.nb_fan || 0))
-      .slice(0, 6).map(a => ({ id: a.id, name: a.name, n: a.nb_album || 0 }));
+      .slice(0, 6).map(a => ({ src: 'dz', id: a.id, name: a.name, n: a.nb_album || 0 }));
+    const lfArtists = ((lfArt && lfArt.results && lfArt.results.artistmatches && lfArt.results.artistmatches.artist) || [])
+      .filter(a => norm(a.name) === nq).slice(0, 2).map(a => ({ src: 'lf', id: '', name: a.name, n: 0 }));
+    artists.push(...lfArtists);
     const alias = new Set(artists.map(a => norm(a.name)));
 
     const fromIt = r => ({
@@ -372,9 +395,11 @@ details.more[open] summary{margin-bottom:12px}
       kind: / - single$/i.test(r.collectionName || '') ? '싱글' : / - ep$/i.test(r.collectionName || '') ? 'EP' : '',
       song: r.wrapperType === 'track' ? (r.trackName || '') : ''
     });
+    const lfAlbums = (lfAlb && lfAlb.results && lfAlb.results.albummatches && lfAlb.results.albummatches.album) || [];
     const all = [
       ...dzAlbums.map(a => fromDz(a)),
-      ...its.flatMap(x => (x && x.results) || []).filter(r => r.collectionId && r.artworkUrl100).map(fromIt)
+      ...its.flatMap(x => (x && x.results) || []).filter(r => r.collectionId && r.artworkUrl100).map(fromIt),
+      ...lfAlbums.map(a => fromLf(a))
     ];
     // Relevance: exact artist/title > matched artist > all words present > contains. Unrelated fuzzy hits are dropped.
     const score = r => {
@@ -388,14 +413,20 @@ details.more[open] summary{margin-bottom:12px}
       if (!s) return 0;
       return s + (r.kind === '' ? 3 : r.kind === 'EP' ? 2 : 0);
     };
-    const seen = new Set(), ranked = [];
+    const seen = new Map(), ranked = [];
     all.forEach((r, i) => {
-      if (!r.cover || !r.title) return;
+      if (!r.title) return;
       const key = norm(r.artist) + '|' + norm(r.title.replace(/ - (single|ep)$/i, ''));
-      if (seen.has(key)) return;
-      seen.add(key);
+      const prev = seen.get(key);
+      if (prev) { // same album from another catalog: borrow its cover if ours has none
+        if (!prev.r.cover && r.cover) { Object.assign(prev.r, { cover: r.cover, thumb: r.thumb }); prev.s += 20; }
+        if (!prev.r.year && r.year) prev.r.year = r.year;
+        return;
+      }
       const s = score(r);
-      if (s) ranked.push({ r, s, i });
+      if (!s) return;
+      const item = { r, s: s - (r.cover ? 0 : 20), i };
+      seen.set(key, item); ranked.push(item);
     });
     ranked.sort((x, y) => y.s - x.s || x.i - y.i);
     return { list: ranked.slice(0, 60).map(x => x.r), artists };
@@ -705,7 +736,7 @@ details.more[open] summary{margin-bottom:12px}
     let results = [], searchList = [], seq = 0;
     const drawResults = list => {
       results = list;
-      res.innerHTML = list.map((r, i) => `<button type="button" class="res" data-i="${i}"><span class="cover"><img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.year ? ' · ' + esc(r.year) : ''}${r.kind ? ' · ' + esc(r.kind) : ''}</span>${r.song ? `<span>곡: ${esc(r.song)}</span>` : ''}</button>`).join('');
+      res.innerHTML = list.map((r, i) => `<button type="button" class="res" data-i="${i}"><span class="cover">${r.thumb ? `<img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : tile(r)}</span><b>${esc(r.title)}</b><span>${esc(r.artist)}${r.year ? ' · ' + esc(r.year) : ''}${r.kind ? ' · ' + esc(r.kind) : ''}</span>${r.song ? `<span>곡: ${esc(r.song)}</span>` : ''}${r.cover ? '' : '<span>커버 없음 · 직접 올리기</span>'}</button>`).join('');
     };
     async function run(){
       const q = qIn.value.trim(); if (!q) return;
@@ -715,7 +746,7 @@ details.more[open] summary{margin-bottom:12px}
         const out = await searchAlbums(q);
         if (my !== seq) return;
         searchList = out.list;
-        arts.innerHTML = out.artists.length ? `<span class="srch-st">아티스트 전체 앨범 보기</span>` + out.artists.map(a => `<button type="button" class="chip" data-art="${a.id}" data-name="${esc(a.name)}">${esc(a.name)}${a.n ? `<small>${a.n}</small>` : ''}</button>`).join('') : '';
+        arts.innerHTML = out.artists.length ? `<span class="srch-st">아티스트 전체 앨범 보기</span>` + out.artists.map(a => `<button type="button" class="chip" data-art="${esc(String(a.id))}" data-src="${a.src}" data-name="${esc(a.name)}">${esc(a.name)}${a.n ? `<small>${a.n}</small>` : ''}${a.src === 'lf' ? '<small>Last.fm</small>' : ''}</button>`).join('') : '';
         st.textContent = searchList.length ? `${searchList.length}개 · 앨범을 누르면 아래에 채워져요` : (out.artists.length ? '앨범 결과는 없어요. 위 아티스트를 눌러 전체 앨범을 확인해보세요.' : '결과가 없어요. 영어 이름이나 다른 표기로 다시 찾아보세요.');
         drawResults(searchList);
       } catch { if (my === seq) st.textContent = '검색이 안 돼요. 너무 연달아 검색했다면 1분쯤 뒤에, 아니면 인터넷 연결을 확인하고 다시 눌러주세요.'; }
@@ -728,9 +759,9 @@ details.more[open] summary{margin-bottom:12px}
       c.classList.add('on');
       const my = ++seq; st.textContent = `${c.dataset.name} 앨범 불러오는 중…`; res.innerHTML = '';
       try {
-        const list = await artistAlbums(c.dataset.art, c.dataset.name);
+        const list = await artistAlbums(c.dataset.src, c.dataset.art, c.dataset.name);
         if (my !== seq) return;
-        st.textContent = `${c.dataset.name} · ${list.length}개 (최신순) · 다시 누르면 검색 결과로 돌아가요`;
+        st.textContent = `${c.dataset.name} · ${list.length}개 (${c.dataset.src === 'lf' ? '커버 있는 것 먼저' : '최신순'}) · 다시 누르면 검색 결과로 돌아가요`;
         drawResults(list);
       } catch { if (my === seq) st.textContent = '앨범을 불러오지 못했어요. 잠시 뒤 다시 눌러주세요.'; }
     });
@@ -742,6 +773,7 @@ details.more[open] summary{margin-bottom:12px}
       res.querySelectorAll('.res').forEach(x => x.classList.toggle('on', x === b));
       $('#af-artist').value = r.artist; $('#af-title').value = r.title.replace(/ - (single|ep)$/i, ''); $('#af-year').value = r.year;
       a.cover = r.cover; $('#af-cover').value = r.cover; drawPv();
+      upl.textContent = r.cover ? '검색에 없는 앨범은 왼쪽 커버 칸에 이미지를 끌어다 놓거나, 복사한 이미지를 ⌘V로 붙여넣거나, ‘커버 올리기’로 파일을 고르세요.' : '이 앨범은 커버가 없어요. 이름은 채워뒀으니 왼쪽 칸에 커버만 넣어주세요 (⌘V 붙여넣기 / 끌어다 놓기).';
       const addGenre = g => { if (g && !a.tags.some(t => t.toLowerCase() === g.toLowerCase())) { a.tags.push(g); drawTags(); } };
       addGenre(r.genre);
       // Deezer search results lack year/genre: fetch the album once when picked.
