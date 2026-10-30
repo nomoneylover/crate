@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 7,
+ "seq": 10,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -109,6 +109,59 @@
    "no": 7,
    "added": "2026-10-29",
    "addedAt": "2026-10-29 11:44"
+  },
+  "mvul01im5zy8": {
+   "artist": "Vietra",
+   "title": "Pseudofloral",
+   "year": "2022",
+   "tags": [
+    "Pop",
+    "bedroom-pop",
+    "ambient"
+   ],
+   "rating": 2,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/3e/20/26/3e2026d7-cdff-f8cf-bf31-e0fc252ea981/198003630543.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvul01im5zy8",
+   "no": 8,
+   "added": "2026-10-30",
+   "addedAt": "2026-10-30 15:18"
+  },
+  "mvul1akqqbes": {
+   "artist": "MISIA",
+   "title": "Tutumikomu Youni",
+   "year": "2014",
+   "tags": [
+    "Asian Music"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/222f29eeeb0b3c75bb518a37029ee5b5/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvul1akqqbes",
+   "no": 9,
+   "added": "2026-10-30",
+   "addedAt": "2026-10-30 15:19"
+  },
+  "mvul24sqeu04": {
+   "artist": "hitomitoi",
+   "title": "Surfbank Social Club",
+   "year": "2013",
+   "tags": [
+    "J-Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/3e/ad/2d/3ead2deb-4a04-1196-cee1-fb5d3f3ef79d/HBRJ-1009.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvul24sqeu04",
+   "no": 10,
+   "added": "2026-10-30",
+   "addedAt": "2026-10-30 15:20"
   }
  },
  "boards": [
@@ -122,7 +175,9 @@
     "mvs1bby0jg95",
     "mvs1fnawc1p6",
     "mvsxc8sjhr9j",
-    "mvsxwdzf26ne"
+    "mvsxwdzf26ne",
+    "mvul01im5zy8",
+    "mvul1akqqbes"
    ],
    "cols": 0,
    "captions": true,
