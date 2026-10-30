@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 12,
+ "seq": 13,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -55,7 +55,20 @@
    "yt": "",
    "id": "mvs1bby0jg95",
    "no": 4,
-   "added": "2026-10-28"
+   "added": "2026-10-28",
+   "tracks": [
+    {
+     "n": 2,
+     "title": "More",
+     "yt": "https://music.youtube.com/watch?v=oSJX4sCLFfo"
+    },
+    {
+     "n": 4,
+     "title": "Pop",
+     "yt": "https://music.youtube.com/watch?v=M2Tb2kjzzxo"
+    }
+   ],
+   "updated": "2026-10-30 15:59"
   },
   "mvs1fnawc1p6": {
    "artist": "Westwood",
@@ -144,7 +157,15 @@
    "id": "mvul1akqqbes",
    "no": 9,
    "added": "2026-10-30",
-   "addedAt": "2026-10-30 15:19"
+   "addedAt": "2026-10-30 15:19",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Tsutsumikomu Youni",
+     "yt": "https://music.youtube.com/watch?v=Q-lpbLEUGlA"
+    }
+   ],
+   "updated": "2026-10-30 15:58"
   },
   "mvul24sqeu04": {
    "artist": "hitomitoi",
@@ -214,6 +235,24 @@
    "no": 12,
    "added": "2026-10-30",
    "addedAt": "2026-10-30 15:50"
+  },
+  "mvumgt7mdlth": {
+   "artist": "julie",
+   "title": "pushing daisies",
+   "year": "2021",
+   "tags": [
+    "Alternative",
+    "shoegaze"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/ca/05/2c/ca052c01-d877-20fa-71f6-12f704cf5047/075679726810.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvumgt7mdlth",
+   "no": 13,
+   "added": "2026-10-30",
+   "addedAt": "2026-10-30 15:59"
   }
  },
  "boards": [
@@ -230,7 +269,8 @@
     "mvsxwdzf26ne",
     "mvul01im5zy8",
     "mvul1akqqbes",
-    "mvul4m9kuu2k"
+    "mvul4m9kuu2k",
+    "mvumgt7mdlth"
    ],
    "cols": 0,
    "captions": true,
