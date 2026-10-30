@@ -212,6 +212,24 @@ dialog::backdrop{background:rgba(10,12,18,.55)}
 .sugg{display:flex;gap:5px;flex-wrap:wrap}
 .sugg .chip{font-size:12px;padding:2px 8px;opacity:.85}
 .boardpick{display:flex;flex-direction:column;gap:8px;max-height:160px;overflow:auto;padding:2px}
+.tl-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tracks{display:flex;flex-direction:column;gap:2px;max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:4px}
+.tracks:empty{display:none}
+.tk{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13.5px;min-width:0}
+.tk:hover{background:var(--tab)}
+.tk input{width:16px;height:16px;accent-color:var(--accent);flex:none}
+.tk-n{width:22px;color:var(--muted);font-size:12px;text-align:right;flex:none}
+.tk-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tk-ok,.tk-s,.tk-wait{font-size:11.5px;flex:none;font-family:var(--f-mono)}
+.tk-ok{color:var(--accent)}
+.tk-s{color:var(--muted)}
+.tk-wait{color:var(--star)}
+.picks{display:flex;flex-direction:column;gap:2px}
+.pick-t{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:6px;text-decoration:none;font-size:14px;min-width:0}
+.pick-t:hover{background:var(--tab)}
+.pick-t .mono{width:22px;text-align:right;color:var(--muted);font-size:12px;flex:none}
+.pick-t .nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.pick-t .go-i{color:var(--muted);flex:none;display:inline-flex}
 details.more summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--muted)}
 details.more[open] summary{margin-bottom:12px}
 
@@ -393,7 +411,7 @@ details.more[open] summary{margin-bottom:12px}
       year: (r.releaseDate || '').slice(0, 4), genre: r.primaryGenreName || '',
       cover: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/600x600bb.'), thumb: r.artworkUrl100.replace(/\/\d+x\d+bb\./, '/200x200bb.'),
       kind: / - single$/i.test(r.collectionName || '') ? '싱글' : / - ep$/i.test(r.collectionName || '') ? 'EP' : '',
-      song: r.wrapperType === 'track' ? (r.trackName || '') : ''
+      song: r.wrapperType === 'track' ? (r.trackName || '') : '', itc: r.collectionId
     });
     const lfAlbums = (lfAlb && lfAlb.results && lfAlb.results.albummatches && lfAlb.results.albummatches.album) || [];
     const all = [
@@ -450,6 +468,42 @@ details.more[open] summary{margin-bottom:12px}
   const query = a => (a.artist + ' ' + a.title).trim();
   const ytmUrl = a => a.ytm || 'https://music.youtube.com/search?q=' + encodeURIComponent(query(a));
   const ytUrl  = a => a.yt  || 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query(a));
+  // a picked track opens its exact YouTube Music page when we found one, otherwise a search for it
+  const trackUrl = (a, t) => t.yt || 'https://music.youtube.com/search?q=' + encodeURIComponent(a.artist + ' ' + t.title);
+
+  // Exact YouTube Music link for one song (needs the owner's YouTube API key; 100 lookups/day free).
+  async function ytFind(artist, title){
+    const u = 'https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&videoCategoryId=10&q=' + encodeURIComponent(artist + ' ' + title) + '&key=' + encodeURIComponent(gh.ytKey || '');
+    const r = await fetch(u);
+    if (!r.ok) throw new Error(r.status === 403 ? '유튜브 키가 막혔어요. 키의 웹사이트 제한·YouTube Data API 사용 설정을 확인하거나, 오늘 사용량(100곡)을 넘겼는지 확인해주세요.' : '유튜브 링크를 찾지 못했어요.');
+    const unent = s => String(s || '').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+    const items = ((await r.json()).items || []).filter(i => i.id && i.id.videoId);
+    const nt = norm(title), topic = i => / - Topic$/.test(i.snippet.channelTitle), has = i => norm(unent(i.snippet.title)).includes(nt);
+    const best = items.find(i => topic(i) && has(i)) || items.find(topic) || items.find(has) || items[0];
+    return best ? 'https://music.youtube.com/watch?v=' + best.id.videoId : '';
+  }
+
+  // Tracklist for an album: from the catalog it was picked from, else found by name on Deezer, else Last.fm.
+  async function loadTracklist(src, artist, title){
+    const dzTracks = async id => { const r = await dz('/album/' + id + '/tracks?limit=100'); return ((r && r.data) || []).map((t, i) => ({ n: t.track_position || i + 1, title: t.title })); };
+    const itTracks = async id => {
+      for (const cc of ['KR', 'US', 'JP']) {
+        const r = await jsonp('https://itunes.apple.com/lookup?id=' + id + '&entity=song&country=' + cc).catch(() => null);
+        const l = ((r && r.results) || []).filter(x => x.wrapperType === 'track');
+        if (l.length) return l.map(t => ({ n: t.trackNumber, title: t.trackName }));
+      }
+      return [];
+    };
+    if (src && src.dz) { const l = await dzTracks(src.dz).catch(() => []); if (l.length) return l; }
+    if (src && src.itc) { const l = await itTracks(src.itc); if (l.length) return l; }
+    const r = await dz('/search/album?q=' + encodeURIComponent('artist:"' + artist + '" album:"' + title + '"') + '&limit=5').catch(() => null);
+    const hits = (r && r.data) || [];
+    const hit = hits.find(x => norm(x.title) === norm(title)) || hits[0];
+    if (hit) { const l = await dzTracks(hit.id).catch(() => []); if (l.length) return l; }
+    const lr = await lf('method=album.getinfo&artist=' + encodeURIComponent(artist) + '&album=' + encodeURIComponent(title)).catch(() => null);
+    const tr = lr && lr.album && lr.album.tracks && lr.album.tracks.track;
+    return (Array.isArray(tr) ? tr : tr ? [tr] : []).map((t, i) => ({ n: (t['@attr'] && +t['@attr'].rank) || i + 1, title: t.name }));
+  }
   const hue = str => { let h = 2166136261; for (const ch of str) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) % 360; };
   const tile = a => `<span class="tile" style="--h:${hue(query(a))}"><b>${esc(a.title)}</b><i>${esc(a.artist)}</i></span>`;
   // Covers you upload yourself live in the repo under covers/. Until the site redeploys, show the local copy.
@@ -524,7 +578,7 @@ details.more[open] summary{margin-bottom:12px}
       <a class="cover" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener" aria-label="${esc(a.artist + ' – ' + a.title)} 유튜브 뮤직에서 듣기">
         ${num ? `<span class="num">${num}</span>` : ''}${coverInner(a)}<span class="go">${IC.play}YT Music</span></a>
       <figcaption class="cap"><span class="t">${esc(a.title)}</span><span class="a">${esc(a.artist)}${a.year ? ' · ' + esc(a.year) : ''}</span>
-        <span class="cap-row"><span class="rate ${a.rating ? '' : 'none'}">${rateTxt(a.rating)}</span>
+        <span class="cap-row"><span class="rate ${a.rating ? '' : 'none'}">${rateTxt(a.rating)}${a.tracks && a.tracks.length ? ` · ♪${a.tracks.length}` : ''}</span>
           <a class="ico" href="${esc(ytUrl(a))}" target="_blank" rel="noopener" title="유튜브에서 찾기" aria-label="유튜브에서 찾기">${IC.yt}</a>
           <button class="ico" data-act="info" data-id="${esc(a.id)}" title="태그·코멘트 보기" aria-label="태그·코멘트 보기">${IC.info}</button></span>
         ${edits}</figcaption></figure>`;
@@ -637,6 +691,7 @@ details.more[open] summary{margin-bottom:12px}
           <div>${starBar(a.rating)} <span class="mono" style="font-size:12.5px;color:var(--muted);margin-left:6px">${a.rating ? a.rating + ' / 5' : '별점 없음'}</span></div>
           ${a.tags.length ? `<div class="chips">${a.tags.map(t => `<button class="chip" data-tagjump="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
           ${a.comment ? `<p class="note">${esc(a.comment)}</p>` : ''}
+          ${a.tracks && a.tracks.length ? `<div class="picks"><div class="cat mono">꽂힌 곡</div>${a.tracks.map(t => `<a class="pick-t" href="${esc(trackUrl(a, t))}" target="_blank" rel="noopener" title="${t.yt ? '유튜브 뮤직에서 바로 듣기' : '유튜브 뮤직에서 검색'}"><span class="mono">${t.n || '·'}</span><span class="nm">${esc(t.title)}</span><span class="go-i">${IC.play}</span></a>`).join('')}</div>` : ''}
           <div class="listen"><a class="btn primary" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener">${IC.play} 유튜브 뮤직</a><a class="btn" href="${esc(ytUrl(a))}" target="_blank" rel="noopener">유튜브</a></div>
           ${bs.length ? `<div class="chips">${bs.map(b => `<a class="chip" href="#b-${esc(b.id)}" data-close>${esc(b.name)}</a>`).join('')}</div>` : ''}
         </div></div></div>` + (editing() ? `<div class="dlg-foot"><button class="btn" data-edit>수정</button></div>` : ''), { wide:true });
@@ -677,6 +732,11 @@ details.more[open] summary{margin-bottom:12px}
           <div class="starin"><span class="stars" id="af-stars" role="slider" tabindex="0" aria-label="별점" aria-valuemin="0" aria-valuemax="5"><span></span></span><span class="mono" id="af-rv"></span></div>
         </div>
         <label class="field"><span>코멘트</span><textarea id="af-comment" placeholder="어디서 알게 됐는지, 어떤 트랙이 좋았는지">${esc(a.comment)}</textarea></label>
+        <div class="field"><span>꽂힌 곡</span>
+          <div class="tl-bar"><button type="button" class="btn sm" id="af-tl">트랙리스트 불러오기</button><span class="srch-st" id="af-tlst">${gh.ytKey ? '' : '유튜브 키가 없으면 곡을 눌렀을 때 검색 결과로 열려요'}</span></div>
+          <div class="tracks" id="af-tracks"></div>
+          <input type="text" id="af-tin" placeholder="목록에 없으면 곡 이름 입력 후 Enter" autocomplete="off">
+        </div>
         ${S.boards.length ? `<div class="field"><span>꽂아둘 보드</span><div class="boardpick">${S.boards.map(b => `<label class="check"><input type="checkbox" value="${esc(b.id)}" ${inBoards.has(b.id)?'checked':''}> ${esc(b.name)}</label>`).join('')}</div></div>` : ''}
         <details class="more"><summary>링크·커버 직접 지정 (선택)</summary>
           <div style="display:flex;flex-direction:column;gap:12px">
@@ -785,7 +845,57 @@ details.more[open] summary{margin-bottom:12px}
           if (b.classList.contains('on')) { if (!$('#af-year').value) $('#af-year').value = r.year; addGenre(r.genre); }
         }).catch(() => {});
       }
+      picked = r; tracklist = null; loadTl();
     });
+
+    // picked tracks ('꽂힌 곡'): check from the tracklist; each pick looks up its exact YouTube Music link once
+    const picks = (a.tracks || []).map(t => Object.assign({}, t));
+    let tracklist = null, picked = null;
+    const tlst = $('#af-tlst'), tbox = $('#af-tracks'), tin = $('#af-tin');
+    const tkey = t => norm(t.title);
+    function drawTracks(){
+      const rows = (tracklist || []).map(t => Object.assign({}, t));
+      picks.forEach(p => { if (!rows.some(t => tkey(t) === tkey(p))) rows.push(Object.assign({}, p)); });
+      tbox.innerHTML = rows.map(t => {
+        const p = picks.find(x => tkey(x) === tkey(t));
+        const state = !p ? '' : p.finding ? '<span class="tk-wait">링크 찾는 중…</span>' : p.yt ? '<span class="tk-ok">바로 열림</span>' : '<span class="tk-s">검색으로 열림</span>';
+        return `<label class="tk"><input type="checkbox" data-t="${esc(t.title)}" data-n="${t.n || ''}" ${p ? 'checked' : ''}><span class="tk-n mono">${t.n || '·'}</span><span class="tk-t">${esc(t.title)}</span>${state}</label>`;
+      }).join('');
+    }
+    async function resolveYt(p){
+      if (!gh.ytKey || p.yt) return;
+      p.finding = true; drawTracks();
+      try { p.yt = await ytFind($('#af-artist').value.trim(), p.title); } catch (e) { tlst.textContent = e.message; }
+      p.finding = false; drawTracks();
+    }
+    async function loadTl(){
+      const artist = $('#af-artist').value.trim(), title = $('#af-title').value.trim();
+      if (!artist || !title) { tlst.textContent = '아티스트와 앨범명을 먼저 채워주세요.'; return; }
+      const same = picked && norm(picked.artist) === norm(artist) && norm(picked.title.replace(/ - (single|ep)$/i, '')) === norm(title);
+      tlst.textContent = '트랙리스트 불러오는 중…';
+      try {
+        tracklist = await loadTracklist(same ? picked : null, artist, title);
+        tlst.textContent = tracklist.length ? `${tracklist.length}곡 · 꽂힌 곡에 체크하세요` : '트랙리스트를 못 찾았어요. 아래에 곡 이름을 직접 넣어주세요.';
+      } catch { tracklist = []; tlst.textContent = '트랙리스트를 불러오지 못했어요. 곡 이름을 직접 넣어주세요.'; }
+      drawTracks();
+    }
+    $('#af-tl').addEventListener('click', loadTl);
+    tbox.addEventListener('change', e => {
+      const cb = e.target; if (!cb.matches('input[type=checkbox]')) return;
+      const t = { n: +cb.dataset.n || null, title: cb.dataset.t, yt: '' };
+      const i = picks.findIndex(p => tkey(p) === tkey(t));
+      if (cb.checked && i < 0) { picks.push(t); resolveYt(t); }
+      if (!cb.checked && i >= 0) picks.splice(i, 1);
+      drawTracks();
+    });
+    tin.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' || e.isComposing) return;
+      e.preventDefault();
+      const title = tin.value.trim(); if (!title) return;
+      if (!picks.some(p => norm(p.title) === norm(title))) { const t = { n: null, title, yt: '' }; picks.push(t); resolveYt(t); }
+      tin.value = ''; drawTracks();
+    });
+    drawTracks();
 
     // tags
     const tagbox = $('#af-tags'), tagin = $('#af-tagin'), sugg = $('#af-sugg');
@@ -828,6 +938,8 @@ details.more[open] summary{margin-bottom:12px}
       if (tagin.value.trim()) addTag(tagin.value);
       const artist = $('#af-artist').value.trim(), title = $('#af-title').value.trim();
       if (!artist || !title) { st.textContent = '아티스트와 앨범명을 채워주세요. 위에서 검색해서 고르면 자동으로 들어가요.'; return; }
+      if (picks.some(p => p.finding)) { tlst.textContent = '곡 링크를 찾는 중이에요. 잠깐 뒤에 다시 눌러주세요.'; return; }
+      if (picks.length || a.tracks) a.tracks = picks.map(p => ({ n: p.n || null, title: p.title, yt: p.yt || '' })).sort((x, y) => (x.n || 999) - (y.n || 999));
       const okUrl = v => { v = v.trim(); return /^https?:\/\//i.test(v) ? v : ''; };
       Object.assign(a, { artist, title, year: $('#af-year').value.trim(), comment: $('#af-comment').value.trim(), ytm: okUrl($('#af-ytm').value), yt: okUrl($('#af-yt').value), cover: /^covers\/[\w-]+\.jpg$/.test($('#af-cover').value.trim()) ? $('#af-cover').value.trim() : okUrl($('#af-cover').value) });
       const stamp = (() => { const d = new Date(); return today() + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); })();
@@ -916,15 +1028,16 @@ details.more[open] summary{margin-bottom:12px}
         <label class="field"><span>저장소 이름</span><input type="text" id="gf-r" value="${esc(gh.repo)}" autocomplete="off" required></label>
       </div>
       <label class="field"><span>토큰</span><input type="password" id="gf-t" value="${esc(gh.token)}" placeholder="github_pat_…" autocomplete="off" required></label>
+      <label class="field"><span>유튜브 API 키 (선택)</span><input type="password" id="gf-y" value="${esc(gh.ytKey || '')}" placeholder="AIza…" autocomplete="off"><small>넣어두면 ‘꽂힌 곡’을 눌렀을 때 그 곡이 유튜브 뮤직에서 바로 열려요.</small></label>
       <p class="err" id="gf-e"></p></div>
       <div class="dlg-foot">${ui.owner ? '<button type="button" class="btn danger left" id="gf-off">연결 끊기</button>' : ''}<button type="button" class="btn ghost" data-close>닫기</button><button type="submit" class="btn primary" id="gf-go">연결하기</button></div></form>`);
     const $ = s => d.querySelector(s), err = $('#gf-e');
     const off = $('#gf-off');
-    if (off) off.addEventListener('click', () => { gh.token = ''; store.set(GH_KEY, { owner: gh.owner, repo: gh.repo, branch: gh.branch }); ui.owner = false; ui.edit = false; d.close(); render(); toast('이 브라우저의 연결을 끊었어요.'); });
+    if (off) off.addEventListener('click', () => { gh.token = ''; store.set(GH_KEY, { owner: gh.owner, repo: gh.repo, branch: gh.branch, ytKey: gh.ytKey || '' }); ui.owner = false; ui.edit = false; d.close(); render(); toast('이 브라우저의 연결을 끊었어요.'); });
     $('#gf').addEventListener('submit', async e => {
       e.preventDefault();
       const prev = clone(gh);
-      gh = { owner: $('#gf-o').value.trim(), repo: $('#gf-r').value.trim(), branch: gh.branch || 'main', token: $('#gf-t').value.trim() };
+      gh = { owner: $('#gf-o').value.trim(), repo: $('#gf-r').value.trim(), branch: gh.branch || 'main', token: $('#gf-t').value.trim(), ytKey: $('#gf-y').value.trim() };
       $('#gf-go').disabled = true; err.textContent = '확인 중…';
       try {
         const repo = await GH.check();
