@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 11,
+ "seq": 12,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -186,10 +186,34 @@
     {
      "n": 10,
      "title": "Babyy",
-     "yt": ""
+     "yt": "https://music.youtube.com/watch?v=azx3Szet8a0"
     }
    ],
-   "updated": "2026-10-30 15:43"
+   "updated": "2026-10-30 15:48"
+  },
+  "mvum59g5xbyb": {
+   "artist": "gikuhasi",
+   "title": "new computer emotion",
+   "year": "2026",
+   "tags": [
+    "Alternative"
+   ],
+   "rating": 4,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/d67a1c8083744684abd9376b1297e6eb/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 2,
+     "title": "HONEY",
+     "yt": "https://music.youtube.com/watch?v=072NwSbAa4A"
+    }
+   ],
+   "id": "mvum59g5xbyb",
+   "no": 12,
+   "added": "2026-10-30",
+   "addedAt": "2026-10-30 15:50"
   }
  },
  "boards": [
