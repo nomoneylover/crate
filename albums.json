@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 13,
+ "seq": 15,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -242,7 +242,9 @@
    "year": "2021",
    "tags": [
     "Alternative",
-    "shoegaze"
+    "shoegaze",
+    "rock",
+    "band"
    ],
    "rating": 2.5,
    "comment": "",
@@ -252,7 +254,59 @@
    "id": "mvumgt7mdlth",
    "no": 13,
    "added": "2026-10-30",
-   "addedAt": "2026-10-30 15:59"
+   "addedAt": "2026-10-30 15:59",
+   "updated": "2026-10-31 15:26"
+  },
+  "mvvysarwtlph": {
+   "artist": "Ecco2k",
+   "title": "PXE",
+   "year": "2021",
+   "tags": [
+    "digicore",
+    "experimental",
+    "electronic"
+   ],
+   "rating": 1,
+   "comment": "장난스럽고 해괴하다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/c508bb9d5a037d70134074b7f9a592b1/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvvysarwtlph",
+   "no": 14,
+   "added": "2026-10-31",
+   "addedAt": "2026-10-31 14:32",
+   "updated": "2026-10-31 15:26"
+  },
+  "mvw0p8i17u5o": {
+   "artist": "Misia",
+   "title": "Love Is the Message",
+   "year": "2000",
+   "tags": [
+    "japan",
+    "R&B"
+   ],
+   "rating": 0,
+   "comment": "탑라인 조옺된다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/5b58a5cb8532351118e8561f6c1b4acf/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvw0p8i17u5o",
+   "no": 15,
+   "added": "2026-10-31",
+   "addedAt": "2026-10-31 15:25",
+   "tracks": [
+    {
+     "n": 2,
+     "title": "Believe",
+     "yt": "https://music.youtube.com/watch?v=uXDmnGqeVro"
+    },
+    {
+     "n": 3,
+     "title": "Sweetness",
+     "yt": "https://music.youtube.com/watch?v=S8B0v3pSz5E"
+    }
+   ],
+   "updated": "2026-10-31 15:32"
   }
  },
  "boards": [
@@ -270,7 +324,9 @@
     "mvul01im5zy8",
     "mvul1akqqbes",
     "mvul4m9kuu2k",
-    "mvumgt7mdlth"
+    "mvumgt7mdlth",
+    "mvvysarwtlph",
+    "mvw0p8i17u5o"
    ],
    "cols": 0,
    "captions": true,
