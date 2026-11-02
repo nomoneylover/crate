@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 15,
+ "seq": 18,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -219,7 +219,7 @@
    "tags": [
     "Alternative"
    ],
-   "rating": 4,
+   "rating": 3.5,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/d67a1c8083744684abd9376b1297e6eb/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -234,7 +234,8 @@
    "id": "mvum59g5xbyb",
    "no": 12,
    "added": "2026-10-30",
-   "addedAt": "2026-10-30 15:50"
+   "addedAt": "2026-10-30 15:50",
+   "updated": "2026-10-31 15:57"
   },
   "mvumgt7mdlth": {
    "artist": "julie",
@@ -285,7 +286,7 @@
     "japan",
     "R&B"
    ],
-   "rating": 0,
+   "rating": 4,
    "comment": "탑라인 조옺된다.",
    "cover": "https://cdn-images.dzcdn.net/images/cover/5b58a5cb8532351118e8561f6c1b4acf/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -306,10 +307,117 @@
      "yt": "https://music.youtube.com/watch?v=S8B0v3pSz5E"
     }
    ],
-   "updated": "2026-10-31 15:32"
+   "updated": "2026-10-31 15:57"
+  },
+  "mvz61ddfe6cq": {
+   "artist": "Kinoko Teikoku",
+   "title": "Fake World Wonderland",
+   "year": "2014",
+   "tags": [
+    "Asian Music",
+    "band",
+    "rock",
+    "japan"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/17aec9859b6128bb8a39a44a0a8efe2b/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvz61ddfe6cq",
+   "no": 16,
+   "added": "2026-11-02",
+   "addedAt": "2026-11-02 20:18",
+   "updated": "2026-11-02 20:39"
+  },
+  "mvz65zhevj6d": {
+   "artist": "K/DA, League of Legends, i-dle e Mimi Webb",
+   "title": "FIRESTARTER",
+   "year": "",
+   "tags": [
+    "K-Pop",
+    "Dance-pop"
+   ],
+   "rating": 2,
+   "comment": "K/DA 음악의 진수는 비주얼과 함께 했을때 발휘되는 듯. 이전과 비슷하게 화려하지만, 어딘가 모르게 슴슴한 느낌이 든다. 아무래도 pop가수와 함께 하다보니? 빌보드 pop의 느낌이 추가되어서 그런 듯 하다.",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/976beebb3f4540c62c7ce233d8d2ac41.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mvz65zhevj6d",
+   "no": 17,
+   "added": "2026-11-02",
+   "addedAt": "2026-11-02 20:22",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "FIRESTARTER",
+     "yt": "https://music.youtube.com/watch?v=Mmw-PpWhKFg"
+    },
+    {
+     "n": 2,
+     "title": "WATCH ME",
+     "yt": "https://music.youtube.com/watch?v=VOCEZQSO3t4"
+    }
+   ],
+   "updated": "2026-11-02 20:39"
+  },
+  "mvz6wwv7q5jw": {
+   "artist": "TUIDE",
+   "title": "TUIDE The 1st EP [TUNE & PLAY]",
+   "year": "2026",
+   "tags": [
+    "K-Pop",
+    "garage",
+    "house",
+    "easylisten"
+   ],
+   "rating": 3.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/f6/59/50/f6595017-02c4-7a23-811f-124ef49b4cca/26UM1IM06731.rgb.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "ABD",
+     "yt": "https://music.youtube.com/watch?v=nWXdtLEdvkI"
+    },
+    {
+     "n": 2,
+     "title": "SUN KISS",
+     "yt": "https://music.youtube.com/watch?v=46h0LvDHgIs"
+    },
+    {
+     "n": 3,
+     "title": "Echo",
+     "yt": "https://music.youtube.com/watch?v=vdIYAimoLVs"
+    },
+    {
+     "n": 4,
+     "title": "Flip-Flop Girl",
+     "yt": "https://music.youtube.com/watch?v=fniLCqL9WOM"
+    }
+   ],
+   "id": "mvz6wwv7q5jw",
+   "no": 18,
+   "added": "2026-11-02",
+   "addedAt": "2026-11-02 20:43"
   }
  },
  "boards": [
+  {
+   "id": "mvz61o33wv6u",
+   "albumIds": [
+    "mvz61ddfe6cq",
+    "mvz65zhevj6d"
+   ],
+   "created": "2026-11-02",
+   "name": "2026년 11월",
+   "note": "",
+   "cols": 0,
+   "captions": true,
+   "numbers": true
+  },
   {
    "id": "m202610",
    "name": "2026년 10월",
