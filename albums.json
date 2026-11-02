@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 18,
+ "seq": 19,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -402,6 +402,23 @@
    "no": 18,
    "added": "2026-11-02",
    "addedAt": "2026-11-02 20:43"
+  },
+  "mvz76qndkuq4": {
+   "artist": "RESCENE",
+   "title": "Re:Scene",
+   "year": "2024",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f3/e6/7c/f3e67cb1-c445-6906-fa76-a16b8f7c9b17/8804775349089.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mvz76qndkuq4",
+   "no": 19,
+   "added": "2026-11-02",
+   "addedAt": "2026-11-02 20:50"
   }
  },
  "boards": [
@@ -409,7 +426,8 @@
    "id": "mvz61o33wv6u",
    "albumIds": [
     "mvz61ddfe6cq",
-    "mvz65zhevj6d"
+    "mvz65zhevj6d",
+    "mvz76qndkuq4"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
