@@ -152,6 +152,10 @@ a.cover:hover .go,a.cover:focus-visible .go{opacity:1;transform:none}
 .chip small{font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip.on small{color:var(--bg);opacity:.7}
+.chip.mood{color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--paper));border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.chip.mood.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip.mood.on small{color:var(--accent-ink)}
+.lib-lbl{font-size:11px;color:var(--muted);letter-spacing:.06em;margin-right:4px;align-self:center}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chips:empty{display:none}
 
@@ -470,7 +474,7 @@ details.more[open] summary{margin-bottom:12px}
     return s;
   }
   let saved = normalize(null), S = clone(saved), sha = null, dirty = 0;
-  const ui = { loading:true, loadError:false, owner:false, edit:false, tagSel:new Set(), q:'', sort:'recent', saving:false, draft:null, revertArm:false };
+  const ui = { loading:true, loadError:false, owner:false, edit:false, tagSel:new Set(), moodSel:new Set(), q:'', sort:'recent', saving:false, draft:null, revertArm:false };
 
   // ---------- helpers ----------
   const query = a => (a.artist + ' ' + a.title).trim();
@@ -521,6 +525,9 @@ details.more[open] summary{margin-bottom:12px}
   const rateTxt = r => r ? '★ ' + (Number.isInteger(r) ? r + '.0' : r) : '★ –';
   const starBar = r => `<span class="stars" style="--r:${r||0}" aria-label="별점 ${r||0} / 5"><span></span></span>`;
   const allTags = () => { const m = new Map(); for (const a of Object.values(S.albums)) for (const t of a.tags) m.set(t, (m.get(t)||0)+1); return [...m].sort((x,y)=>y[1]-x[1] || x[0].localeCompare(y[0])); };
+  const allMoods = () => { const m = new Map(); for (const a of Object.values(S.albums)) for (const t of (a.moods || [])) m.set(t, (m.get(t)||0)+1); return [...m].sort((x,y)=>y[1]-x[1] || x[0].localeCompare(y[0])); };
+  // starter mood words, offered only until you use your own: texture / feeling / time & place
+  const MOOD_STARTERS = ['청량','몽환','끈적','거친','미니멀','빈티지','나른','쓸쓸','따뜻','공격적','설렘','여름','새벽','비','드라이브','도시'];
   const boardsOf = id => S.boards.filter(b => b.albumIds.includes(id));
   const editing = () => ui.owner && ui.edit;
 
@@ -556,7 +563,7 @@ details.more[open] summary{margin-bottom:12px}
   }
 
   function home(){
-    const albums = Object.values(S.albums), tags = allTags(), boards = S.boards;
+    const albums = Object.values(S.albums), tags = allTags(), moodsAll = allMoods(), boards = S.boards;
     const crates = boards.map(b => {
       const ids = b.albumIds.slice(0, 6);
       const slots = Array.from({length:6}, (_, i) => { const a = S.albums[ids[i]]; return `<span>${a ? coverInner(a) : ''}</span>`; }).join('');
@@ -574,6 +581,7 @@ details.more[open] summary{margin-bottom:12px}
         <h1>${esc(S.site.title)}</h1>${S.site.intro ? `<p>${esc(S.site.intro)}</p>` : ''}
         <div class="stats"><span>앨범 <b>${albums.length}</b></span><span>보드 <b>${boards.length}</b></span><span>태그 <b>${tags.length}</b></span></div>
         ${tags.length ? `<div class="toptags">${tags.slice(0, 14).map(([t,c]) => `<button class="chip" data-act="tag" data-tag="${esc(t)}">${esc(t)}<small>${c}</small></button>`).join('')}</div>` : ''}
+        ${moodsAll.length ? `<div class="toptags">${moodsAll.slice(0, 14).map(([t,c]) => `<button class="chip mood" data-act="tag" data-kind="mood" data-tag="${esc(t)}">#${esc(t)}<small>${c}</small></button>`).join('')}</div>` : ''}
         ${editing() ? `<div class="toolbar"><button class="btn primary" data-act="add-album">+ 앨범 추가</button><button class="btn sm ghost" data-act="site-settings">페이지 이름·소개 수정</button></div>` : ''}
       </section>${body}`;
   }
@@ -605,11 +613,13 @@ details.more[open] summary{margin-bottom:12px}
   }
 
   function libView(){
-    const tags = allTags(), q = ui.q.trim().toLowerCase();
+    const tags = allTags(), moodsAll = allMoods(), q = ui.q.trim().toLowerCase().replace(/^#/, '');
     const list = Object.values(S.albums).filter(a => {
       for (const t of ui.tagSel) if (!a.tags.includes(t)) return false;
-      return !q || [a.artist, a.title, a.year, a.comment, ...a.tags].join(' ').toLowerCase().includes(q);
+      for (const t of ui.moodSel) if (!(a.moods || []).includes(t)) return false;
+      return !q || [a.artist, a.title, a.year, a.comment, ...a.tags, ...(a.moods || [])].join(' ').toLowerCase().includes(q);
     });
+    const filtering = ui.tagSel.size || ui.moodSel.size;
     const sorters = {
       recent: (x,y) => (y.added||'').localeCompare(x.added||'') || (y.no||0)-(x.no||0),
       rating: (x,y) => y.rating - x.rating || (y.no||0)-(x.no||0),
@@ -619,11 +629,13 @@ details.more[open] summary{margin-bottom:12px}
     };
     list.sort(sorters[ui.sort] || sorters.recent);
     const total = Object.keys(S.albums).length;
-    return `<section class="board-head"><h1>전체 앨범</h1><span class="board-meta mono">${ui.tagSel.size || q ? `${list.length} / ${total}장` : `${total}장`}</span>
+    return `<section class="board-head"><h1>전체 앨범</h1><span class="board-meta mono">${filtering || q ? `${list.length} / ${total}장` : `${total}장`}</span>
         ${editing() ? `<div class="toolbar"><button class="btn primary" data-act="add-album">+ 앨범 추가</button></div>` : ''}</section>
       <div class="lib-tools"><input type="search" id="lib-q" placeholder="아티스트, 앨범, 태그, 코멘트 검색" value="${esc(ui.q)}" aria-label="검색">
         <select id="lib-sort" aria-label="정렬">${[['recent','최근 추가'],['updated','최근 수정'],['rating','별점 높은 순'],['artist','아티스트 이름순'],['year','발매 최신순']].map(([v,l]) => `<option value="${v}" ${ui.sort===v?'selected':''}>${l}</option>`).join('')}</select></div>
-      ${tags.length ? `<div class="chips lib-tags">${tags.map(([t,c]) => `<button class="chip ${ui.tagSel.has(t)?'on':''}" data-act="tag-toggle" data-tag="${esc(t)}">${esc(t)}<small>${c}</small></button>`).join('')}${ui.tagSel.size ? `<button class="chip" data-act="tag-clear">필터 해제</button>` : ''}</div>` : ''}
+      ${tags.length ? `<div class="chips lib-tags"><span class="lib-lbl mono">장르</span>${tags.map(([t,c]) => `<button class="chip ${ui.tagSel.has(t)?'on':''}" data-act="tag-toggle" data-tag="${esc(t)}">${esc(t)}<small>${c}</small></button>`).join('')}</div>` : ''}
+      ${moodsAll.length ? `<div class="chips lib-tags"><span class="lib-lbl mono">무드</span>${moodsAll.map(([t,c]) => `<button class="chip mood ${ui.moodSel.has(t)?'on':''}" data-act="tag-toggle" data-kind="mood" data-tag="${esc(t)}">#${esc(t)}<small>${c}</small></button>`).join('')}</div>` : ''}
+      ${filtering ? `<div class="chips lib-tags"><button class="chip" data-act="tag-clear">필터 모두 해제</button></div>` : ''}
       ${list.length ? `<div class="grid">${list.map(a => card(a, {})).join('')}</div>` : `<div class="empty"><b>${total ? '조건에 맞는 앨범이 없어요' : '아직 넣은 앨범이 없어요'}</b></div>`}`;
   }
 
@@ -697,7 +709,7 @@ details.more[open] summary{margin-bottom:12px}
         <div class="info">
           <div><div class="cat mono">MG-${String(a.no||0).padStart(4,'0')} · ${esc(dot(a.addedAt || a.added))} 등록${a.updated ? ' · ' + esc(dot(a.updated)) + ' 수정' : ''}</div><h3>${esc(a.title)}</h3><div class="who">${esc(a.artist)}${a.year ? ' · ' + esc(a.year) : ''}</div></div>
           <div>${starBar(a.rating)} <span class="mono" style="font-size:12.5px;color:var(--muted);margin-left:6px">${a.rating ? a.rating + ' / 5' : '별점 없음'}</span></div>
-          ${a.tags.length ? `<div class="chips">${a.tags.map(t => `<button class="chip" data-tagjump="${esc(t)}">${esc(t)}</button>`).join('')}</div>` : ''}
+          ${a.tags.length || (a.moods && a.moods.length) ? `<div class="chips">${a.tags.map(t => `<button class="chip" data-tagjump="${esc(t)}">${esc(t)}</button>`).join('')}${(a.moods || []).map(t => `<button class="chip mood" data-tagjump="${esc(t)}" data-kind="mood">#${esc(t)}</button>`).join('')}</div>` : ''}
           ${a.comment ? `<p class="note">${esc(a.comment)}</p>` : ''}
           ${a.tracks && a.tracks.length ? `<div class="picks"><div class="cat mono">꽂힌 곡</div>${a.tracks.map(t => `<a class="pick-t" href="${esc(trackUrl(a, t))}" target="_blank" rel="noopener" title="${t.yt ? '유튜브 뮤직에서 바로 듣기' : '유튜브 뮤직에서 검색'}"><span class="mono">${t.n || '·'}</span><span class="nm">${esc(t.title)}</span><span class="go-i">${IC.play}</span></a>`).join('')}</div>` : ''}
           <div class="listen"><a class="btn primary" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener">${IC.play} 유튜브 뮤직</a><a class="btn" href="${esc(ytUrl(a))}" target="_blank" rel="noopener">유튜브</a></div>
@@ -705,7 +717,11 @@ details.more[open] summary{margin-bottom:12px}
         </div></div></div>` + (editing() ? `<div class="dlg-foot"><button class="btn" data-edit>수정</button></div>` : ''), { wide:true });
     d.addEventListener('click', e => {
       const t = e.target.closest('[data-tagjump]');
-      if (t) { ui.tagSel = new Set([t.dataset.tagjump]); ui.q = ''; d.close(); if (location.hash === '#all') render(); else location.hash = 'all'; }
+      if (t) {
+        ui.tagSel = new Set(); ui.moodSel = new Set();
+        (t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel).add(t.dataset.tagjump);
+        ui.q = ''; d.close(); if (location.hash === '#all') render(); else location.hash = 'all';
+      }
       if (e.target.closest('[data-edit]')) { d.close(); albumForm(id); }
     });
   }
@@ -735,6 +751,11 @@ details.more[open] summary{margin-bottom:12px}
         <div class="field"><span>장르 태그</span>
           <div class="tagbox" id="af-tags"><input type="text" id="af-tagin" placeholder="입력 후 Enter (예: 시티팝, 재즈)" autocomplete="off"></div>
           <div class="sugg" id="af-sugg"></div>
+        </div>
+        <div class="field"><span>무드</span>
+          <div class="tagbox" id="af-moods"><input type="text" id="af-moodin" placeholder="느낌 단어 입력 후 Enter (예: 청량, 새벽)" autocomplete="off"></div>
+          <div class="sugg" id="af-msugg"></div>
+          <small class="upl" id="af-mwarn"></small>
         </div>
         <div class="field"><span>별점</span>
           <div class="starin"><span class="stars" id="af-stars" role="slider" tabindex="0" aria-label="별점" aria-valuemin="0" aria-valuemax="5"><span></span></span><span class="mono" id="af-rv"></span></div>
@@ -842,7 +863,7 @@ details.more[open] summary{margin-bottom:12px}
       $('#af-artist').value = r.artist; $('#af-title').value = r.title.replace(/ - (single|ep)$/i, ''); $('#af-year').value = r.year;
       a.cover = r.cover; $('#af-cover').value = r.cover; drawPv();
       upl.textContent = r.cover ? '검색에 없는 앨범은 왼쪽 커버 칸에 이미지를 끌어다 놓거나, 복사한 이미지를 ⌘V로 붙여넣거나, ‘커버 올리기’로 파일을 고르세요.' : '이 앨범은 커버가 없어요. 이름은 채워뒀으니 왼쪽 칸에 커버만 넣어주세요 (⌘V 붙여넣기 / 끌어다 놓기).';
-      const addGenre = g => { if (g && !a.tags.some(t => t.toLowerCase() === g.toLowerCase())) { a.tags.push(g); drawTags(); } };
+      const addGenre = g => { if (g && !a.tags.some(t => t.toLowerCase() === g.toLowerCase())) { a.tags.push(g); G.draw(); } };
       addGenre(r.genre);
       // Deezer search results lack year/genre: fetch the album once when picked.
       if (r.dz && (!r.year || !r.genre)) {
@@ -906,23 +927,42 @@ details.more[open] summary{margin-bottom:12px}
     });
     drawTracks();
 
-    // tags
-    const tagbox = $('#af-tags'), tagin = $('#af-tagin'), sugg = $('#af-sugg');
-    function drawTags(){
-      tagbox.querySelectorAll('.chip').forEach(c => c.remove());
-      a.tags.forEach((t, i) => { const c = document.createElement('span'); c.className = 'chip'; c.innerHTML = `${esc(t)}<button type="button" aria-label="${esc(t)} 태그 빼기" data-i="${i}">×</button>`; tagbox.insertBefore(c, tagin); });
-      const q = tagin.value.trim().toLowerCase();
-      sugg.innerHTML = known.filter(t => !a.tags.includes(t) && (!q || t.toLowerCase().includes(q))).slice(0, 12).map(t => `<button type="button" class="chip" data-add="${esc(t)}">+ ${esc(t)}</button>`).join('');
+    // tag fields (genre and mood share the same behavior; mood chips show a #)
+    function tagField(box, input, sugg, arr, pool, opt = {}){
+      const label = t => (opt.hash ? '#' : '') + esc(t), cls = 'chip' + (opt.hash ? ' mood' : '');
+      function draw(){
+        box.querySelectorAll('.chip').forEach(c => c.remove());
+        arr.forEach((t, i) => { const c = document.createElement('span'); c.className = cls; c.innerHTML = `${label(t)}<button type="button" aria-label="${esc(t)} 빼기" data-i="${i}">×</button>`; box.insertBefore(c, input); });
+        const q = input.value.trim().replace(/^#+/, '').toLowerCase();
+        sugg.innerHTML = pool().filter(t => !arr.some(x => x.toLowerCase() === t.toLowerCase()) && (!q || t.toLowerCase().includes(q))).slice(0, opt.max || 12)
+          .map(t => `<button type="button" class="${cls}" data-add="${esc(t)}">+ ${label(t)}</button>`).join('');
+        if (opt.onChange) opt.onChange();
+      }
+      const add = raw => { const t = String(raw).trim().replace(/^#+/, '').trim(); if (t && !arr.some(x => x.toLowerCase() === t.toLowerCase())) arr.push(t); input.value = ''; draw(); };
+      input.addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ',') && !e.isComposing) { e.preventDefault(); add(input.value); }
+        else if (e.key === 'Backspace' && !input.value && arr.length) { arr.pop(); draw(); }
+      });
+      input.addEventListener('input', () => {
+        const v = input.value;
+        if (v.includes(',')) v.split(',').forEach(add);
+        else if (opt.hash && /#\S+\s+#/.test(v)) v.split(/\s*#/).forEach(add); // "#청량 #여름" pasted or typed
+        else if (opt.hash && /^#\S+\s$/.test(v)) add(v);
+        else draw();
+      });
+      box.addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (b) { arr.splice(+b.dataset.i, 1); draw(); } else input.focus(); });
+      sugg.addEventListener('click', e => { const b = e.target.closest('[data-add]'); if (b) add(b.dataset.add); });
+      draw();
+      return { draw, add, input };
     }
-    const addTag = raw => { const t = raw.trim().replace(/^#/, ''); if (!t) return; if (!a.tags.some(x => x.toLowerCase() === t.toLowerCase())) a.tags.push(t); tagin.value = ''; drawTags(); };
-    tagin.addEventListener('keydown', e => {
-      if ((e.key === 'Enter' || e.key === ',') && !e.isComposing) { e.preventDefault(); addTag(tagin.value); }
-      else if (e.key === 'Backspace' && !tagin.value && a.tags.length) { a.tags.pop(); drawTags(); }
+    const G = tagField($('#af-tags'), $('#af-tagin'), $('#af-sugg'), a.tags, () => known);
+    const moods = (a.moods || []).slice();
+    const moodPool = () => { const used = allMoods().map(([t]) => t); return [...used, ...MOOD_STARTERS.filter(s => !used.includes(s))]; };
+    const mwarn = $('#af-mwarn');
+    const M = tagField($('#af-moods'), $('#af-moodin'), $('#af-msugg'), moods, moodPool, {
+      hash: true, max: 18,
+      onChange: () => { mwarn.textContent = moods.length > 3 ? '무드는 2~3개일 때 제일 잘 걸러져요. 꼭 맞는 것만 남겨보세요.' : ''; }
     });
-    tagin.addEventListener('input', () => { if (tagin.value.includes(',')) tagin.value.split(',').forEach(addTag); else drawTags(); });
-    tagbox.addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (b) { a.tags.splice(+b.dataset.i, 1); drawTags(); } else tagin.focus(); });
-    sugg.addEventListener('click', e => { const b = e.target.closest('[data-add]'); if (b) addTag(b.dataset.add); });
-    drawTags();
 
     // stars
     const sEl = $('#af-stars'), rv = $('#af-rv');
@@ -944,7 +984,9 @@ details.more[open] summary{margin-bottom:12px}
 
     $('#af').addEventListener('submit', e => {
       e.preventDefault();
-      if (tagin.value.trim()) addTag(tagin.value);
+      if (G.input.value.trim()) G.add(G.input.value);
+      if (M.input.value.trim()) M.add(M.input.value);
+      if (moods.length || a.moods) a.moods = moods.slice();
       const artist = $('#af-artist').value.trim(), title = $('#af-title').value.trim();
       if (!artist || !title) { st.textContent = '아티스트와 앨범명을 채워주세요. 위에서 검색해서 고르면 자동으로 들어가요.'; return; }
       if (picks.some(p => p.finding)) { tlst.textContent = '곡 링크를 찾는 중이에요. 잠깐 뒤에 다시 눌러주세요.'; return; }
@@ -1083,9 +1125,9 @@ details.more[open] summary{margin-bottom:12px}
       case 'gh-settings': ghForm(); break;
       case 'move': if (r.v === 'board') { const l = r.b.albumIds, i = l.indexOf(id), j = i + (+t.dataset.dir); if (i < 0 || j < 0 || j >= l.length) return; [l[i], l[j]] = [l[j], l[i]]; mark(); } break;
       case 'unpin': if (r.v === 'board') { r.b.albumIds = r.b.albumIds.filter(x => x !== id); mark(); toast('보드에서 뺐어요. 앨범은 ‘전체 앨범’에 남아 있어요.'); } break;
-      case 'tag': ui.tagSel = new Set([t.dataset.tag]); ui.q = ''; location.hash = 'all'; break;
-      case 'tag-toggle': { const g = t.dataset.tag; ui.tagSel.has(g) ? ui.tagSel.delete(g) : ui.tagSel.add(g); render(); break; }
-      case 'tag-clear': ui.tagSel.clear(); render(); break;
+      case 'tag': ui.tagSel = new Set(); ui.moodSel = new Set(); (t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel).add(t.dataset.tag); ui.q = ''; if (location.hash === '#all') render(); else location.hash = 'all'; break;
+      case 'tag-toggle': { const set = t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel, g = t.dataset.tag; set.has(g) ? set.delete(g) : set.add(g); render(); break; }
+      case 'tag-clear': ui.tagSel.clear(); ui.moodSel.clear(); render(); break;
       case 'save': save(); break;
       case 'revert':
         if (!ui.revertArm) { ui.revertArm = true; render(); return; }
