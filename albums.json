@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 25,
+ "seq": 27,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -32,14 +32,18 @@
    "tags": [
     "Alternative"
    ],
-   "rating": 4,
+   "rating": 3,
    "comment": "",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/0a/53/25/0a532591-eb3b-ff46-fbe5-e4957f26f40b/810090093086.png/600x600bb.jpg",
    "ytm": "",
    "yt": "",
    "id": "mvry4j98k450",
    "no": 2,
-   "added": "2026-10-28"
+   "added": "2026-10-28",
+   "moods": [
+    "거친"
+   ],
+   "updated": "2026-11-05 21:11"
   },
   "mvs1bby0jg95": {
    "artist": "ILLIT",
@@ -566,7 +570,12 @@
    "id": "mw216gdfxek8",
    "no": 24,
    "added": "2026-11-04",
-   "addedAt": "2026-11-04 20:25"
+   "addedAt": "2026-11-04 20:25",
+   "moods": [
+    "거친",
+    "공격적"
+   ],
+   "updated": "2026-11-05 20:59"
   },
   "mw3hhvufpyjm": {
    "artist": "Skrillex",
@@ -583,7 +592,52 @@
    "id": "mw3hhvufpyjm",
    "no": 25,
    "added": "2026-11-05",
-   "addedAt": "2026-11-05 20:50"
+   "addedAt": "2026-11-05 20:50",
+   "moods": [
+    "공격적",
+    "거친"
+   ],
+   "updated": "2026-11-05 20:56"
+  },
+  "mw3i1klxte2b": {
+   "artist": "USPEER",
+   "title": "SPEED ZONE",
+   "year": "2025",
+   "tags": [
+    "K-Pop",
+    "Dance-pop",
+    "garage"
+   ],
+   "rating": 2,
+   "comment": "코러스 초반 파트에서 좌우로 거친 베이스가 벌어지면서 쪼개지는데, 확 짜증이 났다. 내가 아직 느린건지 모르겠지만 아무리 k-pop이 다양한 시도를 한다 하더라도 코러스 파트에서는 정돈된 느낌을 줘야한다.\n2번 트랙은 깔끔하니 괜찮네. 개러지 리듬과 보컬 유니즌&패드, 공간감이 잘 어우러진다. 탑라인도 거슬리는 부분은 없다.",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/54/33/30/54333061-439c-8e82-984e-c89d1f8ecfa4/cover_KM0022909_1.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mw3i1klxte2b",
+   "no": 26,
+   "added": "2026-11-05",
+   "addedAt": "2026-11-05 21:05",
+   "updated": "2026-11-05 21:07",
+   "moods": [
+    "여름"
+   ]
+  },
+  "mw3i7d1b895t": {
+   "artist": "USPEER",
+   "title": "USPEER 1st MINI ALBUM [BITE DISTRICT]",
+   "year": "2026",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/b0/cb/20b0cb9c-76f8-8762-620e-f43ad790e049/cover_KM0024757_1.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mw3i7d1b895t",
+   "no": 27,
+   "added": "2026-11-05",
+   "addedAt": "2026-11-05 21:10"
   }
  },
  "boards": [
@@ -597,7 +651,9 @@
     "mvz7wea4u9js",
     "mw1z7tnt9ea8",
     "mw215t21opa0",
-    "mw3hhvufpyjm"
+    "mw3hhvufpyjm",
+    "mw3i1klxte2b",
+    "mw3i7d1b895t"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
