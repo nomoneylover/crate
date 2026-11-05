@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 24,
+ "seq": 25,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -567,6 +567,23 @@
    "no": 24,
    "added": "2026-11-04",
    "addedAt": "2026-11-04 20:25"
+  },
+  "mw3hhvufpyjm": {
+   "artist": "Skrillex",
+   "title": "Soma",
+   "year": "2026",
+   "tags": [
+    "electronic"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/eded262d7f19e341a985fda4f7e4d33b.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mw3hhvufpyjm",
+   "no": 25,
+   "added": "2026-11-05",
+   "addedAt": "2026-11-05 20:50"
   }
  },
  "boards": [
@@ -579,7 +596,8 @@
     "mvz7g8wlxf4u",
     "mvz7wea4u9js",
     "mw1z7tnt9ea8",
-    "mw215t21opa0"
+    "mw215t21opa0",
+    "mw3hhvufpyjm"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
