@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 27,
+ "seq": 28,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -41,7 +41,8 @@
    "no": 2,
    "added": "2026-10-28",
    "moods": [
-    "거친"
+    "거친",
+    "풍성"
    ],
    "updated": "2026-11-05 21:11"
   },
@@ -627,20 +628,63 @@
    "title": "USPEER 1st MINI ALBUM [BITE DISTRICT]",
    "year": "2026",
    "tags": [
-    "K-Pop"
+    "K-Pop",
+    "Dance-pop"
    ],
-   "rating": 0,
-   "comment": "",
+   "rating": 2.5,
+   "comment": "노래 괜찮은데... 확실히 k-pop이 상향평준화 됐구나. 탑라인 전체적으로 거슬리는 부분 없고, 과하지 않음. 사운드는 전체적으로 웻하지만 밝은 분위기를 유지함. 근데 킥은 없다. 곡의 러닝타임도 좀 길고, 랩파트가 곳곳에 들어가 있는데 그래서 그런지 옛날 SM 느낌이 난다.",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/b0/cb/20b0cb9c-76f8-8762-620e-f43ad790e049/cover_KM0024757_1.jpg/600x600bb.jpg",
    "ytm": "",
    "yt": "",
    "id": "mw3i7d1b895t",
    "no": 27,
    "added": "2026-11-05",
-   "addedAt": "2026-11-05 21:10"
+   "addedAt": "2026-11-05 21:10",
+   "moods": [
+    "몽환",
+    "청량"
+   ],
+   "updated": "2026-11-05 21:18",
+   "tracks": [
+    {
+     "n": 3,
+     "title": "Bestie",
+     "yt": "https://music.youtube.com/watch?v=W8LOONZYgXM"
+    }
+   ]
+  },
+  "mw3in4rlimxb": {
+   "artist": "クラフトワーク",
+   "title": "Trans Europa Express (Remastered) [German Version]",
+   "year": "2009",
+   "tags": [
+    "エレクトロニック"
+   ],
+   "rating": 0,
+   "comment": "크라프트베르크는 밴드편곡을 버리고 신디사이저와 직접 만든 전자타악기로 모든 사운드를 만든 역사상 최초의 전자음악, 팝 팀. 이들이 모든 전자음악의 조상.",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/20/57/39/20573972-8f57-3827-ca66-32c38d16924f/5099969958854_1500x1500_300dpi.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mw3in4rlimxb",
+   "no": 28,
+   "added": "2026-11-05",
+   "addedAt": "2026-11-05 21:22",
+   "updated": "2026-11-05 21:24"
   }
  },
  "boards": [
+  {
+   "id": "mw3ij1k7qno8",
+   "albumIds": [
+    "mw3in4rlimxb"
+   ],
+   "created": "2026-11-05",
+   "name": "전자음악 공부 1",
+   "note": "",
+   "cols": 0,
+   "captions": true,
+   "numbers": true
+  },
   {
    "id": "mvz61o33wv6u",
    "albumIds": [
@@ -653,7 +697,8 @@
     "mw215t21opa0",
     "mw3hhvufpyjm",
     "mw3i1klxte2b",
-    "mw3i7d1b895t"
+    "mw3i7d1b895t",
+    "mw3in4rlimxb"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
