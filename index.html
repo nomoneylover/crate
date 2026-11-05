@@ -156,6 +156,11 @@ a.cover:hover .go,a.cover:focus-visible .go{opacity:1;transform:none}
 .chip.mood.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .chip.mood.on small{color:var(--accent-ink)}
 .lib-lbl{font-size:11px;color:var(--muted);letter-spacing:.06em;margin-right:4px;align-self:center}
+#af-msugg{flex-direction:column;gap:6px}
+.sugg-row{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.axis{display:inline-flex;align-items:center;gap:3px;padding:2px;border:1px dashed var(--line);border-radius:999px}
+.axis i{font-style:normal;font-size:11px;color:var(--muted);padding:0 1px}
+.axis .chip{font-size:12px;padding:2px 8px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
 .chips:empty{display:none}
 
@@ -526,8 +531,9 @@ details.more[open] summary{margin-bottom:12px}
   const starBar = r => `<span class="stars" style="--r:${r||0}" aria-label="별점 ${r||0} / 5"><span></span></span>`;
   const allTags = () => { const m = new Map(); for (const a of Object.values(S.albums)) for (const t of a.tags) m.set(t, (m.get(t)||0)+1); return [...m].sort((x,y)=>y[1]-x[1] || x[0].localeCompare(y[0])); };
   const allMoods = () => { const m = new Map(); for (const a of Object.values(S.albums)) for (const t of (a.moods || [])) m.set(t, (m.get(t)||0)+1); return [...m].sort((x,y)=>y[1]-x[1] || x[0].localeCompare(y[0])); };
-  // starter mood words, offered only until you use your own: texture / feeling / time & place
-  const MOOD_STARTERS = ['청량','몽환','끈적','거친','미니멀','빈티지','나른','쓸쓸','따뜻','공격적','설렘','여름','새벽','비','드라이브','도시'];
+  // mood vocabulary: opposing axes (pick a side) + standalone words; your own words are offered first
+  const MOOD_AXES = [['설렘','쓸쓸'], ['따뜻','차가운'], ['빈티지','모던'], ['거친','깔끔'], ['미니멀','풍성'], ['몽환','선명'], ['청량','끈적']];
+  const MOOD_EXTRA = ['나른','공격적','여름','새벽','비','드라이브','도시'];
   const boardsOf = id => S.boards.filter(b => b.albumIds.includes(id));
   const editing = () => ui.owner && ui.edit;
 
@@ -934,7 +940,7 @@ details.more[open] summary{margin-bottom:12px}
         box.querySelectorAll('.chip').forEach(c => c.remove());
         arr.forEach((t, i) => { const c = document.createElement('span'); c.className = cls; c.innerHTML = `${label(t)}<button type="button" aria-label="${esc(t)} 빼기" data-i="${i}">×</button>`; box.insertBefore(c, input); });
         const q = input.value.trim().replace(/^#+/, '').toLowerCase();
-        sugg.innerHTML = pool().filter(t => !arr.some(x => x.toLowerCase() === t.toLowerCase()) && (!q || t.toLowerCase().includes(q))).slice(0, opt.max || 12)
+        sugg.innerHTML = opt.renderSugg ? opt.renderSugg(arr, q) : pool().filter(t => !arr.some(x => x.toLowerCase() === t.toLowerCase()) && (!q || t.toLowerCase().includes(q))).slice(0, opt.max || 12)
           .map(t => `<button type="button" class="${cls}" data-add="${esc(t)}">+ ${label(t)}</button>`).join('');
         if (opt.onChange) opt.onChange();
       }
@@ -957,10 +963,21 @@ details.more[open] summary{margin-bottom:12px}
     }
     const G = tagField($('#af-tags'), $('#af-tagin'), $('#af-sugg'), a.tags, () => known);
     const moods = (a.moods || []).slice();
-    const moodPool = () => { const used = allMoods().map(([t]) => t); return [...used, ...MOOD_STARTERS.filter(s => !used.includes(s))]; };
     const mwarn = $('#af-mwarn');
-    const M = tagField($('#af-moods'), $('#af-moodin'), $('#af-msugg'), moods, moodPool, {
-      hash: true, max: 18,
+    // suggestions: your own words first, then each axis as a pair (the side already on this album shows filled), then extras
+    const moodSugg = (arr, q) => {
+      const has = t => arr.some(x => x.toLowerCase() === t.toLowerCase());
+      const match = t => !q || t.toLowerCase().includes(q);
+      const btn = t => `<button type="button" class="chip mood" data-add="${esc(t)}">+ #${esc(t)}</button>`;
+      const side = t => has(t) ? `<span class="chip mood on">#${esc(t)}</span>` : btn(t);
+      const builtIn = new Set([...MOOD_AXES.flat(), ...MOOD_EXTRA]);
+      const own = allMoods().map(([t]) => t).filter(t => !builtIn.has(t) && !has(t) && match(t)).slice(0, 12).map(btn).join('');
+      const axes = MOOD_AXES.filter(([l, r]) => match(l) || match(r)).map(([l, r]) => `<span class="axis">${side(l)}<i>↔</i>${side(r)}</span>`).join('');
+      const extra = MOOD_EXTRA.filter(t => !has(t) && match(t)).map(btn).join('');
+      return (own ? `<div class="sugg-row">${own}</div>` : '') + (axes ? `<div class="sugg-row">${axes}</div>` : '') + (extra ? `<div class="sugg-row">${extra}</div>` : '');
+    };
+    const M = tagField($('#af-moods'), $('#af-moodin'), $('#af-msugg'), moods, () => [], {
+      hash: true, renderSugg: moodSugg,
       onChange: () => { mwarn.textContent = moods.length > 3 ? '무드는 2~3개일 때 제일 잘 걸러져요. 꼭 맞는 것만 남겨보세요.' : ''; }
     });
 
