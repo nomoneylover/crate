@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 28,
+ "seq": 30,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -669,7 +669,66 @@
    "no": 28,
    "added": "2026-11-05",
    "addedAt": "2026-11-05 21:22",
-   "updated": "2026-11-05 21:24"
+   "updated": "2026-11-05 21:25",
+   "moods": [
+    "모던"
+   ]
+  },
+  "mw6lgt1x0pmn": {
+   "artist": "iza tkm",
+   "title": "i Music Listen",
+   "year": "2026",
+   "tags": [
+    "Alternative",
+    "band",
+    "electronic"
+   ],
+   "rating": 3,
+   "comment": "디지코어와 밴드편곡의 조화.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/a150005efe0bd56c37d58b928d8a7905/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "거친",
+    "풍성"
+   ],
+   "id": "mw6lgt1x0pmn",
+   "no": 29,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 01:04"
+  },
+  "mw6ln0xhi8ix": {
+   "artist": "LISA",
+   "title": "PRESS PLAY",
+   "year": "2026",
+   "tags": [
+    "Pop"
+   ],
+   "rating": 2,
+   "comment": "이전보다 팝의 색채는 줄고 리듬감에 집중한 느낌. 그래서 앨범이 대부분 단조롭고 미니멀하게 느껴진다. 힘을 엄청 뺀 것 같은 느낌.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/60c803505174bfae2df3534ab2b4d04b/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mw6ln0xhi8ix",
+   "no": 30,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 01:09",
+   "moods": [
+    "미니멀"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "SaWaDiKa",
+     "yt": "https://music.youtube.com/watch?v=FyS5dAywkEo"
+    },
+    {
+     "n": 4,
+     "title": "Tarantino",
+     "yt": "https://music.youtube.com/watch?v=-5ZXrO_lYSA"
+    }
+   ],
+   "updated": "2026-11-08 01:14"
   }
  },
  "boards": [
@@ -698,7 +757,9 @@
     "mw3hhvufpyjm",
     "mw3i1klxte2b",
     "mw3i7d1b895t",
-    "mw3in4rlimxb"
+    "mw3in4rlimxb",
+    "mw6lgt1x0pmn",
+    "mw6ln0xhi8ix"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
