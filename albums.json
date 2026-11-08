@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 30,
+ "seq": 33,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -524,7 +524,7 @@
     "시부야계",
     "garage"
    ],
-   "rating": 0,
+   "rating": 2.5,
    "comment": "",
    "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/8eac7cf926022e9bd8778ccb124228af.png",
    "ytm": "",
@@ -532,7 +532,8 @@
    "id": "mw215t21opa0",
    "no": 23,
    "added": "2026-11-04",
-   "addedAt": "2026-11-04 20:25"
+   "addedAt": "2026-11-04 20:25",
+   "updated": "2026-11-08 15:37"
   },
   "mw216gdfxek8": {
    "artist": "EsDeeKid",
@@ -658,9 +659,9 @@
    "title": "Trans Europa Express (Remastered) [German Version]",
    "year": "2009",
    "tags": [
-    "エレクトロニック"
+    "electronic"
    ],
-   "rating": 0,
+   "rating": 1.5,
    "comment": "크라프트베르크는 밴드편곡을 버리고 신디사이저와 직접 만든 전자타악기로 모든 사운드를 만든 역사상 최초의 전자음악, 팝 팀. 이들이 모든 전자음악의 조상.",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music/v4/20/57/39/20573972-8f57-3827-ca66-32c38d16924f/5099969958854_1500x1500_300dpi.jpg/600x600bb.jpg",
    "ytm": "",
@@ -669,7 +670,7 @@
    "no": 28,
    "added": "2026-11-05",
    "addedAt": "2026-11-05 21:22",
-   "updated": "2026-11-05 21:25",
+   "updated": "2026-11-08 15:37",
    "moods": [
     "모던"
    ]
@@ -729,6 +730,133 @@
     }
    ],
    "updated": "2026-11-08 01:14"
+  },
+  "mw6mext33ypz": {
+   "artist": "Cocteau Twins",
+   "title": "Heaven or Las Vegas",
+   "year": "1990",
+   "tags": [
+    "band",
+    "shoegaze",
+    "dream-pop"
+   ],
+   "rating": 4.5,
+   "comment": "드림팝의 시초격. 밴드노이즈 음악의 전설적인 앨범. 보컬의 악기화를 완벽하게 수행해냄. 완벽한 사운드 믹싱과 보컬 디자인.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/be62b1479e0baf17d8f9beca911ee8cd/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "몽환",
+    "풍성",
+    "따뜻",
+    "나른"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Cherry-coloured Funk",
+     "yt": "https://music.youtube.com/watch?v=PbbUeLkZt74"
+    },
+    {
+     "n": 2,
+     "title": "Pitch the Baby",
+     "yt": "https://music.youtube.com/watch?v=MbjO9S9TRsc"
+    },
+    {
+     "n": 3,
+     "title": "Iceblink Luck",
+     "yt": "https://music.youtube.com/watch?v=L_Tj4bJ0VFw"
+    },
+    {
+     "n": 5,
+     "title": "Heaven or Las Vegas",
+     "yt": "https://music.youtube.com/watch?v=6KnYw4EwYGc"
+    },
+    {
+     "n": 6,
+     "title": "I Wear Your Ring",
+     "yt": "https://music.youtube.com/watch?v=EGkBSZgqrQA"
+    },
+    {
+     "n": 8,
+     "title": "Wolf in the Breast",
+     "yt": "https://music.youtube.com/watch?v=O32Afp_1pfM"
+    }
+   ],
+   "id": "mw6mext33ypz",
+   "no": 31,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 01:31"
+  },
+  "mw7gewowrs85": {
+   "artist": "Shin In Ryu",
+   "title": "Shining Strike",
+   "year": "2025",
+   "tags": [
+    "band",
+    "indie rock",
+    "Asian Music"
+   ],
+   "rating": 3.5,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/74ee3e4f1c1c4cfc95083d62ccae1e74/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "설렘",
+    "몽환"
+   ],
+   "tracks": [
+    {
+     "n": 4,
+     "title": "Strange and Beautiful",
+     "yt": "https://music.youtube.com/watch?v=US9WVXktfFE"
+    },
+    {
+     "n": 5,
+     "title": "Huf",
+     "yt": "https://music.youtube.com/watch?v=5mgYzf1RXYc"
+    },
+    {
+     "n": 6,
+     "title": "Attack!",
+     "yt": "https://music.youtube.com/watch?v=Jb8A4CVG5q8"
+    },
+    {
+     "n": 11,
+     "title": "First-Person Narrative",
+     "yt": "https://music.youtube.com/watch?v=CNBBZRVF208"
+    }
+   ],
+   "id": "mw7gewowrs85",
+   "no": 32,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 15:31"
+  },
+  "mw7gjnhwhsse": {
+   "artist": "Tokyo Shoegazer",
+   "title": "crystallize",
+   "year": "",
+   "tags": [
+    "band",
+    "japan",
+    "shoegaze",
+    "rock"
+   ],
+   "rating": 2,
+   "comment": "호흡이 긴 슈게이징이 매력적이다. 이지리스닝 같은 매력이 있음.",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/ac5eff7b78f8ea730af70e1b35742551.png",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "풍성",
+    "몽환"
+   ],
+   "id": "mw7gjnhwhsse",
+   "no": 33,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 15:34",
+   "updated": "2026-11-08 16:07"
   }
  },
  "boards": [
@@ -759,7 +887,8 @@
     "mw3i7d1b895t",
     "mw3in4rlimxb",
     "mw6lgt1x0pmn",
-    "mw6ln0xhi8ix"
+    "mw6ln0xhi8ix",
+    "mw7gjnhwhsse"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
