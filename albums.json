@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 33,
+ "seq": 40,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -857,13 +857,200 @@
    "added": "2026-11-08",
    "addedAt": "2026-11-08 15:34",
    "updated": "2026-11-08 16:07"
+  },
+  "mw7t3zuiv9t8": {
+   "artist": "GIRIBOY",
+   "title": "asdf",
+   "year": "",
+   "tags": [
+    "hip-hop"
+   ],
+   "rating": 1.5,
+   "comment": "멤버는 msn, 퀄리티는 쓰레기.",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/6bf1382bf624670149c3bb9055710383.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mw7t3zuiv9t8",
+   "no": 34,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 21:26"
+  },
+  "mw7tnlvky98p": {
+   "artist": "XG",
+   "title": "DEPENDS",
+   "year": "2026",
+   "tags": [
+    "Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/3a/c7/b43ac7b4-71f2-37ff-3587-db03d28a4541/4571694786298.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mw7tnlvky98p",
+   "no": 35,
+   "added": "2026-11-08",
+   "addedAt": "2026-11-08 21:41"
+  },
+  "mwaluzaknrah": {
+   "artist": "LNGSHOT",
+   "title": "S.W.I.S.H.",
+   "year": "2026",
+   "tags": [
+    "K-Pop",
+    "hip-hop",
+    "R&B"
+   ],
+   "rating": 2,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f4/db/96/f4db96a4-7283-d95b-18dd-56dccc927855/8804775413131.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 3,
+     "title": "Wanna Go",
+     "yt": "https://music.youtube.com/watch?v=ongNmY8Wsz8"
+    }
+   ],
+   "id": "mwaluzaknrah",
+   "no": 36,
+   "added": "2026-11-10",
+   "addedAt": "2026-11-10 20:27"
+  },
+  "mwamp6riyo9v": {
+   "artist": "양홍원",
+   "title": "오보",
+   "year": "2026",
+   "tags": [
+    "hip-hop"
+   ],
+   "rating": 1.5,
+   "comment": "애매-한 느낌. 발라드?도 아니고, 힙합도 아니고. 잔잔한 힙합 비트에 오토튠이 과한 양홍원의 보컬은 거북하다.",
+   "cover": "",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "나른"
+   ],
+   "id": "mwamp6riyo9v",
+   "no": 37,
+   "added": "2026-11-10",
+   "addedAt": "2026-11-10 20:50"
+  },
+  "mwamwi3uk7sq": {
+   "artist": "Donna Summer",
+   "title": "I Remember Yesterday",
+   "year": "1977",
+   "tags": [
+    "Disco",
+    "Pop"
+   ],
+   "rating": 2.5,
+   "comment": "하이엔드 깔 팝 음악. 믹싱이 상당히 깔끔하다. 전 트랙에 악기가 풍성하게 사용되었음. \n8번 트랙 I Feel Love는 초창기 전자음악의 형태를 띔. 반복적인 시퀀서 사운드에 보컬. 얘만 믹싱이 요상하다...",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/ea1606754d544698a6a711301e0c7082/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "선명",
+    "풍성",
+    "모던"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "I Remember Yesterday",
+     "yt": "https://music.youtube.com/watch?v=KNAYyUJ3tQA"
+    },
+    {
+     "n": 5,
+     "title": "Black Lady",
+     "yt": "https://music.youtube.com/watch?v=QQFZSN_mTJE"
+    },
+    {
+     "n": 8,
+     "title": "I Feel Love",
+     "yt": "https://music.youtube.com/watch?v=nTNcCKq6V2c"
+    }
+   ],
+   "id": "mwamwi3uk7sq",
+   "no": 38,
+   "added": "2026-11-10",
+   "addedAt": "2026-11-10 20:56",
+   "updated": "2026-11-10 20:56"
+  },
+  "mwao56xgma1i": {
+   "artist": "Serani Poji",
+   "title": "one-room survival",
+   "year": "2002",
+   "tags": [
+    "Asian Music",
+    "japan",
+    "시부야계"
+   ],
+   "rating": 4,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/52dad6aff6560fcee012bad208f1cf8f/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "청량",
+    "여름"
+   ],
+   "id": "mwao56xgma1i",
+   "no": 39,
+   "added": "2026-11-10",
+   "addedAt": "2026-11-10 21:30"
+  },
+  "mwao8bwjcl65": {
+   "artist": "PAON",
+   "title": "Philosophie du Soi",
+   "year": "2026",
+   "tags": [
+    "Jazz",
+    "electronic"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/b65b4e06700fa6e7b895f22f8b207f10/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "풍성",
+    "거친",
+    "모던"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Métamorphose",
+     "yt": "https://music.youtube.com/watch?v=FO8uIelNYQM"
+    }
+   ],
+   "id": "mwao8bwjcl65",
+   "no": 40,
+   "added": "2026-11-10",
+   "addedAt": "2026-11-10 21:33"
   }
  },
  "boards": [
   {
+   "id": "mwao3rj04wxh",
+   "albumIds": [
+    "mwao56xgma1i"
+   ],
+   "created": "2026-11-10",
+   "name": "하투하 레퍼런스",
+   "note": "레퍼런스 앨범 및 곡, 컨셉",
+   "cols": 0,
+   "captions": true,
+   "numbers": true
+  },
+  {
    "id": "mw3ij1k7qno8",
    "albumIds": [
-    "mw3in4rlimxb"
+    "mw3in4rlimxb",
+    "mwamwi3uk7sq"
    ],
    "created": "2026-11-05",
    "name": "전자음악 공부 1",
@@ -888,7 +1075,13 @@
     "mw3in4rlimxb",
     "mw6lgt1x0pmn",
     "mw6ln0xhi8ix",
-    "mw7gjnhwhsse"
+    "mw7gjnhwhsse",
+    "mw7t3zuiv9t8",
+    "mw7tnlvky98p",
+    "mwaluzaknrah",
+    "mwamp6riyo9v",
+    "mwamwi3uk7sq",
+    "mwao8bwjcl65"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
