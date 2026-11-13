@@ -1263,9 +1263,11 @@
    "title": "i love u",
    "year": "2026",
    "tags": [
-    "Rock"
+    "Rock",
+    "band",
+    "brit-pop"
    ],
-   "rating": 0,
+   "rating": 2.5,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/4a135e7338faa36c931805534f101223/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1273,7 +1275,18 @@
    "id": "mwevq28g97gf",
    "no": 50,
    "added": "2026-11-13",
-   "addedAt": "2026-11-13 20:14"
+   "addedAt": "2026-11-13 20:14",
+   "moods": [
+    "설렘"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "That's my girl",
+     "yt": "https://music.youtube.com/watch?v=OHXKK-18qRE"
+    }
+   ],
+   "updated": "2026-11-13 20:25"
   }
  },
  "boards": [
