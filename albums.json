@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 40,
+ "seq": 42,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1031,6 +1031,61 @@
    "no": 40,
    "added": "2026-11-10",
    "addedAt": "2026-11-10 21:33"
+  },
+  "mwe86p3dkgsr": {
+   "artist": "dress",
+   "title": "Story",
+   "year": "2026",
+   "tags": [
+    "ロック",
+    "rock",
+    "ballad"
+   ],
+   "rating": 2,
+   "comment": "1-3번 트랙은 의도한게 아니면 이해가 안 될 정도의 투박함. 투박함을 넘어서서 락발라드를 처음 해본 사람이 찍은듯한 느낌. 근데 헤이즈는 노래를 왤케 딱딲하게 부를까..",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/14/09/f8/1409f8ee-36ce-8ae4-5b80-69807178a2fd/8800370429294.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "몽환"
+   ],
+   "tracks": [
+    {
+     "n": 5,
+     "title": "Snowfall (Feat. Ahn Dayoung)",
+     "yt": ""
+    }
+   ],
+   "id": "mwe86p3dkgsr",
+   "no": 41,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 09:15"
+  },
+  "mwe9tg1pl4hk": {
+   "artist": "NCT DREAM",
+   "title": "DREAM AFTER DREAM",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "K-Pop",
+    "Dance-pop"
+   ],
+   "rating": 2,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/36d77a5027f0ae130096f29323e59f58/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 5,
+     "title": "Pressure",
+     "yt": ""
+    }
+   ],
+   "id": "mwe9tg1pl4hk",
+   "no": 42,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 10:01"
   }
  },
  "boards": [
@@ -1081,7 +1136,9 @@
     "mwaluzaknrah",
     "mwamp6riyo9v",
     "mwamwi3uk7sq",
-    "mwao8bwjcl65"
+    "mwao8bwjcl65",
+    "mwe86p3dkgsr",
+    "mwe9tg1pl4hk"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
