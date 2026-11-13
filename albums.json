@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 42,
+ "seq": 50,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1086,13 +1086,206 @@
    "no": 42,
    "added": "2026-11-13",
    "addedAt": "2026-11-13 10:01"
+  },
+  "mweo8hdsy31s": {
+   "artist": "Hearts2Hearts",
+   "title": "Moonride",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "2-step"
+   ],
+   "rating": 3,
+   "comment": "시크한 투스텝. 간지 좋은데? 미디엄 템포에 나근한 탑라인이 초반의 미스틱 느낌을 내준다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/fe47439ae8a87478841ff7fcf5038791/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "미니멀",
+    "모던",
+    "몽환"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Moonride",
+     "yt": "https://music.youtube.com/watch?v=gNUMxMuxH20"
+    }
+   ],
+   "id": "mweo8hdsy31s",
+   "no": 43,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 16:44",
+   "updated": "2026-11-13 16:51"
+  },
+  "mweo9rkshs2l": {
+   "artist": "Hearts2Hearts",
+   "title": "ICONIC HEART",
+   "year": "2026",
+   "tags": [
+    "K-Pop",
+    "저지클럽"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/47/1d/67/471d6742-0f54-b9c1-573d-0412254d52f1/26UMGIM90085.rgb.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "설렘"
+   ],
+   "id": "mweo9rkshs2l",
+   "no": 44,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 16:45"
+  },
+  "mweofqt1tkdd": {
+   "artist": "Charli xcx",
+   "title": "BRAT",
+   "year": "",
+   "tags": [
+    "Pop",
+    "electronic",
+    "digicore"
+   ],
+   "rating": 3,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/b00527c6ae0cd1d4c9bf3706b130ad56.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mweofqt1tkdd",
+   "no": 45,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 16:50"
+  },
+  "mweojk934c5w": {
+   "artist": "Ghost Town DJs",
+   "title": "My Boo (Hitman's Club Mix)",
+   "year": "1996",
+   "tags": [
+    "Pop",
+    "miami bass",
+    "Rap/Hip Hop",
+    "R&B"
+   ],
+   "rating": 4.5,
+   "comment": "마이애미 베이스의 정점인 곡. 이 리듬에 여보컬을 넣으면 끝난다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/76aed6e0b43fcef6f4e0792729e6195e/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "미니멀"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "My Boo (Hitman's Club Mix)",
+     "yt": "https://music.youtube.com/watch?v=cF-Ybcj1XqA"
+    }
+   ],
+   "id": "mweojk934c5w",
+   "no": 46,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 16:53"
+  },
+  "mwepkmdhhadq": {
+   "artist": "Hearts2Hearts",
+   "title": "STYLE",
+   "year": "2025",
+   "tags": [
+    "Asian Music"
+   ],
+   "rating": 1.5,
+   "comment": "화음없이 정직하게 들어오는 코러스는 중소의 싼맛을 낸다. 자고로 sm이라는 타이틀의 기대감을 충족시키기 위해선 무언가 하나씩 변태적인 디테일을 집어넣어야 한다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/a903e666dfaf6012d43e453330dd19b0/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "설렘",
+    "청량"
+   ],
+   "tracks": [
+    {
+     "n": 1,
+     "title": "STYLE",
+     "yt": "https://music.youtube.com/watch?v=n7kFRxFIPrI"
+    }
+   ],
+   "id": "mwepkmdhhadq",
+   "no": 47,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 17:22"
+  },
+  "mweule6v08a9": {
+   "artist": "A2O SOUL",
+   "title": "SUPERSTAR",
+   "year": "",
+   "tags": [
+    "K-Pop",
+    "Disco"
+   ],
+   "rating": 2,
+   "comment": "더위켄드가 떠오르는 올드한 디스코팝. 곡 전체적으로 리버브가 과하게 걸려있다.",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/205595af591aabc084061b79ce4429cc.png",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "풍성",
+    "빈티지"
+   ],
+   "id": "mweule6v08a9",
+   "no": 48,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 19:42",
+   "updated": "2026-11-13 19:46"
+  },
+  "mwevkz7lq219": {
+   "artist": "A2O",
+   "title": "Love Got Me Ooh",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "K-Pop"
+   ],
+   "rating": 1.5,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/5d9bc791d87ffedeeda36bf36c475770/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwevkz7lq219",
+   "no": 49,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 20:10",
+   "updated": "2026-11-13 20:10"
+  },
+  "mwevq28g97gf": {
+   "artist": "The Volunteers",
+   "title": "i love u",
+   "year": "2026",
+   "tags": [
+    "Rock"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/4a135e7338faa36c931805534f101223/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwevq28g97gf",
+   "no": 50,
+   "added": "2026-11-13",
+   "addedAt": "2026-11-13 20:14"
   }
  },
  "boards": [
   {
    "id": "mwao3rj04wxh",
    "albumIds": [
-    "mwao56xgma1i"
+    "mwao56xgma1i",
+    "mweo8hdsy31s",
+    "mweo9rkshs2l",
+    "mweofqt1tkdd",
+    "mweojk934c5w",
+    "mwepkmdhhadq"
    ],
    "created": "2026-11-10",
    "name": "하투하 레퍼런스",
@@ -1138,7 +1331,11 @@
     "mwamwi3uk7sq",
     "mwao8bwjcl65",
     "mwe86p3dkgsr",
-    "mwe9tg1pl4hk"
+    "mwe9tg1pl4hk",
+    "mweo8hdsy31s",
+    "mweule6v08a9",
+    "mwevkz7lq219",
+    "mwevq28g97gf"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
