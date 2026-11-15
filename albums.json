@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 50,
+ "seq": 51,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1287,6 +1287,32 @@
     }
    ],
    "updated": "2026-11-13 20:25"
+  },
+  "mwgjbuukgl6l": {
+   "artist": "KEYVITUP",
+   "title": "1ST EP ALBUM [KEYVITUP]",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "K-Pop",
+    "Rap/Hip Hop"
+   ],
+   "rating": 2.5,
+   "comment": "남돌중에 이런 그룹이 있었나... 트레저 이후로 정통 힙합을 하는 남돌이라니. 귀하다. 랩을 못하면 이렇게 다크한 붐뱁 비트에 간결하게만 뱉어주는게 베스트.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/afde21d96566da1da09c6ccb4ecea114/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 2,
+     "title": "KEYVITUP",
+     "yt": "https://music.youtube.com/watch?v=THjj-YSPWhQ"
+    }
+   ],
+   "id": "mwgjbuukgl6l",
+   "no": 51,
+   "added": "2026-11-15",
+   "addedAt": "2026-11-15 00:02"
   }
  },
  "boards": [
@@ -1348,7 +1374,8 @@
     "mweo8hdsy31s",
     "mweule6v08a9",
     "mwevkz7lq219",
-    "mwevq28g97gf"
+    "mwevq28g97gf",
+    "mwgjbuukgl6l"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
