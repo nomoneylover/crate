@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 51,
+ "seq": 53,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1313,6 +1313,66 @@
    "no": 51,
    "added": "2026-11-15",
    "addedAt": "2026-11-15 00:02"
+  },
+  "mwhuf4w92ris": {
+   "artist": "aiai",
+   "title": "QUIZ",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "house",
+    "R&B",
+    "Jazz"
+   ],
+   "rating": 3,
+   "comment": "주혜린이 영어를 쓰고 신비주의 컨셉을 잡는다면 이런 사운드가 나지 않을까. 상당히 매력적이다.\n근데 보컬은 얇은데 악기들이 단단해서 언밸런스한 느낌은 든다. 보컬도 조금 단단하게 잡는게 어땠을까. 뭔가 음원에서부터 라이브 공연을 듣는듯",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/9544a49cbe810f4200a25618453947af/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwhuf4w92ris",
+   "no": 52,
+   "added": "2026-11-15",
+   "addedAt": "2026-11-15 22:01",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "STOP",
+     "yt": "https://music.youtube.com/watch?v=k030vtZq2ok"
+    },
+    {
+     "n": 2,
+     "title": "MOVE",
+     "yt": "https://music.youtube.com/watch?v=xsohDC8Jfc8"
+    },
+    {
+     "n": 3,
+     "title": "TRUE",
+     "yt": "https://music.youtube.com/watch?v=Svdk4XcHvwc"
+    }
+   ],
+   "updated": "2026-11-15 22:23",
+   "moods": [
+    "모던",
+    "풍성",
+    "몽환"
+   ]
+  },
+  "mwkt3m91boaz": {
+   "artist": "TOMORROW X TOGETHER",
+   "title": "PERFECT STORM",
+   "year": "2026",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 1.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/8b/7c/a78b7c36-7152-5541-6f0f-5f3182eb7bc1/823375408819_Cover.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwkt3m91boaz",
+   "no": 53,
+   "added": "2026-11-17",
+   "addedAt": "2026-11-17 23:47"
   }
  },
  "boards": [
@@ -1375,7 +1435,9 @@
     "mweule6v08a9",
     "mwevkz7lq219",
     "mwevq28g97gf",
-    "mwgjbuukgl6l"
+    "mwgjbuukgl6l",
+    "mwhuf4w92ris",
+    "mwkt3m91boaz"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
