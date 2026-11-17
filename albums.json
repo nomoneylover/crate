@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 53,
+ "seq": 55,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1373,6 +1373,58 @@
    "no": 53,
    "added": "2026-11-17",
    "addedAt": "2026-11-17 23:47"
+  },
+  "mwku1jedyeww": {
+   "artist": "Sweet Trip",
+   "title": "Velocity: Design: Comfort.",
+   "year": "2003",
+   "tags": [
+    "electronic",
+    "idm",
+    "rock"
+   ],
+   "rating": 3.5,
+   "comment": "idm이 이렇게 선율이 있었다면 들을만했을듯.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/29ff4f8e9cc877e5243802e2fc9f4294/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "거친",
+    "풍성"
+   ],
+   "tracks": [
+    {
+     "n": 2,
+     "title": "Dsco",
+     "yt": "https://music.youtube.com/watch?v=CjAk_ut6nW0"
+    },
+    {
+     "n": 10,
+     "title": "Chocolate Matter",
+     "yt": "https://music.youtube.com/watch?v=o-liUFpa9ZQ"
+    }
+   ],
+   "id": "mwku1jedyeww",
+   "no": 54,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 00:13"
+  },
+  "mwkumw9edr02": {
+   "artist": "2hollis",
+   "title": "Pirouette",
+   "year": "2026",
+   "tags": [
+    "Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/1db231b0d24bcf4cc483dd4d0919eb37/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwkumw9edr02",
+   "no": 55,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 00:30"
   }
  },
  "boards": [
@@ -1437,7 +1489,8 @@
     "mwevq28g97gf",
     "mwgjbuukgl6l",
     "mwhuf4w92ris",
-    "mwkt3m91boaz"
+    "mwkt3m91boaz",
+    "mwkumw9edr02"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
