@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 55,
+ "seq": 58,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1434,6 +1434,63 @@
     "거친"
    ],
    "updated": "2026-11-18 00:37"
+  },
+  "mwlhgd0n5y4e": {
+   "artist": "이세계 아이돌",
+   "title": "Across Dimensions",
+   "year": "",
+   "tags": [
+    "K-Pop",
+    "rock",
+    "garage"
+   ],
+   "rating": 2.5,
+   "comment": "",
+   "cover": "",
+   "ytm": "",
+   "yt": "",
+   "id": "mwlhgd0n5y4e",
+   "no": 56,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 11:09",
+   "moods": [
+    "몽환",
+    "풍성",
+    "청량"
+   ],
+   "updated": "2026-11-18 11:23"
+  },
+  "mwli2t125u8m": {
+   "artist": "JISOO",
+   "title": "ADDICTED",
+   "year": "2026",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 1.5,
+   "comment": "지수 보컬 존나 딱딱하다 씹구리네 얘네 A&R은 도대체 뭐하는거임?",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/7d/c6/6e7dc611-3961-7a16-58d6-68c567745703/054391222435.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwli2t125u8m",
+   "no": 57,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 11:26"
+  },
+  "mwli5r8pn39y": {
+   "artist": "Adela",
+   "title": "prima",
+   "year": "",
+   "tags": [],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/ea3370de6604f2ded049ceb36c763083.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mwli5r8pn39y",
+   "no": 58,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 11:28"
   }
  },
  "boards": [
@@ -1499,7 +1556,10 @@
     "mwgjbuukgl6l",
     "mwhuf4w92ris",
     "mwkt3m91boaz",
-    "mwkumw9edr02"
+    "mwkumw9edr02",
+    "mwlhgd0n5y4e",
+    "mwli2t125u8m",
+    "mwli5r8pn39y"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
