@@ -1481,8 +1481,12 @@
    "artist": "Adela",
    "title": "prima",
    "year": "",
-   "tags": [],
-   "rating": 0,
+   "tags": [
+    "Pop",
+    "electronic",
+    "hyper-pop"
+   ],
+   "rating": 3,
    "comment": "",
    "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/ea3370de6604f2ded049ceb36c763083.png",
    "ytm": "",
@@ -1490,7 +1494,20 @@
    "id": "mwli5r8pn39y",
    "no": 58,
    "added": "2026-11-18",
-   "addedAt": "2026-11-18 11:28"
+   "addedAt": "2026-11-18 11:28",
+   "updated": "2026-11-18 11:52",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "KGB",
+     "yt": ""
+    },
+    {
+     "n": 3,
+     "title": "I'm The Man",
+     "yt": ""
+    }
+   ]
   }
  },
  "boards": [
