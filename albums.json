@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 58,
+ "seq": 59,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1508,6 +1508,24 @@
      "yt": ""
     }
    ]
+  },
+  "mwn7nnqd549f": {
+   "artist": "Massive Attack",
+   "title": "Mezzanine",
+   "year": "1998",
+   "tags": [
+    "Electro",
+    "trip-hop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/85abbdc3ed4a7b94ace97f868fe70f63/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwn7nnqd549f",
+   "no": 59,
+   "added": "2026-11-19",
+   "addedAt": "2026-11-19 16:10"
   }
  },
  "boards": [
@@ -1576,7 +1594,8 @@
     "mwkumw9edr02",
     "mwlhgd0n5y4e",
     "mwli2t125u8m",
-    "mwli5r8pn39y"
+    "mwli5r8pn39y",
+    "mwn7nnqd549f"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
