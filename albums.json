@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 60,
+ "seq": 57,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1195,7 +1195,7 @@
    "tags": [
     "Asian Music"
    ],
-   "rating": 1.5,
+   "rating": 2,
    "comment": "화음없이 정직하게 들어오는 코러스는 중소의 싼맛을 낸다. 자고로 sm이라는 타이틀의 기대감을 충족시키기 위해선 무언가 하나씩 변태적인 디테일을 집어넣어야 한다.",
    "cover": "https://cdn-images.dzcdn.net/images/cover/a903e666dfaf6012d43e453330dd19b0/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1214,7 +1214,8 @@
    "id": "mwepkmdhhadq",
    "no": 47,
    "added": "2026-11-13",
-   "addedAt": "2026-11-13 17:22"
+   "addedAt": "2026-11-13 17:22",
+   "updated": "2026-11-18 00:49"
   },
   "mweule6v08a9": {
    "artist": "A2O SOUL",
@@ -1420,7 +1421,7 @@
     "hip-hop",
     "digicore"
    ],
-   "rating": 0,
+   "rating": 1.5,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/1db231b0d24bcf4cc483dd4d0919eb37/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1433,88 +1434,13 @@
     "공격적",
     "거친"
    ],
-   "updated": "2026-11-18 00:37"
+   "updated": "2026-11-18 00:47"
   },
-  "mwlhgd0n5y4e": {
-   "artist": "이세계 아이돌",
-   "title": "Across Dimensions",
-   "year": "",
-   "tags": [
-    "K-Pop",
-    "rock",
-    "garage"
-   ],
-   "rating": 2.5,
-   "comment": "",
-   "cover": "",
-   "ytm": "",
-   "yt": "",
-   "id": "mwlhgd0n5y4e",
-   "no": 56,
-   "added": "2026-11-18",
-   "addedAt": "2026-11-18 11:09",
-   "moods": [
-    "몽환",
-    "풍성",
-    "청량"
-   ],
-   "updated": "2026-11-18 11:23"
-  },
-  "mwli2t125u8m": {
-   "artist": "JISOO",
-   "title": "ADDICTED",
-   "year": "2026",
-   "tags": [
-    "K-Pop"
-   ],
-   "rating": 1.5,
-   "comment": "지수 보컬 존나 딱딱하다 씹구리네 얘네 A&R은 도대체 뭐하는거임?",
-   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/6e/7d/c6/6e7dc611-3961-7a16-58d6-68c567745703/054391222435.jpg/600x600bb.jpg",
-   "ytm": "",
-   "yt": "",
-   "id": "mwli2t125u8m",
-   "no": 57,
-   "added": "2026-11-18",
-   "addedAt": "2026-11-18 11:26"
-  },
-  "mwli5r8pn39y": {
-   "artist": "Adela",
-   "title": "prima",
-   "year": "",
-   "tags": [
-    "Pop",
-    "electronic",
-    "hyper-pop"
-   ],
-   "rating": 3,
-   "comment": "",
-   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/ea3370de6604f2ded049ceb36c763083.png",
-   "ytm": "",
-   "yt": "",
-   "id": "mwli5r8pn39y",
-   "no": 58,
-   "added": "2026-11-18",
-   "addedAt": "2026-11-18 11:28",
-   "updated": "2026-11-18 11:52",
-   "tracks": [
-    {
-     "n": 1,
-     "title": "KGB",
-     "yt": ""
-    },
-    {
-     "n": 3,
-     "title": "I'm The Man",
-     "yt": ""
-    }
-   ]
-  },
-  "mwn7nnqd549f": {
+  "mwm6i1qsev8n": {
    "artist": "Massive Attack",
    "title": "Mezzanine",
    "year": "1998",
    "tags": [
-    "Electro",
     "trip-hop"
    ],
    "rating": 2,
@@ -1522,26 +1448,28 @@
    "cover": "https://cdn-images.dzcdn.net/images/cover/85abbdc3ed4a7b94ace97f868fe70f63/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
    "yt": "",
-   "id": "mwn7nnqd549f",
-   "no": 59,
-   "added": "2026-11-19",
-   "addedAt": "2026-11-19 16:10",
-   "updated": "2026-11-19 16:23"
+   "id": "mwm6i1qsev8n",
+   "no": 56,
+   "added": "2026-11-18",
+   "addedAt": "2026-11-18 22:50",
+   "updated": "2026-11-19 19:41"
   },
-  "mwn8k88r11ky": {
-   "artist": "aiai",
-   "title": "Summertime Report",
-   "year": "2025",
-   "tags": [],
+  "mwnf69vtg33n": {
+   "artist": "POiSON GiRL FRiEND",
+   "title": "MELTING MOMENT",
+   "year": "1992",
+   "tags": [
+    "Asian Music"
+   ],
    "rating": 0,
    "comment": "",
-   "cover": "https://cdn-images.dzcdn.net/images/cover/2b46a21764676a9f48edee7ec2e5b316/1000x1000-000000-80-0-0.jpg",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/3b5f363ac1d9824783bbb1f60cab9042/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
    "yt": "",
-   "id": "mwn8k88r11ky",
-   "no": 60,
+   "id": "mwnf69vtg33n",
+   "no": 57,
    "added": "2026-11-19",
-   "addedAt": "2026-11-19 16:35"
+   "addedAt": "2026-11-19 19:40"
   }
  },
  "boards": [
@@ -1608,11 +1536,8 @@
     "mwhuf4w92ris",
     "mwkt3m91boaz",
     "mwkumw9edr02",
-    "mwlhgd0n5y4e",
-    "mwli2t125u8m",
-    "mwli5r8pn39y",
-    "mwn7nnqd549f",
-    "mwn8k88r11ky"
+    "mwm6i1qsev8n",
+    "mwnf69vtg33n"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
