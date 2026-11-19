@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 59,
+ "seq": 60,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1517,7 +1517,7 @@
     "Electro",
     "trip-hop"
    ],
-   "rating": 0,
+   "rating": 2,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/85abbdc3ed4a7b94ace97f868fe70f63/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1525,7 +1525,23 @@
    "id": "mwn7nnqd549f",
    "no": 59,
    "added": "2026-11-19",
-   "addedAt": "2026-11-19 16:10"
+   "addedAt": "2026-11-19 16:10",
+   "updated": "2026-11-19 16:23"
+  },
+  "mwn8k88r11ky": {
+   "artist": "aiai",
+   "title": "Summertime Report",
+   "year": "2025",
+   "tags": [],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/2b46a21764676a9f48edee7ec2e5b316/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwn8k88r11ky",
+   "no": 60,
+   "added": "2026-11-19",
+   "addedAt": "2026-11-19 16:35"
   }
  },
  "boards": [
@@ -1595,7 +1611,8 @@
     "mwlhgd0n5y4e",
     "mwli2t125u8m",
     "mwli5r8pn39y",
-    "mwn7nnqd549f"
+    "mwn7nnqd549f",
+    "mwn8k88r11ky"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
