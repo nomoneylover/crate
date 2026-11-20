@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 57,
+ "seq": 58,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1459,17 +1459,51 @@
    "title": "MELTING MOMENT",
    "year": "1992",
    "tags": [
-    "Asian Music"
+    "japan",
+    "indie",
+    "dream-pop",
+    "bedroom-pop"
    ],
-   "rating": 0,
-   "comment": "",
+   "rating": 1.5,
+   "comment": "플랫 넣는거는 자주하지 말고 벌스나 브릿지에서 딱 한번만! 여러번 하면 지겹다",
    "cover": "https://cdn-images.dzcdn.net/images/cover/3b5f363ac1d9824783bbb1f60cab9042/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
    "yt": "",
    "id": "mwnf69vtg33n",
    "no": 57,
    "added": "2026-11-19",
-   "addedAt": "2026-11-19 19:40"
+   "addedAt": "2026-11-19 19:40",
+   "moods": [
+    "몽환",
+    "나른"
+   ],
+   "updated": "2026-11-20 13:34"
+  },
+  "mwohsf61ukzf": {
+   "artist": "aespa",
+   "title": "SYNK : COMPLaeXITY - 2026 Special Digital Single",
+   "year": "2026",
+   "tags": [
+    "K-Pop",
+    "ballad"
+   ],
+   "rating": 1.5,
+   "comment": "힘을 왜이렇게 빼셨는지. 아이돌 앨범 마지막 수록곡일법한 서정적인 발라드 곡들이 너무 많다. 지젤 트랙은 좋다.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/89c7b3859738acc81759a6f24e067095/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwohsf61ukzf",
+   "no": 58,
+   "added": "2026-11-20",
+   "addedAt": "2026-11-20 13:41",
+   "tracks": [
+    {
+     "n": 3,
+     "title": "BYEB4HELLO (GISELLE Solo)",
+     "yt": ""
+    }
+   ],
+   "updated": "2026-11-20 13:54"
   }
  },
  "boards": [
@@ -1537,7 +1571,8 @@
     "mwkt3m91boaz",
     "mwkumw9edr02",
     "mwm6i1qsev8n",
-    "mwnf69vtg33n"
+    "mwnf69vtg33n",
+    "mwohsf61ukzf"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
