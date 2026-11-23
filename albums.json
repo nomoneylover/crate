@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 60,
+ "seq": 61,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1565,6 +1565,23 @@
      "yt": ""
     }
    ]
+  },
+  "mwt6zo2mwl2n": {
+   "artist": "hyeminsong",
+   "title": "The Ship Of Theseus",
+   "year": "",
+   "tags": [
+    "hip-hop"
+   ],
+   "rating": 1.5,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/3d75b736d4a863b82e6455ca2ca88d5f.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mwt6zo2mwl2n",
+   "no": 61,
+   "added": "2026-11-23",
+   "addedAt": "2026-11-23 20:38"
   }
  },
  "boards": [
@@ -1635,7 +1652,8 @@
     "mwnf69vtg33n",
     "mwohsf61ukzf",
     "mwstid17wtc1",
-    "mwstjd7x7hui"
+    "mwstjd7x7hui",
+    "mwt6zo2mwl2n"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
@@ -1667,6 +1685,23 @@
    "captions": true,
    "numbers": true,
    "created": "2026-10-28"
+  }
+ ],
+ "genres": [
+  {
+   "id": "mwt6tlusnm1m",
+   "albumIds": [],
+   "tracks": [],
+   "created": "2026-11-23",
+   "name": "disco",
+   "aliases": [],
+   "oneLine": "",
+   "era": "",
+   "origin": "",
+   "bpm": "",
+   "axes": {},
+   "artists": [],
+   "notes": ""
   }
  ]
 }
