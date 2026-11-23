@@ -1534,7 +1534,9 @@
    "title": "KISS IN THE SKY",
    "year": "2002",
    "tags": [
-    "Pop"
+    "japan",
+    "ballad",
+    "R&B"
    ],
    "rating": 0,
    "comment": "",
@@ -1544,7 +1546,8 @@
    "id": "mwstjd7x7hui",
    "no": 60,
    "added": "2026-11-23",
-   "addedAt": "2026-11-23 14:21"
+   "addedAt": "2026-11-23 14:21",
+   "updated": "2026-11-23 14:30"
   }
  },
  "boards": [
