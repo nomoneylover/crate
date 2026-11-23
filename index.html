@@ -278,6 +278,40 @@ details.more[open] summary{margin-bottom:12px}
 .banner span{margin-right:auto}
 .toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:13px;max-width:calc(100vw - 32px);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
 
+/* genre notes */
+.nav{overflow-x:auto;scrollbar-width:none;max-width:100%}
+.nav::-webkit-scrollbar{display:none}
+.g-no{font-family:var(--f-mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.g-fill{display:flex;gap:3px}
+.g-fill i{width:14px;height:4px;border-radius:2px;background:var(--line)}
+.g-fill i.on{background:var(--accent)}
+.g-alias{font-size:13px;color:var(--muted)}
+.g-meta{display:flex;gap:8px 18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.g-meta b{color:var(--ink);font-weight:600;margin-left:5px}
+.gsec{margin-top:40px;display:flex;flex-direction:column;gap:14px}
+.gsec>h2{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-family:var(--f-display);font-size:21px;font-weight:700;letter-spacing:-.01em;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.gsec>h2 small{font-family:var(--f-mono);font-size:11.5px;font-weight:400;color:var(--muted);letter-spacing:.03em}
+.gsec>h2 .btn{margin-left:auto}
+.gsec .hint{margin:0;font-size:12.5px;color:var(--muted)}
+.axes{display:grid;grid-template-columns:150px minmax(0,1fr);margin:0}
+.axes dt,.axes dd{margin:0;padding:11px 0;border-bottom:1px dashed var(--line)}
+.axes dt{font-weight:600;font-size:13.5px}
+.axes dd{white-space:pre-wrap;font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.axes dd.blank{color:var(--muted);font-style:italic}
+@media (max-width:560px){.axes{grid-template-columns:1fr}.axes dt{border-bottom:none;padding-bottom:2px}.axes dd{padding-top:0}}
+.g-notes{margin:0;white-space:pre-wrap;font-size:14.5px;line-height:1.75;max-width:72ch;overflow-wrap:anywhere}
+.gtracks{display:flex;flex-direction:column}
+.gtr{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}
+.gtr .mono{color:var(--muted);font-size:12px;padding-top:3px;text-align:right}
+.gtr-m{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gtr-m a{font-weight:600;font-size:14.5px;text-decoration:none;overflow-wrap:anywhere}
+.gtr-m a:hover{text-decoration:underline;text-underline-offset:3px}
+.gtr-m span{color:var(--muted);font-size:12.5px;overflow-wrap:anywhere}
+.gtr-m p{margin:3px 0 0;font-size:13.5px;overflow-wrap:anywhere}
+.gtr-r{display:flex;gap:4px;align-items:center}
+.gtr-r .tk-go{width:32px;height:32px;border:1px solid var(--line)}
+.axis-f textarea{min-height:64px}
+
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -476,6 +510,7 @@ details.more[open] summary{margin-bottom:12px}
     s.albums = s.albums || {}; s.boards = s.boards || [];
     for (const a of Object.values(s.albums)) { a.tags = a.tags || []; a.rating = +a.rating || 0; a.cover = a.cover || ''; }
     for (const b of s.boards) { b.albumIds = (b.albumIds || []).filter(id => s.albums[id]); if (b.captions === undefined) b.captions = true; if (b.numbers === undefined) b.numbers = true; }
+    if (s.genres) for (const g of s.genres) { g.aliases = g.aliases || []; g.artists = g.artists || []; g.tracks = g.tracks || []; g.axes = g.axes || {}; g.albumIds = (g.albumIds || []).filter(id => s.albums[id]); }
     return s;
   }
   let saved = normalize(null), S = clone(saved), sha = null, dirty = 0;
@@ -534,6 +569,22 @@ details.more[open] summary{margin-bottom:12px}
   // mood vocabulary: opposing axes (pick a side) + standalone words; your own words are offered first
   const MOOD_AXES = [['설렘','쓸쓸'], ['따뜻','차가운'], ['빈티지','모던'], ['거친','깔끔'], ['미니멀','풍성'], ['몽환','선명'], ['청량','끈적']];
   const MOOD_EXTRA = ['나른','공격적','여름','새벽','비','드라이브','도시'];
+  // genre notes: the 5 axes from the track-dissection framework. Nouns, numbers, comparisons — no adjectives.
+  const AXES = [
+    ['rhythm', '리듬·그루브', '킥 패턴, 하이햇, 스윙, 베이스가 박 앞/뒤 — 예: 4-on-the-floor 킥, 오프비트 오픈 하이햇, 스윙 없음'],
+    ['palette', '사운드 팔레트', '악기·신스, 아날로그/디지털, 공간감 — 예: TR-909 드럼, 아날로그 스트링 패드, 리버브 적은 드라이한 믹스'],
+    ['harmony', '하모니·멜로디', '코드가 움직이나 버티나, 반복 단위 — 예: 마이너 코드 1~2개로 6분 유지, 4마디 신스 리프 반복'],
+    ['vocal', '보컬', '유무, 창법, 처리 — 예: 보컬 거의 없음, 있으면 짧은 보이스 샘플 반복'],
+    ['structure', '구조', '인트로 길이, 빌드업·브레이크, 총 길이 — 예: 6~8분, DJ 믹스용 32마디 인트로, 중반 브레이크 1회']
+  ];
+  const genres = () => S.genres || [];
+  const gKeys = g => [g.name, ...g.aliases].map(x => norm(x)).filter(Boolean);
+  const gFilled = g => AXES.filter(([k]) => (g.axes[k] || '').trim()).length;
+  const gTrackUrl = t => t.yt || 'https://music.youtube.com/search?q=' + encodeURIComponent((t.artist + ' ' + t.title).trim());
+  const artistUrl = n => 'https://music.youtube.com/search?q=' + encodeURIComponent(n);
+  // crate albums tagged with this genre (name or alias) that aren't already listed as 대표 앨범
+  const gTagged = g => { const k = gKeys(g); return Object.values(S.albums).filter(a => !g.albumIds.includes(a.id) && a.tags.some(t => k.includes(norm(t)))).sort((x, y) => y.rating - x.rating || (y.no || 0) - (x.no || 0)); };
+  const genresOf = a => genres().filter(g => g.albumIds.includes(a.id) || a.tags.some(t => gKeys(g).includes(norm(t))));
   const boardsOf = id => S.boards.filter(b => b.albumIds.includes(id));
   const editing = () => ui.owner && ui.edit;
 
@@ -549,6 +600,8 @@ details.more[open] summary{margin-bottom:12px}
   function route(){
     const h = decodeURIComponent(location.hash.slice(1));
     if (h === 'all') return { v:'all' };
+    if (h === 'genres') return { v:'genres' };
+    if (h.startsWith('g-')) { const g = genres().find(x => x.id === h.slice(2)); if (g) return { v:'genre', g }; }
     if (h.startsWith('b-')) { const b = S.boards.find(x => x.id === h.slice(2)); if (b) return { v:'board', b }; }
     return { v:'home' };
   }
@@ -557,7 +610,7 @@ details.more[open] summary{margin-bottom:12px}
     const n = Object.keys(S.albums).length;
     return `<header class="top"><div class="wrap top-in">
       <a class="brand" href="#">${IC.crate}<span>${esc(S.site.title)}</span></a>
-      <nav class="nav"><a href="#" class="${r.v!=='all'?'on':''}">보드</a><a href="#all" class="${r.v==='all'?'on':''}">전체 앨범<small>${n}</small></a></nav>
+      <nav class="nav"><a href="#" class="${r.v==='home'||r.v==='board'?'on':''}">보드</a><a href="#genres" class="${r.v==='genres'||r.v==='genre'?'on':''}">장르<small>${genres().length}</small></a><a href="#all" class="${r.v==='all'?'on':''}">전체 앨범<small>${n}</small></a></nav>
       ${ui.owner ? `<button class="edit-toggle" data-act="toggle-edit" aria-pressed="${ui.edit}">${ui.edit ? '편집 중' : '편집'}</button>` : ''}
     </div></header>`;
   }
@@ -645,6 +698,59 @@ details.more[open] summary{margin-bottom:12px}
       ${list.length ? `<div class="grid">${list.map(a => card(a, {})).join('')}</div>` : `<div class="empty"><b>${total ? '조건에 맞는 앨범이 없어요' : '아직 넣은 앨범이 없어요'}</b></div>`}`;
   }
 
+  // ---------- genre notes ----------
+  function genreIndex(){
+    const list = genres(), ed = editing();
+    const cards = list.map((g, i) => {
+      const ids = g.albumIds.concat(gTagged(g).map(a => a.id)).slice(0, 6);
+      const slots = Array.from({ length: 6 }, (_, k) => { const a = S.albums[ids[k]]; return `<span>${a ? coverInner(a) : ''}</span>`; }).join('');
+      const f = gFilled(g);
+      return `<a class="crate" href="#g-${esc(g.id)}"><span class="crate-tab">${String(i + 1).padStart(2, '0')}</span>
+        <span class="mosaic">${slots}</span><h3>${esc(g.name)}</h3>${g.oneLine ? `<p>${esc(g.oneLine)}</p>` : ''}
+        <span class="mono">${[g.era, g.origin].filter(Boolean).map(esc).join(' · ') || '&nbsp;'}</span>
+        <span style="display:flex;align-items:center;gap:8px;justify-content:space-between"><span class="mono">앨범 ${g.albumIds.length} · 곡 ${g.tracks.length} · 아티스트 ${g.artists.length}</span>
+        <span class="g-fill" title="특징 5축 중 ${f}칸 채움">${AXES.map((_, k) => `<i class="${k < f ? 'on' : ''}"></i>`).join('')}</span></span></a>`;
+    }).join('');
+    const add = ed ? `<button class="crate new" data-act="new-genre">+ 장르 추가</button>` : '';
+    let body;
+    if (ui.loading) body = `<div class="empty"><b>불러오는 중이에요</b></div>`;
+    else if (!list.length && !ed) body = `<div class="empty"><b>아직 정리한 장르가 없어요</b><span>${ui.owner ? '오른쪽 위 ‘편집’을 누르고 첫 장르를 추가해보세요.' : '곧 채워질 예정이에요.'}</span></div>`;
+    else body = `<div class="crates">${cards}${add}</div>`;
+    return `<section class="board-head"><h1>장르 노트</h1>
+        <p>장르마다 대표 앨범·곡·아티스트와 소리의 특징을 정리하는 곳이에요. 번호는 공부한 순서예요.</p>
+        <span class="board-meta mono">장르 ${list.length}개</span></section>${body}`;
+  }
+
+  function genreView(g){
+    const ed = editing(), idx = genres().indexOf(g) + 1;
+    const albums = g.albumIds.map(id => S.albums[id]).filter(Boolean), tagged = gTagged(g);
+    const meta = [['시기', g.era], ['지역', g.origin], ['BPM', g.bpm]].filter(([, v]) => v).map(([k, v]) => `<span>${k}<b>${esc(v)}</b></span>`).join('');
+    const axesShown = AXES.filter(([k]) => ed || (g.axes[k] || '').trim());
+    const sec = (title, sub, btn, inner) => `<section class="gsec"><h2>${title}${sub ? `<small>${sub}</small>` : ''}${btn || ''}</h2>${inner}</section>`;
+    const parts = [];
+    if (axesShown.length) parts.push(sec('특징', `5축 중 ${gFilled(g)}칸`, ed ? `<button class="btn sm" data-act="genre-settings" data-genre="${esc(g.id)}">고치기</button>` : '',
+      `<dl class="axes">${axesShown.map(([k, l]) => `<dt>${l}</dt><dd class="${(g.axes[k] || '').trim() ? '' : 'blank'}">${(g.axes[k] || '').trim() ? esc(g.axes[k].trim()) : '비어 있어요. 아직 말로 못 하는 부분이에요.'}</dd>`).join('')}</dl>`));
+    if (g.artists.length || ed) parts.push(sec('대표 아티스트', g.artists.length ? `${g.artists.length}명` : '', '',
+      g.artists.length ? `<div class="chips">${g.artists.map(n => { const c = Object.values(S.albums).filter(a => norm(a.artist) === norm(n)).length; return `<a class="chip" href="${esc(artistUrl(n))}" target="_blank" rel="noopener" title="유튜브 뮤직에서 보기">${esc(n)}${c ? `<small>내 크레이트 ${c}</small>` : ''}</a>`; }).join('')}</div>` : `<p class="hint">‘장르 정보 수정’에서 쉼표로 구분해 넣어요.</p>`));
+    if (albums.length || ed) parts.push(sec('대표 앨범', albums.length ? `${albums.length}장` : '', ed ? `<span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm primary" data-act="genre-add-album">+ 검색해서 추가</button><button class="btn sm" data-act="genre-pick">크레이트에서 고르기</button></span>` : '',
+      albums.length ? `<div class="grid">${albums.map((a, i) => card(a, { num: i + 1, board: g })).join('')}</div>` : `<p class="hint">이 장르를 이해하려면 꼭 들어야 하는 앨범이에요. 추가하면 크레이트에도 같이 들어가고, 장르 태그가 붙어요.</p>`));
+    if (g.tracks.length || ed) parts.push(sec('대표 곡', g.tracks.length ? `${g.tracks.length}곡` : '', ed ? `<button class="btn sm primary" data-act="gtrack-add">+ 곡 추가</button>` : '',
+      g.tracks.length ? `<div class="gtracks">${g.tracks.map((t, i) => `<div class="gtr"><span class="mono">${i + 1}</span>
+          <div class="gtr-m"><a href="${esc(gTrackUrl(t))}" target="_blank" rel="noopener">${esc(t.title)}</a><span>${esc(t.artist)}${t.year ? ' · ' + esc(t.year) : ''}</span>${t.note ? `<p>${esc(t.note)}</p>` : ''}</div>
+          <span class="gtr-r">${ed ? `<button class="btn sm" data-act="gtrack-move" data-i="${i}" data-dir="-1" aria-label="위로">↑</button><button class="btn sm" data-act="gtrack-edit" data-i="${i}">수정</button>` : ''}<a class="tk-go" href="${esc(gTrackUrl(t))}" target="_blank" rel="noopener" title="${t.yt ? '유튜브 뮤직에서 바로 듣기' : '유튜브 뮤직에서 검색'}" aria-label="${esc(t.title)} 듣기">${IC.play}</a></span></div>`).join('')}</div>`
+        : `<p class="hint">장르의 특징이 가장 잘 들리는 곡이에요. 어디서 그 특징이 들리는지 한 줄 같이 적어두세요.</p>`));
+    if (tagged.length) parts.push(sec('내 크레이트에서', `‘${esc(g.name)}’ 태그 ${tagged.length}장`, '', `<div class="grid">${tagged.map(a => card(a, {})).join('')}</div>`));
+    if (g.notes || ed) parts.push(sec('내 말로 정리', '', ed ? `<button class="btn sm" data-act="genre-settings" data-genre="${esc(g.id)}">고치기</button>` : '',
+      g.notes ? `<p class="g-notes">${esc(g.notes)}</p>` : `<p class="hint">남한테 이 장르를 3문장으로 설명한다면? 비슷한 장르와 뭐가 다른지까지.</p>`));
+    return `<section class="board-head"><a class="back" href="#genres">← 모든 장르</a>
+        <span class="g-no">GENRE ${String(idx).padStart(2, '0')}</span>
+        <h1>${esc(g.name)}</h1>${g.aliases.length ? `<span class="g-alias">다른 이름 · ${g.aliases.map(esc).join(', ')}</span>` : ''}
+        ${g.oneLine ? `<p>${esc(g.oneLine)}</p>` : ''}
+        ${meta ? `<div class="g-meta">${meta}</div>` : ''}
+        ${ed ? `<div class="toolbar"><button class="btn" data-act="genre-settings" data-genre="${esc(g.id)}">장르 정보 수정</button></div>` : ''}
+      </section>${parts.join('')}`;
+  }
+
   function saveBar(){
     if (!ui.owner || !dirty) return '';
     return `<div class="savebar"><div class="wrap"><span>저장 안 된 변경 ${dirty}개 · 저장해야 방문자에게도 보여요</span>
@@ -654,7 +760,7 @@ details.more[open] summary{margin-bottom:12px}
 
   function render(){
     const r = route(), y = window.scrollY;
-    const main = r.v === 'board' ? boardView(r.b) : r.v === 'all' ? libView() : home();
+    const main = r.v === 'board' ? boardView(r.b) : r.v === 'all' ? libView() : r.v === 'genres' ? genreIndex() : r.v === 'genre' ? genreView(r.g) : home();
     const qFocused = document.activeElement && document.activeElement.id === 'lib-q';
     const sel = qFocused ? document.activeElement.selectionStart : 0;
     app.innerHTML = header(r) + `<main class="wrap">${draftBanner()}${main}</main>` + footer() + saveBar();
@@ -709,7 +815,7 @@ details.more[open] summary{margin-bottom:12px}
 
   function showInfo(id){
     const a = S.albums[id]; if (!a) return;
-    const bs = boardsOf(id);
+    const bs = boardsOf(id), gs = genresOf(a);
     const d = modal(dlgHead('앨범 정보') + `<div class="dlg-body"><div class="detail">
         <a class="cover" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener" aria-label="유튜브 뮤직에서 듣기">${coverInner(a)}<span class="go">${IC.play}YT Music</span></a>
         <div class="info">
@@ -720,6 +826,7 @@ details.more[open] summary{margin-bottom:12px}
           ${a.tracks && a.tracks.length ? `<div class="picks"><div class="cat mono">꽂힌 곡</div>${a.tracks.map(t => `<a class="pick-t" href="${esc(trackUrl(a, t))}" target="_blank" rel="noopener" title="${t.yt ? '유튜브 뮤직에서 바로 듣기' : '유튜브 뮤직에서 검색'}"><span class="mono">${t.n || '·'}</span><span class="nm">${esc(t.title)}</span><span class="go-i">${IC.play}</span></a>`).join('')}</div>` : ''}
           <div class="listen"><a class="btn primary" href="${esc(ytmUrl(a))}" target="_blank" rel="noopener">${IC.play} 유튜브 뮤직</a><a class="btn" href="${esc(ytUrl(a))}" target="_blank" rel="noopener">유튜브</a></div>
           ${bs.length ? `<div class="chips">${bs.map(b => `<a class="chip" href="#b-${esc(b.id)}" data-close>${esc(b.name)}</a>`).join('')}</div>` : ''}
+          ${gs.length ? `<div class="chips" style="align-items:center"><span class="cat mono">장르 노트</span>${gs.map(g => `<a class="chip" href="#g-${esc(g.id)}" data-close>${esc(g.name)} →</a>`).join('')}</div>` : ''}
         </div></div></div>` + (editing() ? `<div class="dlg-foot"><button class="btn" data-edit>수정</button></div>` : ''), { wide:true });
     d.addEventListener('click', e => {
       const t = e.target.closest('[data-tagjump]');
@@ -732,13 +839,14 @@ details.more[open] summary{margin-bottom:12px}
     });
   }
 
-  function albumForm(id, boardId){
+  function albumForm(id, boardId, opts = {}){
     const isNew = !id;
-    const a = isNew ? { artist:'', title:'', year:'', tags:[], rating:0, comment:'', cover:'', ytm:'', yt:'' } : clone(S.albums[id]);
+    const gTarget = opts.genreId ? genres().find(x => x.id === opts.genreId) : null;
+    const a = isNew ? { artist:'', title:'', year:'', tags: gTarget ? [gTarget.name] : [], rating:0, comment:'', cover:'', ytm:'', yt:'' } : clone(S.albums[id]);
     const before = isNew ? '' : JSON.stringify(Object.assign({}, a, { updated: undefined }));
     const inBoards = new Set(isNew ? (boardId ? [boardId] : []) : boardsOf(id).map(b => b.id));
     const known = allTags().map(([t]) => t);
-    const d = modal(dlgHead(isNew ? '앨범 추가' : '앨범 수정') + `<form class="dlg" id="af" style="min-height:0">
+    const d = modal(dlgHead(gTarget ? `‘${gTarget.name}’ 대표 앨범 추가` : isNew ? '앨범 추가' : '앨범 수정') + `<form class="dlg" id="af" style="min-height:0">
       <div class="dlg-body">
         <div class="field"><span>${isNew ? '앨범 검색' : '커버·정보 다시 검색'}</span>
           <div class="srch"><input type="search" id="af-q" placeholder="아티스트, 앨범, 곡 이름" autocomplete="off" enterkeyhint="search">            <button type="button" class="btn" id="af-go">검색</button></div>
@@ -1006,6 +1114,13 @@ details.more[open] summary{margin-bottom:12px}
       if (moods.length || a.moods) a.moods = moods.slice();
       const artist = $('#af-artist').value.trim(), title = $('#af-title').value.trim();
       if (!artist || !title) { st.textContent = '아티스트와 앨범명을 채워주세요. 위에서 검색해서 고르면 자동으로 들어가요.'; return; }
+      // adding a 대표 앨범 that's already in the crate: link the existing one instead of making a duplicate
+      const dup = isNew && gTarget && Object.values(S.albums).find(x => norm(x.artist) === norm(artist) && norm(x.title) === norm(title));
+      if (dup) {
+        if (!gTarget.albumIds.includes(dup.id)) gTarget.albumIds.push(dup.id);
+        if (!dup.tags.some(t => norm(t) === norm(gTarget.name))) dup.tags.push(gTarget.name);
+        d.close(); mark(); toast(`‘${dup.title}’은 이미 크레이트에 있어서 그 앨범을 대표 앨범으로 연결했어요.`); return;
+      }
       if (picks.some(p => p.finding)) { tlst.textContent = '곡 링크를 찾는 중이에요. 잠깐 뒤에 다시 눌러주세요.'; return; }
       if (picks.length || a.tracks) a.tracks = picks.map(p => ({ n: p.n || null, title: p.title, yt: p.yt || '' })).sort((x, y) => (x.n || 999) - (y.n || 999));
       const okUrl = v => { v = v.trim(); return /^https?:\/\//i.test(v) ? v : ''; };
@@ -1021,6 +1136,7 @@ details.more[open] summary{margin-bottom:12px}
         if (cb.checked && !has) { b.albumIds.push(a.id); changed = true; }
         if (!cb.checked && has) { b.albumIds = b.albumIds.filter(x => x !== a.id); changed = true; }
       });
+      if (gTarget && !gTarget.albumIds.includes(a.id)) { gTarget.albumIds.push(a.id); changed = true; }
       d.close();
       if (!changed) return;
       mark();
@@ -1056,11 +1172,11 @@ details.more[open] summary{margin-bottom:12px}
     setTimeout(() => $('#bf-name').focus(), 30);
   }
 
-  function pickForm(boardId){
-    const b = S.boards.find(x => x.id === boardId); if (!b) return;
+  function pickForm(boardId, genreId){
+    const b = genreId ? genres().find(x => x.id === genreId) : S.boards.find(x => x.id === boardId); if (!b) return;
     const all = Object.values(S.albums).sort((x,y) => (y.no||0)-(x.no||0));
     if (!all.length) { toast('아직 넣어둔 앨범이 없어요. ‘+ 앨범 추가’로 먼저 넣어주세요.'); return; }
-    const d = modal(dlgHead(`‘${b.name}’에 꽂을 앨범 고르기`) + `<div class="dlg-body"><input type="search" id="pk-q" placeholder="검색" aria-label="검색"><div class="pick" id="pk"></div></div>
+    const d = modal(dlgHead(genreId ? `‘${b.name}’ 대표 앨범 고르기` : `‘${b.name}’에 꽂을 앨범 고르기`) + `<div class="dlg-body"><input type="search" id="pk-q" placeholder="검색" aria-label="검색"><div class="pick" id="pk"></div></div>
       <div class="dlg-foot"><button class="btn ghost" data-close>취소</button><button class="btn primary" id="pk-go" disabled>넣기</button></div>`, { wide:true });
     const sel = new Set(), grid = d.querySelector('#pk'), go = d.querySelector('#pk-go'), q = d.querySelector('#pk-q');
     const draw = () => {
@@ -1072,8 +1188,103 @@ details.more[open] summary{margin-bottom:12px}
     };
     grid.addEventListener('change', e => { const v = e.target.value; e.target.checked ? sel.add(v) : sel.delete(v); go.disabled = !sel.size; go.textContent = sel.size ? `${sel.size}장 넣기` : '넣기'; });
     q.addEventListener('input', draw);
-    go.addEventListener('click', () => { b.albumIds.push(...[...sel].filter(id => !b.albumIds.includes(id))); d.close(); mark(); });
+    go.addEventListener('click', () => {
+      const add = [...sel].filter(id => !b.albumIds.includes(id));
+      b.albumIds.push(...add);
+      // picked as a 대표 앨범 → also tag it with the genre so the library filter finds it
+      if (genreId) add.forEach(id => { const a = S.albums[id]; if (a && !a.tags.some(t => norm(t) === norm(b.name))) a.tags.push(b.name); });
+      d.close(); mark();
+    });
     draw();
+  }
+
+  function genreForm(id){
+    const isNew = !id;
+    const g = isNew ? { name:'', aliases:[], oneLine:'', era:'', origin:'', bpm:'', axes:{}, artists:[], notes:'' } : genres().find(x => x.id === id);
+    if (!g) return;
+    const d = modal(dlgHead(isNew ? '장르 추가' : '장르 정보 수정') + `<form id="gf2" class="dlg" style="min-height:0"><div class="dlg-body">
+        <div class="row2">
+          <label class="field"><span>장르 이름</span><input type="text" id="g-name" required value="${esc(g.name)}" placeholder="Detroit Techno" autocomplete="off"></label>
+          <label class="field"><span>다른 이름 (선택)</span><input type="text" id="g-alias" value="${esc(g.aliases.join(', '))}" placeholder="디트로이트 테크노, Techno" autocomplete="off"><small>쉼표로 구분. 크레이트의 장르 태그와 맞춰볼 때 같이 써요.</small></label>
+        </div>
+        <label class="field"><span>한 줄 정의</span><input type="text" id="g-one" value="${esc(g.oneLine)}" placeholder="예: 크라프트베르크의 기계 리듬에 시카고 하우스의 4박 킥을 얹은 80년대 디트로이트 댄스 음악" autocomplete="off"></label>
+        <div class="row3">
+          <label class="field"><span>시기</span><input type="text" id="g-era" value="${esc(g.era)}" placeholder="1985–1992" autocomplete="off"></label>
+          <label class="field"><span>지역</span><input type="text" id="g-origin" value="${esc(g.origin)}" placeholder="미국 디트로이트" autocomplete="off"></label>
+          <label class="field"><span>BPM</span><input type="text" id="g-bpm" value="${esc(g.bpm)}" placeholder="120–135" autocomplete="off"></label>
+        </div>
+        <div class="field"><span>특징 · 5축</span><small>형용사(몽환적, 세련된, 청량한…) 대신 명사·수치·비교 대상으로 써요. 모르는 칸은 비워두세요. 빈칸이 다음에 들을 거리예요.</small></div>
+        ${AXES.map(([k, l, ph]) => `<label class="field axis-f"><span>${l}</span><textarea data-axis="${k}" placeholder="${esc(ph)}">${esc(g.axes[k] || '')}</textarea></label>`).join('')}
+        <label class="field"><span>대표 아티스트</span><input type="text" id="g-artists" value="${esc(g.artists.join(', '))}" placeholder="Juan Atkins, Derrick May, Kevin Saunderson" autocomplete="off"><small>쉼표로 구분</small></label>
+        <label class="field"><span>내 말로 정리</span><textarea id="g-notes" placeholder="남한테 이 장르를 3문장으로 설명한다면? 비슷한 장르와 뭐가 다른지까지.">${esc(g.notes || '')}</textarea></label>
+        <p class="err" id="g-err"></p>
+      </div>
+      <div class="dlg-foot">${isNew ? '' : '<button type="button" class="btn danger left" id="g-del">장르 삭제</button>'}<button type="button" class="btn ghost" data-close>취소</button><button type="submit" class="btn primary">${isNew ? '만들기' : '적용'}</button></div></form>`, { wide:true });
+    const $ = s => d.querySelector(s);
+    const list = v => { const seen = new Set(); return v.split(',').map(x => x.trim()).filter(x => x && !seen.has(norm(x)) && seen.add(norm(x))); };
+    const del = $('#g-del');
+    if (del) del.addEventListener('click', () => {
+      if (!del.dataset.arm) { del.dataset.arm = '1'; del.textContent = '앨범은 크레이트에 남고 장르 노트만 지워져요. 한 번 더 누르기'; return; }
+      S.genres = genres().filter(x => x.id !== id); d.close(); location.hash = 'genres'; mark();
+    });
+    $('#gf2').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('#g-name').value.trim(); if (!name) return;
+      if (genres().some(x => x !== g && norm(x.name) === norm(name))) { $('#g-err').textContent = `‘${name}’ 장르는 이미 있어요.`; return; }
+      const axes = {}; d.querySelectorAll('[data-axis]').forEach(t => { if (t.value.trim()) axes[t.dataset.axis] = t.value.trim(); });
+      let aliases = list($('#g-alias').value).filter(x => norm(x) !== norm(name));
+      // renamed: keep the old name as an alias so albums already tagged with it still show up
+      if (!isNew && norm(g.name) !== norm(name) && !aliases.some(x => norm(x) === norm(g.name))) aliases.push(g.name);
+      const vals = { name, aliases, oneLine: $('#g-one').value.trim(), era: $('#g-era').value.trim(), origin: $('#g-origin').value.trim(), bpm: $('#g-bpm').value.trim(), axes, artists: list($('#g-artists').value), notes: $('#g-notes').value.trim() };
+      if (isNew) {
+        const ng = Object.assign({ id: uid(), albumIds: [], tracks: [], created: today() }, vals);
+        S.genres = genres().concat(ng); d.close(); location.hash = 'g-' + ng.id; mark();
+      } else {
+        const before = JSON.stringify(g);
+        Object.assign(g, vals);
+        d.close();
+        if (JSON.stringify(g) !== before) { g.updated = today(); mark(); }
+      }
+    });
+    setTimeout(() => $('#g-name').focus(), 30);
+  }
+
+  function gTrackForm(gid, i){
+    const g = genres().find(x => x.id === gid); if (!g) return;
+    const isNew = i === undefined, t = isNew ? { artist:'', title:'', year:'', note:'', yt:'' } : Object.assign({}, g.tracks[i]);
+    const d = modal(dlgHead(isNew ? `‘${g.name}’ 대표 곡 추가` : '대표 곡 수정') + `<form id="gt" class="dlg" style="min-height:0"><div class="dlg-body">
+        <div class="row3">
+          <label class="field"><span>아티스트</span><input type="text" id="gt-a" required value="${esc(t.artist)}" autocomplete="off"></label>
+          <label class="field"><span>곡 제목</span><input type="text" id="gt-t" required value="${esc(t.title)}" autocomplete="off"></label>
+          <label class="field"><span>연도</span><input type="text" id="gt-y" inputmode="numeric" maxlength="4" value="${esc(t.year || '')}"></label>
+        </div>
+        <label class="field"><span>어디서 이 장르가 들리나 (한 줄)</span><input type="text" id="gt-n" value="${esc(t.note || '')}" placeholder="예: 0:40 TR-909 킥 위에 스트링 패드가 8마디 동안 같은 코드로 버팀" autocomplete="off"></label>
+        <details class="more"><summary>유튜브 뮤직 링크 직접 넣기 (선택)</summary>
+          <label class="field"><span>링크</span><input type="url" id="gt-yt" value="${esc(t.yt || '')}" placeholder="${gh.ytKey ? '비우면 유튜브 키로 자동으로 찾아요' : '비우면 검색 결과로 열려요'}"></label></details>
+        <p class="srch-st" id="gt-st"></p>
+      </div>
+      <div class="dlg-foot">${isNew ? '' : '<button type="button" class="btn danger left" id="gt-del">빼기</button>'}<button type="button" class="btn ghost" data-close>취소</button><button type="submit" class="btn primary" id="gt-go">${isNew ? '추가' : '적용'}</button></div></form>`);
+    const $ = s => d.querySelector(s);
+    const del = $('#gt-del');
+    if (del) del.addEventListener('click', () => { g.tracks.splice(i, 1); d.close(); mark(); });
+    $('#gt').addEventListener('submit', async e => {
+      e.preventDefault();
+      const artist = $('#gt-a').value.trim(), title = $('#gt-t').value.trim(); if (!artist || !title) return;
+      let yt = /^https?:\/\//i.test($('#gt-yt').value.trim()) ? $('#gt-yt').value.trim() : '';
+      // only look the link up again when the song itself changed
+      if (!yt && t.yt && norm(t.artist) === norm(artist) && norm(t.title) === norm(title)) yt = t.yt;
+      if (!yt && gh.ytKey) {
+        $('#gt-go').disabled = true; $('#gt-st').textContent = '유튜브 뮤직 링크 찾는 중…';
+        try { yt = await ytFind(artist, title); } catch (x) { $('#gt-st').textContent = x.message + ' 검색 결과로 열리게 넣어둘게요.'; }
+      }
+      const nt = { artist, title, yt };
+      if ($('#gt-y').value.trim()) nt.year = $('#gt-y').value.trim();
+      if ($('#gt-n').value.trim()) nt.note = $('#gt-n').value.trim();
+      if (isNew) g.tracks.push(nt);
+      else { if (JSON.stringify(nt) === JSON.stringify(Object.fromEntries(Object.entries(g.tracks[i]).filter(([, v]) => v)))) { d.close(); return; } g.tracks[i] = nt; }
+      d.close(); mark();
+    });
+    setTimeout(() => $('#gt-a').focus(), 30);
   }
 
   function siteForm(){
@@ -1140,8 +1351,18 @@ details.more[open] summary{margin-bottom:12px}
       case 'pick': pickForm(t.dataset.board); break;
       case 'site-settings': siteForm(); break;
       case 'gh-settings': ghForm(); break;
-      case 'move': if (r.v === 'board') { const l = r.b.albumIds, i = l.indexOf(id), j = i + (+t.dataset.dir); if (i < 0 || j < 0 || j >= l.length) return; [l[i], l[j]] = [l[j], l[i]]; mark(); } break;
-      case 'unpin': if (r.v === 'board') { r.b.albumIds = r.b.albumIds.filter(x => x !== id); mark(); toast('보드에서 뺐어요. 앨범은 ‘전체 앨범’에 남아 있어요.'); } break;
+      case 'move': if (r.v === 'board' || r.v === 'genre') { const l = (r.b || r.g).albumIds, i = l.indexOf(id), j = i + (+t.dataset.dir); if (i < 0 || j < 0 || j >= l.length) return; [l[i], l[j]] = [l[j], l[i]]; mark(); } break;
+      case 'unpin':
+        if (r.v === 'board') { r.b.albumIds = r.b.albumIds.filter(x => x !== id); mark(); toast('보드에서 뺐어요. 앨범은 ‘전체 앨범’에 남아 있어요.'); }
+        if (r.v === 'genre') { r.g.albumIds = r.g.albumIds.filter(x => x !== id); mark(); toast('대표 앨범에서 뺐어요. 앨범과 장르 태그는 그대로예요.'); }
+        break;
+      case 'new-genre': genreForm(null); break;
+      case 'genre-settings': genreForm(t.dataset.genre); break;
+      case 'genre-add-album': if (r.v === 'genre') albumForm(null, undefined, { genreId: r.g.id }); break;
+      case 'genre-pick': if (r.v === 'genre') pickForm(null, r.g.id); break;
+      case 'gtrack-add': if (r.v === 'genre') gTrackForm(r.g.id); break;
+      case 'gtrack-edit': if (r.v === 'genre') gTrackForm(r.g.id, +t.dataset.i); break;
+      case 'gtrack-move': if (r.v === 'genre') { const l = r.g.tracks, i = +t.dataset.i, j = i - 1; if (j < 0) return; [l[i], l[j]] = [l[j], l[i]]; mark(); } break;
       case 'tag': ui.tagSel = new Set(); ui.moodSel = new Set(); (t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel).add(t.dataset.tag); ui.q = ''; if (location.hash === '#all') render(); else location.hash = 'all'; break;
       case 'tag-toggle': { const set = t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel, g = t.dataset.tag; set.has(g) ? set.delete(g) : set.add(g); render(); break; }
       case 'tag-clear': ui.tagSel.clear(); ui.moodSel.clear(); render(); break;
