@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 58,
+ "seq": 60,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1504,6 +1504,47 @@
     }
    ],
    "updated": "2026-11-20 13:54"
+  },
+  "mwstid17wtc1": {
+   "artist": "MISIA",
+   "title": "MARVELOUS",
+   "year": "2012",
+   "tags": [
+    "Asian Music",
+    "japan",
+    "R&B"
+   ],
+   "rating": 3,
+   "comment": "히카루 우타다보다 더 화려한 보컬과 사운드. 얘는 어반한 느낌은 덜하다",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/16adab7a9ff16cca3a98678154561dda/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "풍성",
+    "몽환"
+   ],
+   "id": "mwstid17wtc1",
+   "no": 59,
+   "added": "2026-11-23",
+   "addedAt": "2026-11-23 14:21",
+   "updated": "2026-11-23 14:21"
+  },
+  "mwstjd7x7hui": {
+   "artist": "MISIA",
+   "title": "KISS IN THE SKY",
+   "year": "2002",
+   "tags": [
+    "Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/9a/89/29/9a8929b4-7a23-cf25-eda4-a1de7bd69813/mzi.ugbwnuti.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwstjd7x7hui",
+   "no": 60,
+   "added": "2026-11-23",
+   "addedAt": "2026-11-23 14:21"
   }
  },
  "boards": [
@@ -1572,7 +1613,9 @@
     "mwkumw9edr02",
     "mwm6i1qsev8n",
     "mwnf69vtg33n",
-    "mwohsf61ukzf"
+    "mwohsf61ukzf",
+    "mwstid17wtc1",
+    "mwstjd7x7hui"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
