@@ -355,6 +355,14 @@ details.more[open] summary{margin-bottom:12px}
 .sq.ed .sq-c{cursor:pointer;touch-action:manipulation}
 .sq.ed .sq-c:hover{outline:1px solid var(--muted);outline-offset:-1px}
 .sq-wrap+.hint{margin-top:-4px}
+.beat-f{gap:10px;padding:12px;border:1px dashed var(--line);border-radius:10px}
+.beat-f #g-beat{display:flex;flex-direction:column;gap:10px;min-width:0}
+.beat-f small{color:var(--muted);font-size:12px}
+.beat-mini{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ax-t+.beat-mini{margin-top:8px}
+.beat-mini .mono{font-size:12px;color:var(--muted)}
+.beat-mini .btn svg{width:11px;height:11px}
+.axes dd .ax-t{display:block}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -765,17 +773,20 @@ details.more[open] summary{margin-bottom:12px}
   }
 
   // ---------- rhythm sketch: a small step sequencer per genre (sounds are synthesized, no samples) ----------
+  // Edited inside the 특징 form (under 리듬·그루브); the page itself only plays it.
   const DRUMS = [['kick', '킥'], ['snare', '스네어'], ['hat', '하이햇'], ['perc', '퍼커션'], ['tom', '톰']];
   const PERCS = [['clap', '클랩'], ['rim', '림샷'], ['cowbell', '카우벨'], ['shaker', '쉐이커']];
+  const BASSES = [['synth', '신스 베이스'], ['808', '808']];
   const NOTE_N = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const clampBpm = v => Math.min(220, Math.max(40, Math.round(+v || 120)));
-  function newBeat(g){
-    const m = String(g.bpm || '').match(/\d{2,3}/);
-    return { bpm: clampBpm(m ? m[0] : 120), steps: 16, swing: 50, perc: 'clap', oct: 0, rows: { kick: '.'.repeat(16), snare: '.'.repeat(16), hat: '.'.repeat(16), perc: '.'.repeat(16), tom: '.'.repeat(16) }, bass: Array(16).fill(-1) };
+  function newBeat(bpmText){
+    const m = String(bpmText || '').match(/\d{2,3}/), e = '.'.repeat(16);
+    return { bpm: clampBpm(m ? m[0] : 120), steps: 16, swing: 50, perc: 'clap', bassSound: 'synth', oct: 0, rows: { kick: e, snare: e, hat: e, perc: e, tom: e }, bass: Array(16).fill(-1) };
   }
-  const ensureBeat = g => g.beat || (g.beat = newBeat(g));
+  const beatEmpty = b => !b || (DRUMS.every(([k]) => !/[xo]/.test(b.rows[k] || '')) && !b.bass.some(n => n >= 0));
+  const pName = (list, v) => (list.find(p => p[0] === v) || list[0])[1];
 
-  const SEQ = { ctx: null, out: null, noise: null, playing: false, gid: null, step: 0, next: 0, timer: null, queue: [], shown: null, openHat: null };
+  const SEQ = { ctx: null, out: null, noise: null, curve: null, playing: false, key: null, get: null, step: 0, next: 0, timer: null, queue: [], shown: null, openHat: null, bassVoice: null };
   function audio(){
     if (!SEQ.ctx) {
       const C = window.AudioContext || window.webkitAudioContext; if (!C) return null;
@@ -785,6 +796,9 @@ details.more[open] summary{margin-bottom:12px}
       const buf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate), ch = buf.getChannelData(0);
       for (let i = 0; i < ch.length; i++) ch[i] = Math.random() * 2 - 1;
       SEQ.noise = buf;
+      // soft saturation for the 808: adds overtones so the sub is audible on laptop and phone speakers
+      const c = new Float32Array(1024); for (let i = 0; i < c.length; i++) { const x = i / 511.5 - 1; c[i] = Math.tanh(2.6 * x) / Math.tanh(2.6); }
+      SEQ.curve = c;
     }
     if (SEQ.ctx.state === 'suspended') SEQ.ctx.resume();
     return SEQ.ctx;
@@ -811,12 +825,22 @@ details.more[open] summary{margin-bottom:12px}
       this.noise(t, 0.24, g, 'bandpass', 1100, 1.2);
     },
     tom(t){ const o = this.osc('sine', 165, t, 0.45, this.env(t, 0.8, 0.45)); o.frequency.exponentialRampToValueAtTime(92, t + 0.2); },
-    bass(t, semi, oct, d){
-      const ctx = SEQ.ctx, g = ctx.createGain(), f = ctx.createBiquadFilter();
+    bass(t, semi, oct, d, kind){
+      const ctx = SEQ.ctx, f0 = 65.406 * Math.pow(2, (semi + 12 * oct) / 12), g = ctx.createGain();
+      // one bass at a time: a new note cuts the one still ringing
+      if (SEQ.bassVoice) { try { SEQ.bassVoice.gain.cancelScheduledValues(t); SEQ.bassVoice.gain.setTargetAtTime(0, t, 0.012); } catch {} }
+      SEQ.bassVoice = g;
+      if (kind === '808') {
+        const ws = ctx.createWaveShaper(); ws.curve = SEQ.curve; ws.connect(g); g.connect(SEQ.out);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.55, t + 0.004); g.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+        const o = this.osc('sine', f0 * 1.6, t, 0.92, ws); o.frequency.exponentialRampToValueAtTime(f0, t + 0.045);
+        return;
+      }
+      const f = ctx.createBiquadFilter();
       f.type = 'lowpass'; f.Q.value = 6; f.frequency.setValueAtTime(1400, t); f.frequency.exponentialRampToValueAtTime(240, t + Math.min(d, 0.25));
       g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.42, t + 0.005); g.gain.setValueAtTime(0.42, t + d * 0.85); g.gain.linearRampToValueAtTime(0, t + d);
       f.connect(g); g.connect(SEQ.out);
-      this.osc('sawtooth', 65.406 * Math.pow(2, (semi + 12 * oct) / 12), t, d, f);
+      this.osc('sawtooth', f0, t, d, f);
     }
   };
   function playStep(b, s, t, sd){
@@ -826,11 +850,10 @@ details.more[open] summary{margin-bottom:12px}
       if (k === 'hat') VOICE.hat(t, v === 'o'); else if (k === 'perc') VOICE.perc(t, b.perc); else VOICE[k](t);
     }
     const n = b.bass[s];
-    if (n >= 0) VOICE.bass(t, n, b.oct, sd * 0.9);
+    if (n >= 0) VOICE.bass(t, n, b.oct, sd * 0.9, b.bassSound);
   }
-  const seqBeat = () => { const g = genres().find(x => x.id === SEQ.gid); return g && g.beat; };
   function seqTick(){
-    const b = seqBeat(); if (!b) { seqStop(); return; }
+    const b = SEQ.get && SEQ.get(); if (!b) { seqStop(); return; }
     const ctx = SEQ.ctx;
     while (SEQ.next < ctx.currentTime + 0.12) {
       const sd = 60 / clampBpm(b.bpm) / 4, s = SEQ.step % b.steps;
@@ -850,10 +873,10 @@ details.more[open] summary{margin-bottom:12px}
     }
     requestAnimationFrame(seqDraw);
   }
-  function seqStart(g){
+  function seqStart(key, get){
     if (!audio()) { toast('이 브라우저는 소리 재생을 지원하지 않아요.'); return; }
     seqStop();
-    Object.assign(SEQ, { gid: g.id, step: 0, next: SEQ.ctx.currentTime + 0.06, queue: [], shown: null, playing: true });
+    Object.assign(SEQ, { key, get, step: 0, next: SEQ.ctx.currentTime + 0.06, queue: [], shown: null, playing: true });
     SEQ.timer = setInterval(seqTick, 25); seqTick(); requestAnimationFrame(seqDraw);
     seqButton();
   }
@@ -862,79 +885,114 @@ details.more[open] summary{margin-bottom:12px}
     document.querySelectorAll('.sq .now').forEach(x => x.classList.remove('now'));
     seqButton();
   }
-  const seqButton = () => document.querySelectorAll('[data-act="beat-play"]').forEach(b => { b.innerHTML = SEQ.playing ? '■ 정지' : `${IC.play} 재생`; b.classList.toggle('primary', !SEQ.playing); });
+  const playBtn = (key, extra = '') => { const on = SEQ.playing && SEQ.key === key; return `<button type="button" class="btn sm ${on ? '' : 'primary'}" data-beatplay="${esc(key)}" ${extra}>${on ? '■ 정지' : IC.play + ' 재생'}</button>`; };
+  const seqButton = () => document.querySelectorAll('[data-beatplay]').forEach(btn => { const on = SEQ.playing && SEQ.key === btn.dataset.beatplay; btn.innerHTML = on ? '■ 정지' : `${IC.play} 재생`; btn.classList.toggle('primary', !on); });
 
-  function beatView(g, ed){
-    const b = g.beat || newBeat(g), n = b.steps, base = 2 + b.oct;
-    const alt = c => Math.floor(c / 4) % 2 ? ' alt' : '';
-    const cols = Array.from({ length: n }, (_, c) => c);
-    let html = `<span></span>` + cols.map(c => `<span class="sq-h mono" data-c="${c}">${c % 4 === 0 ? c / 4 + 1 : ''}</span>`).join('');
-    for (const [k, l] of DRUMS) {
-      const row = b.rows[k] || '';
-      html += `<span class="sq-l">${l}</span>` + cols.map(c => { const v = row[c] || '.'; return `<span class="sq-c${alt(c)}${v === 'x' ? ' on' : v === 'o' ? ' op' : ''}" data-r="${k}" data-c="${c}"></span>`; }).join('');
-    }
-    html += `<span class="sq-sep"></span>`;
-    for (let semi = 12; semi >= 0; semi--) {
-      const black = NOTE_N[semi % 12].includes('#');
-      html += `<span class="sq-l k${black ? ' bk' : ''}">${NOTE_N[semi % 12]}${base + Math.floor(semi / 12)}</span>` + cols.map(c => `<span class="sq-c k${alt(c)}${black ? ' bk' : ''}${b.bass[c] === semi ? ' on' : ''}" data-r="bass" data-n="${semi}" data-c="${c}"></span>`).join('');
-    }
-    const playing = SEQ.playing && SEQ.gid === g.id;
-    const ctl = ed ? `<div class="sq-ctl">
-        <button class="btn sm ${playing ? '' : 'primary'}" data-act="beat-play">${playing ? '■ 정지' : IC.play + ' 재생'}</button>
-        <label>BPM <input type="number" id="sq-bpm" min="40" max="220" value="${b.bpm}"></label>
-        <span class="seg"><button type="button" data-act="beat-steps" data-n="16" class="${n === 16 ? 'on' : ''}">1마디</button><button type="button" data-act="beat-steps" data-n="32" class="${n === 32 ? 'on' : ''}">2마디</button></span>
-        <label>스윙 <input type="range" id="sq-swing" min="50" max="75" step="1" value="${b.swing}"><b class="mono" id="sq-swv">${b.swing}%</b></label>
-        <label>퍼커션 <select id="sq-perc">${PERCS.map(([v, l]) => `<option value="${v}" ${b.perc === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
-        <label>베이스 옥타브 <select id="sq-oct">${[-1, 0, 1].map(o => `<option value="${o}" ${b.oct === o ? 'selected' : ''}>C${2 + o}–C${3 + o}</option>`).join('')}</select></label>
-        <button class="btn sm ghost" data-act="beat-clear">전부 지우기</button></div>`
-      : `<div class="sq-ctl"><button class="btn sm ${playing ? '' : 'primary'}" data-act="beat-play">${playing ? '■ 정지' : IC.play + ' 재생'}</button><span class="mono">${b.bpm} BPM${b.swing > 50 ? ` · 스윙 ${b.swing}%` : ''} · 퍼커션 ${(PERCS.find(p => p[0] === b.perc) || PERCS[0])[1]}</span></div>`;
-    return ctl + `<div class="sq-wrap"><div class="sq${ed ? ' ed' : ''}" style="--n:${n}" data-g="${esc(g.id)}">${html}</div></div>`
-      + (ed ? `<p class="hint">칸을 눌러 찍어요. 마우스는 누른 채로 끌면 여러 칸이 한 번에 찍혀요. 하이햇은 한 번 누르면 닫힌 소리, 두 번 누르면 열린 소리(파란 칸)예요. 베이스는 한 칸에 한 음만 들어가요.</p>` : '');
+  // page view: just the player
+  function beatPlayer(g){
+    const b = g.beat;
+    return `<div class="beat-mini">${playBtn('g:' + g.id, 'data-act="beat-play"')}<span class="mono">리듬 스케치 · ${b.bpm} BPM · ${b.steps / 16}마디${b.swing > 50 ? ` · 스윙 ${b.swing}%` : ''} · ${pName(PERCS, b.perc)} · ${pName(BASSES, b.bassSound)}</span></div>`;
   }
 
-  // grid editing: change the data and the cell in place (no full re-render, so dragging works)
-  function touch(){
-    dirty++; ui.revertArm = false; store.set('crate-draft', { sha, state: S });
-    const old = app.querySelector('.savebar'), html = saveBar();
-    if (old) old.outerHTML = html; else if (html) app.insertAdjacentHTML('beforeend', html);
-  }
-  let paint = null;
-  function beatCell(cell, want){
-    const r = route(); if (r.v !== 'genre' || !editing()) return null;
-    const b = ensureBeat(r.g), c = +cell.dataset.c, row = cell.dataset.r;
-    let state;
-    if (row === 'bass') {
-      const semi = +cell.dataset.n;
-      state = want !== undefined ? want : (b.bass[c] === semi ? -1 : semi);
-      if (want !== undefined && want >= 0) state = semi; // dragging paints the row under the pointer
-      if (b.bass[c] === state) return state;
-      b.bass[c] = state;
-      cell.parentNode.querySelectorAll(`.k[data-c="${c}"]`).forEach(x => x.classList.toggle('on', +x.dataset.n === state));
-      if (state >= 0 && audio()) VOICE.bass(SEQ.ctx.currentTime, state, b.oct, 0.2);
-    } else {
-      const cur = (b.rows[row] || '.'.repeat(b.steps))[c] || '.';
-      state = want !== undefined ? want : row === 'hat' ? (cur === '.' ? 'x' : cur === 'x' ? 'o' : '.') : (cur === '.' ? 'x' : '.');
-      if (cur === state) return state;
-      const arr = (b.rows[row] || '.'.repeat(b.steps)).padEnd(b.steps, '.').split(''); arr[c] = state; b.rows[row] = arr.join('');
-      cell.classList.toggle('on', state === 'x'); cell.classList.toggle('op', state === 'o');
-      if (state !== '.' && audio()) { const t = SEQ.ctx.currentTime; if (row === 'hat') VOICE.hat(t, state === 'o'); else if (row === 'perc') VOICE.perc(t, b.perc); else VOICE[row](t); }
+  // the editor, mounted inside the 특징 form; works on a draft that's kept only when the form is applied
+  function beatEditor(box, getB, setB, bpmText){
+    let b = getB(), paint = null;
+    const ensure = () => { if (!b) { b = newBeat(bpmText()); setB(b); } return b; };
+    const cur = () => b || newBeat(bpmText());
+    function draw(){
+      const v = cur(), n = v.steps, base = 2 + v.oct, cols = Array.from({ length: n }, (_, c) => c);
+      const alt = c => Math.floor(c / 4) % 2 ? ' alt' : '';
+      let html = `<span></span>` + cols.map(c => `<span class="sq-h mono" data-c="${c}">${c % 4 === 0 ? c / 4 + 1 : ''}</span>`).join('');
+      for (const [k, l] of DRUMS) {
+        const row = v.rows[k] || '';
+        html += `<span class="sq-l">${l}</span>` + cols.map(c => { const x = row[c] || '.'; return `<span class="sq-c${alt(c)}${x === 'x' ? ' on' : x === 'o' ? ' op' : ''}" data-r="${k}" data-c="${c}"></span>`; }).join('');
+      }
+      html += `<span class="sq-sep"></span>`;
+      for (let semi = 12; semi >= 0; semi--) {
+        const black = NOTE_N[semi % 12].includes('#');
+        html += `<span class="sq-l k${black ? ' bk' : ''}">${NOTE_N[semi % 12]}${base + Math.floor(semi / 12)}</span>` + cols.map(c => `<span class="sq-c k${alt(c)}${black ? ' bk' : ''}${v.bass[c] === semi ? ' on' : ''}" data-r="bass" data-n="${semi}" data-c="${c}"></span>`).join('');
+      }
+      box.innerHTML = `<div class="sq-ctl">${playBtn('form')}
+          <label>BPM <input type="number" data-k="bpm" min="40" max="220" value="${v.bpm}"></label>
+          <span class="seg"><button type="button" data-steps="16" class="${n === 16 ? 'on' : ''}">1마디</button><button type="button" data-steps="32" class="${n === 32 ? 'on' : ''}">2마디</button></span>
+          <label>스윙 <input type="range" data-k="swing" min="50" max="75" step="1" value="${v.swing}"><b class="mono">${v.swing}%</b></label></div>
+        <div class="sq-ctl">
+          <label>퍼커션 <select data-k="perc">${PERCS.map(([x, l]) => `<option value="${x}" ${v.perc === x ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          <label>베이스 <select data-k="bassSound">${BASSES.map(([x, l]) => `<option value="${x}" ${(v.bassSound || 'synth') === x ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          <label>옥타브 <select data-k="oct">${[-1, 0, 1].map(o => `<option value="${o}" ${v.oct === o ? 'selected' : ''}>C${2 + o}–C${3 + o}</option>`).join('')}</select></label>
+          ${b ? `<button type="button" class="btn sm ghost" data-clear>전부 지우기</button>` : ''}</div>
+        <div class="sq-wrap"><div class="sq ed" style="--n:${n}">${html}</div></div>
+        <small>칸을 눌러 찍어요. 마우스는 누른 채로 끌면 여러 칸이 한 번에 찍혀요. 하이햇은 한 번 누르면 닫힌 소리, 두 번 누르면 열린 소리(파란 칸). 베이스는 한 칸에 한 음.</small>`;
     }
-    touch();
-    return state;
+    function preview(fn){ if (audio()) fn(SEQ.ctx.currentTime); }
+    // the first cell creates the sketch: show its 지우기 button without redrawing the grid
+    function showClear(){ const row = box.querySelectorAll('.sq-ctl')[1]; if (b && row && !row.querySelector('[data-clear]')) row.insertAdjacentHTML('beforeend', `<button type="button" class="btn sm ghost" data-clear>전부 지우기</button>`); }
+    function edit(cell, want){
+      const v = ensure(), c = +cell.dataset.c, row = cell.dataset.r;
+      if (row === 'bass') {
+        const semi = +cell.dataset.n;
+        const state = want === undefined ? (v.bass[c] === semi ? -1 : semi) : want;
+        if (v.bass[c] !== state) {
+          v.bass[c] = state;
+          box.querySelectorAll(`.k[data-c="${c}"]`).forEach(x => x.classList.toggle('on', +x.dataset.n === state));
+          if (state >= 0) preview(t => VOICE.bass(t, state, v.oct, 0.22, v.bassSound));
+        }
+        showClear();
+        return state;
+      }
+      const now = (v.rows[row] || '')[c] || '.';
+      const state = want !== undefined ? want : row === 'hat' ? (now === '.' ? 'x' : now === 'x' ? 'o' : '.') : (now === '.' ? 'x' : '.');
+      if (now !== state) {
+        const arr = (v.rows[row] || '').padEnd(v.steps, '.').split(''); arr[c] = state; v.rows[row] = arr.join('');
+        cell.classList.toggle('on', state === 'x'); cell.classList.toggle('op', state === 'o');
+        if (state !== '.') preview(t => row === 'hat' ? VOICE.hat(t, state === 'o') : row === 'perc' ? VOICE.perc(t, v.perc) : VOICE[row](t));
+      }
+      showClear();
+      return state;
+    }
+    box.addEventListener('pointerdown', e => {
+      const cell = e.target.closest('.sq-c'); if (!cell) return;
+      e.preventDefault();
+      const s = edit(cell);
+      if (e.pointerType === 'mouse') paint = { state: s, bass: cell.dataset.r === 'bass' };
+    });
+    box.addEventListener('pointerover', e => {
+      if (!paint) return;
+      const cell = e.target.closest('.sq-c'); if (!cell || (cell.dataset.r === 'bass') !== paint.bass) return;
+      if (paint.bass) edit(cell, paint.state >= 0 ? +cell.dataset.n : -1);
+      else edit(cell, paint.state === 'o' && cell.dataset.r !== 'hat' ? 'x' : paint.state);
+    });
+    const up = () => { paint = null; }; window.addEventListener('pointerup', up);
+    box.addEventListener('click', e => {
+      if (e.target.closest('[data-beatplay]')) { if (SEQ.playing && SEQ.key === 'form') seqStop(); else if (beatEmpty(b)) toast('아직 찍은 칸이 없어요.'); else seqStart('form', () => b); return; }
+      const st = e.target.closest('[data-steps]');
+      if (st) {
+        const v = ensure(), n = +st.dataset.steps; if (v.steps === n) return;
+        // 1→2마디 copies bar 1 so you only change what differs; 2→1 keeps bar 1
+        for (const [k] of DRUMS) { const s = (v.rows[k] || '').padEnd(v.steps, '.').slice(0, 16); v.rows[k] = n === 32 ? s + s : s; }
+        const bar = v.bass.slice(0, 16); v.bass = n === 32 ? bar.concat(bar) : bar; v.steps = n; draw(); return;
+      }
+      const cl = e.target.closest('[data-clear]');
+      if (cl) {
+        if (!cl.dataset.arm) { cl.dataset.arm = '1'; cl.textContent = '정말 지울까요? 한 번 더'; return; }
+        if (SEQ.key === 'form') seqStop(); b = null; setB(null); draw();
+      }
+    });
+    box.addEventListener('input', e => {
+      if (e.target.dataset.k === 'swing') { ensure().swing = +e.target.value; e.target.nextElementSibling.textContent = e.target.value + '%'; }
+    });
+    box.addEventListener('change', e => {
+      const k = e.target.dataset.k; if (!k) return;
+      const v = ensure();
+      if (k === 'bpm') { v.bpm = clampBpm(e.target.value); e.target.value = v.bpm; }
+      if (k === 'perc') { v.perc = e.target.value; preview(t => VOICE.perc(t, v.perc)); }
+      if (k === 'bassSound') { v.bassSound = e.target.value; preview(t => VOICE.bass(t, 0, v.oct, 0.3, v.bassSound)); }
+      if (k === 'oct') { v.oct = +e.target.value; draw(); }
+    });
+    box.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset.k === 'bpm') { e.preventDefault(); e.target.blur(); } });
+    draw();
+    return { off(){ window.removeEventListener('pointerup', up); if (SEQ.key === 'form') seqStop(); } };
   }
-  app.addEventListener('pointerdown', e => {
-    const cell = e.target.closest('.sq.ed .sq-c'); if (!cell) return;
-    e.preventDefault();
-    const s = beatCell(cell);
-    if (s !== null && e.pointerType === 'mouse') paint = { state: s, row: cell.dataset.r };
-  });
-  app.addEventListener('pointerover', e => {
-    if (!paint) return;
-    const cell = e.target.closest('.sq.ed .sq-c'); if (!cell) return;
-    if ((paint.row === 'bass') !== (cell.dataset.r === 'bass')) return;
-    beatCell(cell, paint.row === 'bass' ? (paint.state >= 0 ? +cell.dataset.n : -1) : (cell.dataset.r === 'hat' || paint.state !== 'o' ? paint.state : 'x'));
-  });
-  window.addEventListener('pointerup', () => { paint = null; });
 
   // ---------- genre notes ----------
   function genreIndex(){
@@ -963,12 +1021,15 @@ details.more[open] summary{margin-bottom:12px}
     const ed = editing(), idx = genres().indexOf(g) + 1;
     const albums = g.albumIds.map(id => S.albums[id]).filter(Boolean), tagged = gTagged(g);
     const meta = [['시기', g.era], ['지역', g.origin], ['BPM', g.bpm]].filter(([, v]) => v).map(([k, v]) => `<span>${k}<b>${esc(v)}</b></span>`).join('');
-    const axesShown = AXES.filter(([k]) => ed || (g.axes[k] || '').trim());
+    const axesShown = AXES.filter(([k]) => ed || (g.axes[k] || '').trim() || (k === 'rhythm' && g.beat));
     const sec = (title, sub, btn, inner) => `<section class="gsec"><h2>${title}${sub ? `<small>${sub}</small>` : ''}${btn || ''}</h2>${inner}</section>`;
     const parts = [];
     if (axesShown.length) parts.push(sec('특징', `5축 중 ${gFilled(g)}칸`, ed ? `<button class="btn sm" data-act="genre-settings" data-genre="${esc(g.id)}">고치기</button>` : '',
-      `<dl class="axes">${axesShown.map(([k, l]) => `<dt>${l}</dt><dd class="${(g.axes[k] || '').trim() ? '' : 'blank'}">${(g.axes[k] || '').trim() ? esc(g.axes[k].trim()) : '비어 있어요. 아직 말로 못 하는 부분이에요.'}</dd>`).join('')}</dl>`));
-    if (g.beat || ed) parts.push(sec('리듬 스케치', g.beat ? `${g.beat.bpm} BPM · ${g.beat.steps / 16}마디` : '', '', beatView(g, ed)));
+      `<dl class="axes">${axesShown.map(([k, l]) => {
+        const txt = (g.axes[k] || '').trim(), beat = k === 'rhythm' && g.beat ? beatPlayer(g) : '';
+        const body = txt ? `<span class="ax-t">${esc(txt)}</span>` : beat ? '' : '<span class="ax-t">비어 있어요. 아직 말로 못 하는 부분이에요.</span>';
+        return `<dt>${l}</dt><dd class="${txt || beat ? '' : 'blank'}">${body}${beat}</dd>`;
+      }).join('')}</dl>`));
     if (g.artists.length || ed) parts.push(sec('대표 아티스트', g.artists.length ? `${g.artists.length}명` : '', '',
       g.artists.length ? `<div class="chips">${g.artists.map(n => { const c = Object.values(S.albums).filter(a => norm(a.artist) === norm(n)).length; return `<a class="chip" href="${esc(artistUrl(n))}" target="_blank" rel="noopener" title="유튜브 뮤직에서 보기">${esc(n)}${c ? `<small>내 크레이트 ${c}</small>` : ''}</a>`; }).join('')}</div>` : `<p class="hint">‘장르 정보 수정’에서 쉼표로 구분해 넣어요.</p>`));
     if (albums.length || ed) parts.push(sec('대표 앨범', albums.length ? `${albums.length}장` : '', ed ? `<span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm primary" data-act="genre-add-album">+ 검색해서 추가</button><button class="btn sm" data-act="genre-pick">크레이트에서 고르기</button></span>` : '',
@@ -1457,7 +1518,8 @@ details.more[open] summary{margin-bottom:12px}
           <label class="field"><span>BPM</span><input type="text" id="g-bpm" value="${esc(g.bpm)}" placeholder="120–135" autocomplete="off"></label>
         </div>
         <div class="field"><span>특징 · 5축</span><small>형용사(몽환적, 세련된, 청량한…) 대신 명사·수치·비교 대상으로 써요. 모르는 칸은 비워두세요. 빈칸이 다음에 들을 거리예요.</small></div>
-        ${AXES.map(([k, l, ph]) => `<label class="field axis-f"><span>${l}</span><textarea data-axis="${k}" placeholder="${esc(ph)}">${esc(g.axes[k] || '')}</textarea></label>`).join('')}
+        ${AXES.map(([k, l, ph]) => `<label class="field axis-f"><span>${l}</span><textarea data-axis="${k}" placeholder="${esc(ph)}">${esc(g.axes[k] || '')}</textarea></label>`
+          + (k === 'rhythm' ? `<div class="field beat-f"><span>리듬 스케치</span><div id="g-beat"></div></div>` : '')).join('')}
         <label class="field"><span>대표 아티스트</span><input type="text" id="g-artists" value="${esc(g.artists.join(', '))}" placeholder="Juan Atkins, Derrick May, Kevin Saunderson" autocomplete="off"><small>쉼표로 구분</small></label>
         <label class="field"><span>내 말로 정리</span><textarea id="g-notes" placeholder="남한테 이 장르를 3문장으로 설명한다면? 비슷한 장르와 뭐가 다른지까지.">${esc(g.notes || '')}</textarea></label>
         <p class="err" id="g-err"></p>
@@ -1505,18 +1567,23 @@ details.more[open] summary{margin-bottom:12px}
       let aliases = list($('#g-alias').value).filter(x => norm(x) !== norm(name));
       // renamed: keep the old name as an alias so albums already tagged with it still show up
       if (!isNew && norm(g.name) !== norm(name) && !aliases.some(x => norm(x) === norm(g.name))) aliases.push(g.name);
-      const vals = { name, aliases, oneLine: $('#g-one').value.trim(), era: $('#g-era').value.trim(), origin: $('#g-origin').value.trim(), bpm: $('#g-bpm').value.trim(), axes, artists: list($('#g-artists').value), notes: $('#g-notes').value.trim() };
+      const vals = { name, aliases, oneLine: $('#g-one').value.trim(), era: $('#g-era').value.trim(), origin: $('#g-origin').value.trim(), bpm: $('#g-bpm').value.trim(), axes, artists: list($('#g-artists').value), notes: $('#g-notes').value.trim(), beat: beatEmpty(beatDraft) ? undefined : beatDraft };
       if (isNew) {
         const ng = Object.assign({ id: uid(), albumIds: [], tracks: [], created: today() }, vals);
+        if (!ng.beat) delete ng.beat;
         S.genres = genres().concat(ng); d.close(); location.hash = 'g-' + ng.id; mark();
       } else {
         const before = JSON.stringify(g);
-        Object.assign(g, vals);
+        Object.assign(g, vals); if (!vals.beat) delete g.beat;
         d.close();
         if (JSON.stringify(g) !== before) { g.updated = today(); mark(); }
       }
     });
-    setTimeout(() => $('#g-name').focus(), 30);
+    // rhythm sketch: edited on a copy, kept only when 적용 is pressed
+    let beatDraft = g.beat ? clone(g.beat) : null;
+    const BE = beatEditor($('#g-beat'), () => beatDraft, v => { beatDraft = v; }, () => $('#g-bpm').value);
+    d.addEventListener('close', () => BE.off());
+    setTimeout(() => (isNew ? $('#g-name') : null) && $('#g-name').focus(), 30);
   }
 
   function gTrackForm(gid, i){
@@ -1703,16 +1770,9 @@ details.more[open] summary{margin-bottom:12px}
       case 'gtrack-add': if (r.v === 'genre') gTrackForm(r.g.id); break;
       case 'gtrack-edit': if (r.v === 'genre') gTrackForm(r.g.id, +t.dataset.i); break;
       case 'gtrack-link': if (r.v === 'genre') linkTracks(r.g, t); break;
-      case 'beat-play': if (r.v === 'genre') { if (SEQ.playing && SEQ.gid === r.g.id) seqStop(); else if (r.g.beat) seqStart(r.g); else toast('아직 찍은 칸이 없어요. 칸을 먼저 눌러보세요.'); } break;
-      case 'beat-steps': if (r.v === 'genre') {
-        const b = ensureBeat(r.g), n = +t.dataset.n; if (b.steps === n) break;
-        // 1→2마디 copies bar 1 so you only change what differs; 2→1 keeps bar 1
-        for (const [k] of DRUMS) { const s = (b.rows[k] || '').padEnd(b.steps, '.').slice(0, 16); b.rows[k] = n === 32 ? s + s : s; }
-        const bar = b.bass.slice(0, 16); b.bass = n === 32 ? bar.concat(bar) : bar; b.steps = n; mark();
-      } break;
-      case 'beat-clear': if (r.v === 'genre' && r.g.beat) {
-        if (!t.dataset.arm) { t.dataset.arm = '1'; t.textContent = '정말 지울까요? 한 번 더'; break; }
-        seqStop(); delete r.g.beat; mark();
+      case 'beat-play': if (r.v === 'genre' && r.g.beat) {
+        const key = 'g:' + r.g.id, gid = r.g.id;
+        if (SEQ.playing && SEQ.key === key) seqStop(); else seqStart(key, () => { const g = genres().find(x => x.id === gid); return g && g.beat; });
       } break;
       case 'gtrack-move': if (r.v === 'genre') { const l = r.g.tracks, i = +t.dataset.i, j = i - 1; if (j < 0) return; [l[i], l[j]] = [l[j], l[i]]; mark(); } break;
       case 'tag': ui.tagSel = new Set(); ui.moodSel = new Set(); (t.dataset.kind === 'mood' ? ui.moodSel : ui.tagSel).add(t.dataset.tag); ui.q = ''; if (location.hash === '#all') render(); else location.hash = 'all'; break;
@@ -1726,20 +1786,9 @@ details.more[open] summary{margin-bottom:12px}
       case 'draft-drop': ui.draft = null; store.del('crate-draft'); render(); break;
     }
   });
-  app.addEventListener('input', e => {
-    if (e.target.id === 'lib-q') { ui.q = e.target.value; render(); }
-    if (e.target.id === 'sq-swing') { const r = route(); if (r.v === 'genre') { ensureBeat(r.g).swing = +e.target.value; const v = document.getElementById('sq-swv'); if (v) v.textContent = e.target.value + '%'; } }
-  });
-  app.addEventListener('change', e => {
-    if (e.target.id === 'lib-sort') { ui.sort = e.target.value; render(); }
-    const r = route(); if (r.v !== 'genre' || !editing()) return;
-    const id = e.target.id;
-    if (id === 'sq-bpm') { ensureBeat(r.g).bpm = clampBpm(e.target.value); mark(); }
-    if (id === 'sq-swing') touch();
-    if (id === 'sq-perc') { ensureBeat(r.g).perc = e.target.value; touch(); if (audio()) VOICE.perc(SEQ.ctx.currentTime, e.target.value); }
-    if (id === 'sq-oct') { ensureBeat(r.g).oct = +e.target.value; mark(); }
-  });
-  window.addEventListener('hashchange', () => { const r = route(); if (SEQ.playing && !(r.v === 'genre' && r.g.id === SEQ.gid)) seqStop(); render(); window.scrollTo(0, 0); });
+  app.addEventListener('input', e => { if (e.target.id === 'lib-q') { ui.q = e.target.value; render(); } });
+  app.addEventListener('change', e => { if (e.target.id === 'lib-sort') { ui.sort = e.target.value; render(); } });
+  window.addEventListener('hashchange', () => { const r = route(); if (SEQ.playing && SEQ.key !== 'form' && !(r.v === 'genre' && SEQ.key === 'g:' + r.g.id)) seqStop(); render(); window.scrollTo(0, 0); });
   document.addEventListener('error', e => {
     const img = e.target;
     if (img && img.tagName === 'IMG' && img.dataset.fb) { const a = S.albums[img.dataset.fb]; if (a) img.outerHTML = tile(a); }
