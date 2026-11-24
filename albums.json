@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 61,
+ "seq": 63,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1582,6 +1582,65 @@
    "no": 61,
    "added": "2026-11-23",
    "addedAt": "2026-11-23 20:38"
+  },
+  "mwu9l626qmzf": {
+   "artist": "87dance",
+   "title": "i love your complex",
+   "year": "2025",
+   "tags": [
+    "Alternative",
+    "band",
+    "rock",
+    "indie rock"
+   ],
+   "rating": 3.5,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/20/d3/17/20d31785-e3c5-f3e5-e04f-8d4fd07e35ac/5026854019567.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Beautiful Complex",
+     "yt": "https://music.youtube.com/watch?v=LvBna-uo6c8"
+    },
+    {
+     "n": 2,
+     "title": "Nylon",
+     "yt": "https://music.youtube.com/watch?v=e4wsJDYg5PI"
+    },
+    {
+     "n": 5,
+     "title": "ROM-COM (feat. Vulgar Savior)",
+     "yt": "https://music.youtube.com/watch?v=Av1L9AGrlN8"
+    }
+   ],
+   "id": "mwu9l626qmzf",
+   "no": 62,
+   "added": "2026-11-24",
+   "addedAt": "2026-11-24 14:38"
+  },
+  "mwu9z9op0b29": {
+   "artist": "LUCKY TAPES",
+   "title": "Homebound",
+   "year": "2026",
+   "tags": [
+    "R&B",
+    "japan"
+   ],
+   "rating": 2,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/e015f8f0945a8c02f06c7033d6de2109/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "설렘",
+    "청량"
+   ],
+   "id": "mwu9z9op0b29",
+   "no": 63,
+   "added": "2026-11-24",
+   "addedAt": "2026-11-24 14:49"
   }
  },
  "boards": [
@@ -1653,7 +1712,8 @@
     "mwohsf61ukzf",
     "mwstid17wtc1",
     "mwstjd7x7hui",
-    "mwt6zo2mwl2n"
+    "mwt6zo2mwl2n",
+    "mwu9z9op0b29"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
