@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 65,
+ "seq": 67,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -949,7 +949,7 @@
     "Pop"
    ],
    "rating": 2.5,
-   "comment": "하이엔드 깔 팝 음악. 믹싱이 상당히 깔끔하다. 전 트랙에 악기가 풍성하게 사용되었음. \n8번 트랙 I Feel Love는 초창기 전자음악의 형태를 띔. 반복적인 시퀀서 사운드에 보컬. 얘만 믹싱이 요상하다...",
+   "comment": "하이엔드 깔 팝 음악. 믹싱이 상당히 깔끔하다. 전 트랙에 악기가 풍성하게 사용되었음. \n8번 트랙 I Feel Love는 초창기 전자음악의 형태를 띔. 반복적인 시퀀서 사운드에 보컬. 얘만 믹싱이 요상하다...\n\n<유로 디스코가 미국으로 넘어가기 시작한 곡.>",
    "cover": "https://cdn-images.dzcdn.net/images/cover/ea1606754d544698a6a711301e0c7082/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
    "yt": "",
@@ -979,7 +979,7 @@
    "no": 38,
    "added": "2026-11-10",
    "addedAt": "2026-11-10 20:56",
-   "updated": "2026-11-10 20:56"
+   "updated": "2026-11-25 21:08"
   },
   "mwao56xgma1i": {
    "artist": "Serani Poji",
@@ -1683,6 +1683,54 @@
    "no": 65,
    "added": "2026-11-25",
    "addedAt": "2026-11-25 20:59"
+  },
+  "mww2xmk303gu": {
+   "artist": "MFSB",
+   "title": "Love Is The Message",
+   "year": "1973",
+   "tags": [
+    "Disco"
+   ],
+   "rating": 0,
+   "comment": "T.S.O.P의 드럼 리듬은 디스코 하이햇의 전형이 됨.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/beeea6fb767bfa2c56f20991f88ca2f4/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 5,
+     "title": "T.S.O.P. (The Sound of Philadelphia) (feat. The Three Degrees)",
+     "yt": "https://music.youtube.com/watch?v=iKRmSrU1fww"
+    }
+   ],
+   "id": "mww2xmk303gu",
+   "no": 66,
+   "added": "2026-11-25",
+   "addedAt": "2026-11-25 21:08"
+  },
+  "mww3289u8w4n": {
+   "artist": "Cerrone",
+   "title": "3 - Supernature",
+   "year": "1977",
+   "tags": [
+    "Disco"
+   ],
+   "rating": 0,
+   "comment": "유로디스코, 신디사이저 사운드의 시작.",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/e4df6ef3d87bc1161744c2acfd21f61d/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Supernature",
+     "yt": "https://music.youtube.com/watch?v=OPsPmi35OeY"
+    }
+   ],
+   "id": "mww3289u8w4n",
+   "no": 67,
+   "added": "2026-11-25",
+   "addedAt": "2026-11-25 21:11"
   }
  },
  "boards": [
@@ -1707,7 +1755,9 @@
    "id": "mw3ij1k7qno8",
    "albumIds": [
     "mw3in4rlimxb",
-    "mwamwi3uk7sq"
+    "mwamwi3uk7sq",
+    "mww2xmk303gu",
+    "mww3289u8w4n"
    ],
    "created": "2026-11-05",
    "name": "전자음악 공부 1",
@@ -1756,7 +1806,8 @@
     "mwstjd7x7hui",
     "mwt6zo2mwl2n",
     "mwu9z9op0b29",
-    "mww2d5fshz4w"
+    "mww2d5fshz4w",
+    "mww3289u8w4n"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
@@ -1793,8 +1844,47 @@
  "genres": [
   {
    "id": "mwt6tlusnm1m",
-   "albumIds": [],
-   "tracks": [],
+   "albumIds": [
+    "mww2xmk303gu",
+    "mwamwi3uk7sq",
+    "mww3289u8w4n"
+   ],
+   "tracks": [
+    {
+     "artist": "Cerrone",
+     "title": "Supernature",
+     "yt": "https://music.youtube.com/watch?v=OPsPmi35OeY",
+     "year": "1977"
+    },
+    {
+     "artist": "MFSB",
+     "title": "T.S.O.P. (The Sound of Philadelphia) (feat. The Three Degrees)",
+     "yt": "https://music.youtube.com/watch?v=LS2PQs_IRNk",
+     "year": "2008",
+     "note": "디스코 하이햇 리듬의 시작"
+    },
+    {
+     "artist": "Gloria Gaynor",
+     "title": "I Will Survive (Rerecorded)",
+     "yt": "https://music.youtube.com/watch?v=WnrE0yN2uLY",
+     "year": "1982",
+     "note": "디스코의 대중적 시작."
+    },
+    {
+     "artist": "Chic",
+     "title": "Good Times",
+     "yt": "https://music.youtube.com/watch?v=iGKQapswGaY",
+     "year": "1979",
+     "note": "밴드식 디스코의 완성형. 잽잽이 기타와 리드미컬한 재즈베이스, 여보컬 코러스, 스트링+빅밴드 편곡."
+    },
+    {
+     "artist": "Donna Summer",
+     "title": "I Feel Love",
+     "yt": "https://music.youtube.com/watch?v=B2qI6UDD2uQ",
+     "year": "1977",
+     "note": "유로 디스코가 미국에서 시작된 곡. 전자드럼과 신디사이저의 아르페지오 사운드의 반복"
+    }
+   ],
    "created": "2026-11-23",
    "name": "Disco",
    "aliases": [],
@@ -1803,15 +1893,28 @@
    "origin": "미국 동부 / 독일 뮌헨(유로 디스코)",
    "bpm": "110-130",
    "axes": {
-    "rhythm": "4 on the floor,"
+    "rhythm": "4 on the floor,",
+    "palette": "어쿠스틱 드럼, 일렉 베이스, 16분음으로 뮤트해서 긁는 커팅 기타, 스트링·호른 섹션, 로즈 피아노, 콩가, 탬버린\n77년 이후 유로디스코는 무그 신디사이저와 전자드럼이 대체함.",
+    "harmony": "7화음 2~4개를 몇 분 동안 반복하는 루프 구조",
+    "vocal": "여성 : 가스펠·소울 창법의 여성 디바 보컬이 중심\n남성 : 팔세토 창법 중심"
    },
-   "artists": [],
-   "notes": "",
+   "artists": [
+    "Donna Summer",
+    "Giorgio Moroder",
+    "Chic",
+    "Bee Gees",
+    "Gloria Gaynor",
+    "Sylvester",
+    "MFSB",
+    "The Trammps",
+    "Cerrone"
+   ],
+   "notes": "반복되는 사운드 루프에 풍성한 보컬의 조화. \n내가 생각한 전자 사운드는 70년대 말 유로디스코에서 시작된 것. 원래의 디스코는 어쿠스틱 악기들로 구현되었다.\n애네는 생각보다 빅밴드나 스트링과의 궁합이 좋다.",
    "beat": {
-    "bpm": 131,
+    "bpm": 124,
     "steps": 32,
     "swing": 50,
-    "perc": "clap",
+    "perc": "shaker",
     "oct": -1,
     "rows": {
      "kick": "x...x...x...x...x...x...x...x...",
