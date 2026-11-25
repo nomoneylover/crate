@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 63,
+ "seq": 65,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -880,9 +880,10 @@
    "title": "DEPENDS",
    "year": "2026",
    "tags": [
-    "Pop"
+    "Pop",
+    "japan"
    ],
-   "rating": 0,
+   "rating": 2.5,
    "comment": "",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b4/3a/c7/b43ac7b4-71f2-37ff-3587-db03d28a4541/4571694786298.jpg/600x600bb.jpg",
    "ytm": "",
@@ -890,7 +891,8 @@
    "id": "mw7tnlvky98p",
    "no": 35,
    "added": "2026-11-08",
-   "addedAt": "2026-11-08 21:41"
+   "addedAt": "2026-11-08 21:41",
+   "updated": "2026-11-25 20:52"
   },
   "mwaluzaknrah": {
    "artist": "LNGSHOT",
@@ -1641,6 +1643,46 @@
    "no": 63,
    "added": "2026-11-24",
    "addedAt": "2026-11-24 14:49"
+  },
+  "mww2d5fshz4w": {
+   "artist": "Sweet Trip",
+   "title": "A Tiny House, In Secret Speeches, Polar Equals",
+   "year": "2021",
+   "tags": [
+    "Electro",
+    "idm",
+    "Alternative",
+    "band"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/faf04404f5ea7b1f1ec317b0ae97550c/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "미니멀",
+    "모던",
+    "거친"
+   ],
+   "id": "mww2d5fshz4w",
+   "no": 64,
+   "added": "2026-11-25",
+   "addedAt": "2026-11-25 20:52"
+  },
+  "mww2mcgjqj4z": {
+   "artist": "Grand Theft Auto VI",
+   "title": "Grand Theft Auto VI: The Album",
+   "year": "",
+   "tags": [],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/1af48877635a76e04b6ca17b2132e706.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mww2mcgjqj4z",
+   "no": 65,
+   "added": "2026-11-25",
+   "addedAt": "2026-11-25 20:59"
   }
  },
  "boards": [
@@ -1713,7 +1755,8 @@
     "mwstid17wtc1",
     "mwstjd7x7hui",
     "mwt6zo2mwl2n",
-    "mwu9z9op0b29"
+    "mwu9z9op0b29",
+    "mww2d5fshz4w"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
@@ -1753,13 +1796,15 @@
    "albumIds": [],
    "tracks": [],
    "created": "2026-11-23",
-   "name": "disco",
+   "name": "Disco",
    "aliases": [],
-   "oneLine": "",
-   "era": "",
-   "origin": "",
-   "bpm": "",
-   "axes": {},
+   "oneLine": "1970년대 미국 클럽에서 나온 춤 음악. 4박 킥 위에 소울·펑크 밴드 연주와 스트링·호른 편곡을 얹었다.",
+   "era": "1974-1979",
+   "origin": "미국 동부 / 독일 뮌헨(유로 디스코)",
+   "bpm": "110-130",
+   "axes": {
+    "rhythm": "4 on the floor,"
+   },
    "artists": [],
    "notes": "",
    "beat": {
@@ -1811,7 +1856,7 @@
     ],
     "bassSound": "808"
    },
-   "updated": "2026-11-23"
+   "updated": "2026-11-25"
   }
  ]
 }
