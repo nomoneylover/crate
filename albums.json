@@ -1654,7 +1654,7 @@
     "Alternative",
     "band"
    ],
-   "rating": 0,
+   "rating": 3,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/faf04404f5ea7b1f1ec317b0ae97550c/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1667,7 +1667,8 @@
    "id": "mww2d5fshz4w",
    "no": 64,
    "added": "2026-11-25",
-   "addedAt": "2026-11-25 20:52"
+   "addedAt": "2026-11-25 20:52",
+   "updated": "2026-11-26 12:48"
   },
   "mww2mcgjqj4z": {
    "artist": "Grand Theft Auto VI",
@@ -1959,7 +1960,8 @@
     ],
     "bassSound": "808"
    },
-   "updated": "2026-11-25"
+   "updated": "2026-11-25",
+   "links": []
   }
  ]
 }
