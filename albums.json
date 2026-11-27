@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 70,
+ "seq": 71,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1798,6 +1798,37 @@
    "no": 70,
    "added": "2026-11-25",
    "addedAt": "2026-11-25 22:37"
+  },
+  "mwyfukqzspwl": {
+   "artist": "Hyukoh",
+   "title": "33",
+   "year": "2026",
+   "tags": [
+    "Alternative",
+    "band",
+    "rock"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/a5b0553484688587629be925263b0571/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "tracks": [
+    {
+     "n": 1,
+     "title": "Godspeed!",
+     "yt": ""
+    },
+    {
+     "n": 2,
+     "title": "losing day",
+     "yt": ""
+    }
+   ],
+   "id": "mwyfukqzspwl",
+   "no": 71,
+   "added": "2026-11-27",
+   "addedAt": "2026-11-27 12:45"
   }
  },
  "boards": [
@@ -1876,7 +1907,8 @@
     "mww2d5fshz4w",
     "mww3289u8w4n",
     "mww51pmfhhkd",
-    "mww642y17cty"
+    "mww642y17cty",
+    "mwyfukqzspwl"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
