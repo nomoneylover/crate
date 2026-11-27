@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 71,
+ "seq": 70,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1673,16 +1673,22 @@
    "artist": "Grand Theft Auto VI",
    "title": "Grand Theft Auto VI: The Album",
    "year": "",
-   "tags": [],
-   "rating": 0,
-   "comment": "",
+   "tags": [
+    "band",
+    "Pop",
+    "R&B",
+    "hip-hop"
+   ],
+   "rating": 2,
+   "comment": "역사적인 앨범 중 하나가 될수도. 각각의 퀄리티는 구리지만 이런 멤버를 한데에 모아두었다는거 자체에 의미가 있다.",
    "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/1af48877635a76e04b6ca17b2132e706.png",
    "ytm": "",
    "yt": "",
    "id": "mww2mcgjqj4z",
    "no": 65,
    "added": "2026-11-25",
-   "addedAt": "2026-11-25 20:59"
+   "addedAt": "2026-11-25 20:59",
+   "updated": "2026-11-26 19:14"
   },
   "mww2xmk303gu": {
    "artist": "MFSB",
@@ -1760,12 +1766,29 @@
    ],
    "updated": "2026-11-25 22:09"
   },
+  "mww5ki81sufo": {
+   "artist": "혁오",
+   "title": "33",
+   "year": "",
+   "tags": [],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/df70e1e969ea60f8cdfcce3d64d5c661.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mww5ki81sufo",
+   "no": 69,
+   "added": "2026-11-25",
+   "addedAt": "2026-11-25 22:21"
+  },
   "mww642y17cty": {
    "artist": "Kehlani",
    "title": "CRASH",
    "year": "2024",
    "tags": [
-    "R&B/Soul"
+    "R&B/Soul",
+    "Pop",
+    "afro-house"
    ],
    "rating": 2.5,
    "comment": "",
@@ -1783,40 +1806,7 @@
    "no": 70,
    "added": "2026-11-25",
    "addedAt": "2026-11-25 22:37",
-   "updated": "2026-11-27 15:24"
-  },
-  "mwyfukqzspwl": {
-   "artist": "Hyukoh",
-   "title": "33",
-   "year": "2026",
-   "tags": [
-    "Alternative",
-    "band",
-    "rock",
-    "experimental"
-   ],
-   "rating": 3,
-   "comment": "",
-   "cover": "https://cdn-images.dzcdn.net/images/cover/a5b0553484688587629be925263b0571/1000x1000-000000-80-0-0.jpg",
-   "ytm": "",
-   "yt": "",
-   "tracks": [
-    {
-     "n": 1,
-     "title": "Godspeed!",
-     "yt": ""
-    },
-    {
-     "n": 2,
-     "title": "losing day",
-     "yt": ""
-    }
-   ],
-   "id": "mwyfukqzspwl",
-   "no": 71,
-   "added": "2026-11-27",
-   "addedAt": "2026-11-27 12:45",
-   "updated": "2026-11-27 13:02"
+   "updated": "2026-11-26 19:14"
   }
  },
  "boards": [
@@ -1896,7 +1886,7 @@
     "mww3289u8w4n",
     "mww51pmfhhkd",
     "mww642y17cty",
-    "mwyfukqzspwl"
+    "mww2mcgjqj4z"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
