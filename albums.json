@@ -1760,21 +1760,6 @@
    ],
    "updated": "2026-11-25 22:09"
   },
-  "mww5ki81sufo": {
-   "artist": "혁오",
-   "title": "33",
-   "year": "",
-   "tags": [],
-   "rating": 0,
-   "comment": "",
-   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/df70e1e969ea60f8cdfcce3d64d5c661.png",
-   "ytm": "",
-   "yt": "",
-   "id": "mww5ki81sufo",
-   "no": 69,
-   "added": "2026-11-25",
-   "addedAt": "2026-11-25 22:21"
-  },
   "mww642y17cty": {
    "artist": "Kehlani",
    "title": "CRASH",
@@ -1782,7 +1767,7 @@
    "tags": [
     "R&B/Soul"
    ],
-   "rating": 0,
+   "rating": 2.5,
    "comment": "",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a9/69/ff/a969ffc7-9d23-7f47-70d7-571b1b4c781f/075679659798.jpg/600x600bb.jpg",
    "ytm": "",
@@ -1797,7 +1782,8 @@
    "id": "mww642y17cty",
    "no": 70,
    "added": "2026-11-25",
-   "addedAt": "2026-11-25 22:37"
+   "addedAt": "2026-11-25 22:37",
+   "updated": "2026-11-27 15:24"
   },
   "mwyfukqzspwl": {
    "artist": "Hyukoh",
