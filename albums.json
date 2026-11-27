@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 70,
+ "seq": 71,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1807,9 +1807,59 @@
    "added": "2026-11-25",
    "addedAt": "2026-11-25 22:37",
    "updated": "2026-11-26 19:14"
+  },
+  "mwyxxdxwb9nq": {
+   "artist": "웬디",
+   "title": "Gleam Hour",
+   "year": "2026",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/1d778a3625b495b51f70a442ed4b0685.png",
+   "ytm": "",
+   "yt": "",
+   "id": "mwyxxdxwb9nq",
+   "no": 71,
+   "added": "2026-11-27",
+   "addedAt": "2026-11-27 21:11"
   }
  },
  "boards": [
+  {
+   "id": "mwyxxzq7uz3r",
+   "albumIds": [
+    "mww51pmfhhkd",
+    "mwyxxdxwb9nq",
+    "mwepkmdhhadq",
+    "mwevkz7lq219",
+    "mweule6v08a9",
+    "mwe9tg1pl4hk",
+    "mweo8hdsy31s",
+    "mweo9rkshs2l",
+    "mwkt3m91boaz",
+    "mwgjbuukgl6l",
+    "mwaluzaknrah",
+    "mw7tnlvky98p",
+    "mw6ln0xhi8ix",
+    "mw3i7d1b895t",
+    "mw3i1klxte2b",
+    "mw1z7tnt9ea8",
+    "mvz7wea4u9js",
+    "mvz7g8wlxf4u",
+    "mvz76qndkuq4",
+    "mvz6wwv7q5jw",
+    "mvz65zhevj6d",
+    "mvs1bby0jg95"
+   ],
+   "created": "2026-11-27",
+   "name": "K-pop",
+   "note": "",
+   "cols": 0,
+   "captions": true,
+   "numbers": true
+  },
   {
    "id": "mwao3rj04wxh",
    "albumIds": [
@@ -1886,7 +1936,8 @@
     "mww3289u8w4n",
     "mww51pmfhhkd",
     "mww642y17cty",
-    "mww2mcgjqj4z"
+    "mww2mcgjqj4z",
+    "mwyxxdxwb9nq"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
