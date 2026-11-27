@@ -1806,9 +1806,10 @@
    "tags": [
     "Alternative",
     "band",
-    "rock"
+    "rock",
+    "experimental"
    ],
-   "rating": 0,
+   "rating": 3,
    "comment": "",
    "cover": "https://cdn-images.dzcdn.net/images/cover/a5b0553484688587629be925263b0571/1000x1000-000000-80-0-0.jpg",
    "ytm": "",
@@ -1828,7 +1829,8 @@
    "id": "mwyfukqzspwl",
    "no": 71,
    "added": "2026-11-27",
-   "addedAt": "2026-11-27 12:45"
+   "addedAt": "2026-11-27 12:45",
+   "updated": "2026-11-27 13:02"
   }
  },
  "boards": [
