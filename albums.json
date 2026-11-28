@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 73,
+ "seq": 74,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1858,15 +1858,34 @@
    "tags": [
     "K-Pop"
    ],
-   "rating": 0,
-   "comment": "",
+   "rating": 3,
+   "comment": "직선적이고, 정석적인? 다소 재미없던 보컬의 디렉팅이 바뀌었다. 사운드에 맞게 보컬에 힘을 빼니 훨씬 트렌디한 느낌. 이제는 있지의 새로운 색깔을 찾을 필요가 있다.",
    "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/11/83/ec/1183ec8b-4ae4-fa54-8c9b-a3e48b15d8d3/8809928957715_Cover.jpg/600x600bb.jpg",
    "ytm": "",
    "yt": "",
    "id": "mwzwc0y165rl",
    "no": 73,
    "added": "2026-11-28",
-   "addedAt": "2026-11-28 13:14"
+   "addedAt": "2026-11-28 13:14",
+   "updated": "2026-11-28 13:30"
+  },
+  "mwzxauxbybtv": {
+   "artist": "IRENE",
+   "title": "Biggest Fan - The 1st Album",
+   "year": "2026",
+   "tags": [
+    "Asian Music",
+    "K-Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/6a8ff1c08e12cea161744cd53a8def79/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwzxauxbybtv",
+   "no": 74,
+   "added": "2026-11-28",
+   "addedAt": "2026-11-28 13:41"
   }
  },
  "boards": [
@@ -1895,7 +1914,8 @@
     "mvz6wwv7q5jw",
     "mvz65zhevj6d",
     "mvs1bby0jg95",
-    "mwzwc0y165rl"
+    "mwzwc0y165rl",
+    "mwzxauxbybtv"
    ],
    "created": "2026-11-27",
    "name": "K-pop",
@@ -1983,7 +2003,8 @@
     "mww2mcgjqj4z",
     "mwyxxdxwb9nq",
     "mwzs8dbkd245",
-    "mwzwc0y165rl"
+    "mwzwc0y165rl",
+    "mwzxauxbybtv"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
