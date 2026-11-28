@@ -1,6 +1,6 @@
 {
  "v": 1,
- "seq": 71,
+ "seq": 73,
  "site": {
   "title": "밍귤 크레이트",
   "intro": "들은 앨범을 보드에 꽂아두는 곳. 커버를 누르면 유튜브 뮤직으로 넘어가요."
@@ -1813,9 +1813,12 @@
    "title": "Gleam Hour",
    "year": "2026",
    "tags": [
-    "K-Pop"
+    "K-Pop",
+    "Pop",
+    "ballad",
+    "R&B"
    ],
-   "rating": 0,
+   "rating": 2,
    "comment": "",
    "cover": "https://lastfm-img.freetls.fastly.net/i/u/ar0/1d778a3625b495b51f70a442ed4b0685.png",
    "ytm": "",
@@ -1823,7 +1826,47 @@
    "id": "mwyxxdxwb9nq",
    "no": 71,
    "added": "2026-11-27",
-   "addedAt": "2026-11-27 21:11"
+   "addedAt": "2026-11-27 21:11",
+   "updated": "2026-11-28 11:30"
+  },
+  "mwzs8dbkd245": {
+   "artist": "Effie",
+   "title": "elevator music",
+   "year": "2026",
+   "tags": [
+    "Electro",
+    "digicore"
+   ],
+   "rating": 1.5,
+   "comment": "",
+   "cover": "https://cdn-images.dzcdn.net/images/cover/705fde6d5e7325416a2cc0d875a06a90/1000x1000-000000-80-0-0.jpg",
+   "ytm": "",
+   "yt": "",
+   "moods": [
+    "거친"
+   ],
+   "id": "mwzs8dbkd245",
+   "no": 72,
+   "added": "2026-11-28",
+   "addedAt": "2026-11-28 11:19",
+   "updated": "2026-11-28 11:22"
+  },
+  "mwzwc0y165rl": {
+   "artist": "ITZY",
+   "title": "Motto",
+   "year": "2026",
+   "tags": [
+    "K-Pop"
+   ],
+   "rating": 0,
+   "comment": "",
+   "cover": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/11/83/ec/1183ec8b-4ae4-fa54-8c9b-a3e48b15d8d3/8809928957715_Cover.jpg/600x600bb.jpg",
+   "ytm": "",
+   "yt": "",
+   "id": "mwzwc0y165rl",
+   "no": 73,
+   "added": "2026-11-28",
+   "addedAt": "2026-11-28 13:14"
   }
  },
  "boards": [
@@ -1851,7 +1894,8 @@
     "mvz76qndkuq4",
     "mvz6wwv7q5jw",
     "mvz65zhevj6d",
-    "mvs1bby0jg95"
+    "mvs1bby0jg95",
+    "mwzwc0y165rl"
    ],
    "created": "2026-11-27",
    "name": "K-pop",
@@ -1937,7 +1981,9 @@
     "mww51pmfhhkd",
     "mww642y17cty",
     "mww2mcgjqj4z",
-    "mwyxxdxwb9nq"
+    "mwyxxdxwb9nq",
+    "mwzs8dbkd245",
+    "mwzwc0y165rl"
    ],
    "created": "2026-11-02",
    "name": "2026년 11월",
